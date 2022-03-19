@@ -11,3 +11,65 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper{
+  margin-top: 65px;
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+}
+
+.sidemenu{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.css-1s8nxj4-MuiList-root{
+  background: #ddedf1 !important;
+}
+.css-12de4fs-MuiDrawer-docked .MuiDrawer-paper {
+  background: #ddedf1 !important;
+}
+.css-h7f3nj-MuiModal-root-MuiDrawer-root .MuiDrawer-paper{
+  background: #ddedf1 !important;
+}
+
+:root {
+  --main-theme-color: #155a6e;
+  --normal-bg-color: #ddedf1;
+  --heading-color: #fdfdfd;
+  --paragraph-color: #ffffff;
+}
+.drawerMenu{
+  display: none;
+}
+
+@media screen and (min-width: 320px) and (max-width:480px)  {
+ .drawerMenu{display: block;}
+}
+
+.css-12de4fs-MuiDrawer-docked .MuiDrawer-paper::-webkit-scrollbar {
+  width: 10px;               /* width of the entire scrollbar */
+}
+
+.css-12de4fs-MuiDrawer-docked .MuiDrawer-paper::-webkit-scrollbar-track {
+  background: var( --normal-bg-color);        /* color of the tracking area */
+}
+
+.css-12de4fs-MuiDrawer-docked .MuiDrawer-paper::-webkit-scrollbar-thumb {
+  background-color: var(--main-theme-color);    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid var( --normal-bg-color);  /* creates padding around scroll thumb */
+}
+
+body .MuiDrawer-paper::-webkit-scrollbar {
+  width: 10px;               /* width of the entire scrollbar */
+}
+
+body .MuiDrawer-paper::-webkit-scrollbar-track {
+  background: var( --normal-bg-color);        /* color of the tracking area */
+}
+
+body .MuiDrawer-paper::-webkit-scrollbar-thumb {
+  background-color: var(--main-theme-color);    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid var( --normal-bg-color);  /* creates padding around scroll thumb */
+}

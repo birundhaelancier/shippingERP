@@ -1,0 +1,55 @@
+.customBtn{
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: 10px 0px;
+}
+
+.customBtn div{
+    margin-right: 1rem;
+}
+
+.PrimaryBtn{
+    background-color: var(--main-theme-color) !important;
+    color: white !important;
+    text-transform: inherit;
+    /* // box-shadow: 0px 2px 7px 1px #3d82fdab !important;
+    // font-weight: bold; */
+    font-size: 16px !important;
+}
+
+.CancelBtn{
+    border: 1px solid var(--main-theme-color) !important;
+    background-color: var(--normal-bg-color) !important;
+    color: var(--main-theme-color) !important;
+    font-size: 16px !important;
+}
+
+
+.PrimaryBtn:hover{background-color: var(--main-theme-color) !important;}
+.SuccessBtn:hover{background-color: #057323 !important;}
+.WarningBtn:hover{background-color: #eb6e21 !important;}
+.CancelBtn:hover{background-color: var(--normal-bg-color) !important;}
+.BackBtn:hover{
+    border: 2px solid var(--main-theme-color)  !important;
+    color: var(--main-theme-color)  !important;
+}
+
+.btnContainer {
+    margin: 5px 5px !important;
+    width: 100%;
+    border-radius: 5px !important;
+    font-weight: 500 !important;
+    padding: 3px !important;
+    text-transform: none !important;
+    line-height: 33px !important;
+    z-index: 99 !important;
+}
+
+.MuiButtonBase-root.Mui-disabled {
+    cursor: not-allowed !important;
+    pointer-events: all !important;
+}
+
+.MuiButton-contained{
+    box-shadow:none !important;
+}

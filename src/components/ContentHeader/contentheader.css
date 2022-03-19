@@ -1,0 +1,16 @@
+.headerContainer{
+    width: 100%;
+    margin: 0.2rem 0px 1rem 0rem;
+    padding: 0.2rem 1rem;
+    box-shadow: -1px 1px 5px 0px rgba(219,211,211,0.75);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    background: white;
+}
+
+.headerTitle{
+    color: #155a6e;
+    font-size: x-large;
+    font-weight: 600;
+}

@@ -1,0 +1,7 @@
+.btnShow{
+    display: grid;
+    grid-template-columns: 7rem 7rem;
+}
+.btnShow button{
+    margin-right: 10px;
+}
