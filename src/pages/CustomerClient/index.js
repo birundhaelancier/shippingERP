@@ -125,11 +125,11 @@ export default function CustomerClient() {
 
 
     const rows = [
-        { id: 1, customerName: 'Hello', customerId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 2, customerName: 'DataGridPro', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 3, customerName: 'MUI', customerId: '3', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 1, customerName: 'Hello', customerId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 2, customerName: 'DataGridPro', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 1, customerName: 'Birundha', customerId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 2, customerName: 'Divya', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 3, customerName: 'Lakshmi', customerId: '3', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 4, customerName: 'Vicky', customerId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 5, customerName: 'Priya', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
     ];
     return (
         <div>

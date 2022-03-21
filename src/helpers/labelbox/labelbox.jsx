@@ -11,6 +11,7 @@ import {
 	KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import MomentUtils from "@date-io/moment";
 // import DateFnsUtils from '@date-io/date-fns';
 // import {
 //   MuiPickersUtilsProvider,
@@ -155,7 +156,7 @@ export default class Labelbox extends Component {
 					<div className={`${data.error && "datePickerbrdred"} ${this.props.className}`}>
 						{console.log(this.props.format === "MMM-yyyy", "teyyyyst")}
 						{/* <DatePicker value={moment(this.props.value)?moment(this.props.value):new Date()} open={this.state.open}  onFocus={()=>this.setState({open:true})} onChange={(date)=>this.datepickerChange(date)}  className="datepickerchnge" style={{width:'100%',}} format="YYYY-MM-DD"  /> */}
-						<MuiPickersUtilsProvider utils={DateFnsUtils} >
+						<MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} >
 							<KeyboardDatePicker
 								placeholder={this.props.placeholder}
 								disableToolbar={this.props.disableToolbar && this.props.disableToolbar}
@@ -169,9 +170,11 @@ export default class Labelbox extends Component {
 								minDate={this.props.minDate && this.props.minDate}
 								maxDate={this.props.maxDate && this.props.maxDate}
 								inputVariant="outlined"
-								format={this.props.format === "MMM-yyyy" ? "MMM-yyyy" : "dd-MM-yyyy"}
+								// format={"dd-MM-yyyy"}
+								format="D-MM-YYYY"
 								margin="normal"
 								id="date-picker-inline"
+								
 								// value={this.state.selecteddate}
 								InputProps={{ readOnly: true }}
 								value={this.props.value === "" ? null : this.props.value}
