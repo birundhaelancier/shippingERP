@@ -6,11 +6,14 @@ import ContentHeader from '../../components/ContentHeader';
 import CustomButton from '../../components/Button';
 import { DataGrid } from '@mui/x-data-grid';
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
+import DynModel from '../../components/CustomModal';
+import ViewCustomer from './viewcustomer';
 
 // import './customer.css';
 
 export default function CustomerClient() {
     const [showlist, setShowlist] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
     const [profileDetails, setprofileDetails] = useState({
         customerId: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
@@ -107,7 +110,7 @@ export default function CustomerClient() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol"><RemoveRedEye /></div>
+                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
                         <div className="deleteSymbol"><Delete /></div>
 
@@ -342,6 +345,13 @@ export default function CustomerClient() {
                         // }}
                         />
                     </div>
+                    <DynModel handleChangeModel={openModal} modelTitle={"Customer / Client"}
+                        modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
+                            <>
+                                <ViewCustomer CloseModal={(bln) => setOpenModal(bln)} />
+                            </>
+                        }
+                    />
                 </>
             }
 

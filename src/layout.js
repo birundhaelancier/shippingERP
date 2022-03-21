@@ -44,7 +44,7 @@ function ResponsiveDrawer(props) {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar style={{ width: "100%", background: "#155a6e" }}
+            <AppBar style={{ width: "100%", background: "#155a6e", zIndex: 0 }}
                 position="fixed"
                 sx={{
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
@@ -81,7 +81,7 @@ function ResponsiveDrawer(props) {
                     }}
                     sx={{
                         display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, paddingTop: "65px" },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, paddingTop: "65px", zIndex: 0 },
                     }}
                 >
                     {/* {drawer} */}
@@ -91,7 +91,7 @@ function ResponsiveDrawer(props) {
                     variant="permanent"
                     sx={{
                         display: { xs: 'none', sm: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, zIndex: 0 },
                     }}
                     open
                 >

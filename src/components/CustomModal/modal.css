@@ -1,0 +1,41 @@
+
+
+    .modelContainer .ant-modal-header{
+        background-color: var(--main-theme-color);
+        
+        border-top-left-radius: 5px !important;
+        border-top-right-radius: 5px !important;
+        padding: 10px 24px;
+        text-align: center;
+    }
+    .modelContainer .ant-modal-title{
+        color: #fff;
+        font-weight: 500;
+        font-size: 18px;
+        padding: 5px;
+    }
+    .modelContainer .ant-modal-mask{
+        z-index: 100001 !important;
+    }
+    .modelContainer .ant-modal-wrap {
+        z-index: 1000016 !important;
+    }
+    .modelContainer .ant-modal-content {
+        border-radius: 5px !important;
+    }
+    .modelContainer .ant-modal-close-x{
+        width: 42px;
+        height: 42px;
+        line-height: 40px;
+    }
+    .modelContainer .ant-modal-close-icon{
+        padding: 2px;
+        background-color: #F94144;
+        border-radius: 15px;
+        font-size: 9px;
+    }
+    /* // svg{
+    //     font-size: 1rem;
+    //     fill:#fff;
+    // } */
+
