@@ -27,6 +27,7 @@ import CargoDetails from "./pages/MasterType/cargo";
 import DimensionDetails from "./pages/MasterType/dimension";
 import ReasonDetails from "./pages/MasterType/reason";
 import ExchangeRateDetails from "./pages/ExchangeRate";
+import Login from './pages/Login'
 
 const drawerWidth = 260;
 
@@ -120,6 +121,7 @@ function ResponsiveDrawer(props) {
                 <Route exact path="/dimension" component={DimensionDetails} />
                 <Route exact path="/reason" component={ReasonDetails} />
                 <Route exact path="/exchangerate" component={ExchangeRateDetails} />
+                <Route exact path="/login" component={Login} />
             </Box>
         </Box>
     );
