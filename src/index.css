@@ -73,3 +73,27 @@ body .MuiDrawer-paper::-webkit-scrollbar-thumb {
   border-radius: 20px;       /* roundness of the scroll thumb */
   border: 3px solid var( --normal-bg-color);  /* creates padding around scroll thumb */
 }
+/* table */
+.css-1jbbcbn-MuiDataGrid-columnHeaderTitle{
+  color: var(--main-theme-color);
+  font-size: 15px;
+  font-weight: 500;
+}
+.eyeSymbol{
+  color: var(--main-theme-color);
+  cursor: pointer;
+  margin: 0px 2px;
+}
+.eyeSymbol svg, .editSymbol svg, .deleteSymbol svg{
+  font-size: 20px;
+}
+.editSymbol{
+  color: rgb(60, 177, 60);
+  cursor: pointer;
+  margin: 0px 2px;
+}
+.deleteSymbol{
+  color: rgb(255, 37, 37);
+  cursor: pointer;
+  margin: 0px 2px;
+}
