@@ -201,10 +201,30 @@ top: 50%;
   background-color: #155a6e !important;
   border-color: #155a6e !important;
 }
-
+.MuiTypography-root{
+  font-family: 'Poppins', sans-serif !important;
+}
 @media only screen and (min-width: 320px) and (max-width: 959px)  {
 
-.lg_bg_pos, .login_le_pd{
+.login2_le_pd{
   display: none !important;
 }
+
+}
+@media only screen and (min-width: 320px) and (max-width: 480px)  {
+  .log_child__par{
+    width:90%
+  }
+  .log_sec_par{width:90% !important}
+}
+@media only screen and (min-width: 320px) and (max-width: 370px)  {
+  .log_child__par{
+    width:95%
+  }
+ 
+}
+@media only screen and (min-width: 320px) and (max-width: 353px)  {
+  .inner_child{
+    padding: 15px 10px;
+  }
 }
