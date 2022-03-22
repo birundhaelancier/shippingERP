@@ -27,7 +27,18 @@ import CargoDetails from "./pages/MasterType/cargo";
 import DimensionDetails from "./pages/MasterType/dimension";
 import ReasonDetails from "./pages/MasterType/reason";
 import ExchangeRateDetails from "./pages/ExchangeRate";
-import Login from './pages/Login'
+import Login from './pages/Login';
+import AddCustomer from './pages/CustomerClient/customerAdd';
+import AddVendor from './pages/Vendor/vendorAdd';
+import AddCurrency from './pages/Currency/currencyadd';
+import AddCountry from './pages/Country/countryadd';
+import AddHSN from './pages/HSN/hsnadd';
+import AddSeaport from './pages/Seaport/seaportadd';
+import AddShipment from './pages/MasterType/addTypes/shipmentadd';
+import AddCargo from './pages/MasterType/addTypes/cargoadd';
+import AddDimension from './pages/MasterType/addTypes/dimentionadd';
+import AddReason from './pages/MasterType/addTypes/reasonadd';
+import AddExchangeRate from './pages/ExchangeRate/exchangerateadd';
 
 const drawerWidth = 260;
 
@@ -45,7 +56,7 @@ function ResponsiveDrawer(props) {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar style={{ width: "100%", background: "#155a6e", zIndex: 0 }}
+            <AppBar style={{ width: "100%", background: "#155a6e" }}
                 position="fixed"
                 sx={{
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
@@ -122,6 +133,18 @@ function ResponsiveDrawer(props) {
                 <Route exact path="/reason" component={ReasonDetails} />
                 <Route exact path="/exchangerate" component={ExchangeRateDetails} />
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/addCustomer" component={AddCustomer} />
+                <Route exact path="/addVendor" component={AddVendor} />
+                <Route exact path="/addCurrency" component={AddCurrency} />
+                <Route exact path="/addCountry" component={AddCountry} />
+                <Route exact path="/addHsn" component={AddHSN} />
+                <Route exact path="/addSeaport" component={AddSeaport} />
+                <Route exact path="/addShipment" component={AddShipment} />
+                <Route exact path="/addCargo" component={AddCargo} />
+                <Route exact path="/addDimension" component={AddDimension} />
+                <Route exact path="/addReason" component={AddReason} />
+                <Route exact path="/addExchangerate" component={AddExchangeRate} />
+
             </Box>
         </Box>
     );

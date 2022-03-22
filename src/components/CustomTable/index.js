@@ -3,9 +3,10 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 // import SVG from "react-inlinesvg";
+import QuickSearchToolbar from '../SearchBar';
 
 
-const CustomTable = () => {
+const CustomTable = ({ rowData, columnData, onSearch }) => {
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
         { field: 'customerId', width: 150, headerName: 'Customer Id' },
@@ -44,25 +45,29 @@ const CustomTable = () => {
         { id: 2, customerName: 'DataGridPro', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
     ];
 
+    const requestSearch = (data) => {
+        onSearch(data)
+    }
+
     return (
         <div>
 
-            <div style={{ height: 400, width: '100%' }}>
+            <div style={{ height: 450, width: '100%' }}>
                 <DataGrid
-                    // components={{ Toolbar: QuickSearchToolbar }}
-                    rows={rows}
-                    columns={columnss}
+                    components={{ Toolbar: QuickSearchToolbar }}
+                    rows={rowData}
+                    columns={columnData}
                     // page={page}
                     // pageSize={pageSize}
                     // onPageSizeChange={handleChangeRowsPerPage}
                     rowsPerPageOptions={[5, 25, 50, 100]}
-                // componentsProps={{
-                //     toolbar: {
-                //         value: searchText,
-                //         onChange: (event) => requestSearch(event.target.value),
-                //         clearSearch: () => requestSearch(''),
-                //     },
-                // }}
+                    componentsProps={{
+                        toolbar: {
+                            // value: searchText,
+                            onChange: (event) => requestSearch(event.target.value),
+                            clearSearch: () => requestSearch(''),
+                        },
+                    }}
                 />
             </div>
         </div>
