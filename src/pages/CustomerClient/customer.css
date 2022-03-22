@@ -5,3 +5,12 @@
 .btnShow button{
     margin-right: 10px;
 }
+
+/* Modal */
+.labeltxt{
+    color: var(--main-theme-color);
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}

@@ -1,87 +1,74 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import react, { useState } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
 import ContentHeader from '../../components/ContentHeader';
-import CustomButton from '../../components/Button'
+import CustomButton from '../../components/Button';
+import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
+import DynModel from '../../components/CustomModal';
+import ViewCargo from './viewTypes/viewcargo';
+import CustomTable from '../../components/CustomTable';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+
 // import './customer.css';
 
-export default function CargoDetails() {
-    const [cargoInfo, setcargoInfo] = useState({
-       
-        cargoId: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        cargoName: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        activeSts: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
+export default function CargoDetails() {  
+    const [openModal, setOpenModal] = useState(false);
+    let history = useHistory()
+    const columnss = [
+        { field: 'id', width: 130, headerName: 'S.No' },
+        { field: 'cargoId', width: 230, headerName: 'Cargo Id' },
+        { field: 'cargoName', width: 230, headerName: 'Cargo Name' },
+        { field: 'activeStatus', width: 230, headerName: 'Active Status' },
+        {
+            field: "actions", headerName: "Actions",
+            sortable: false,
+            width: 230,
+            align: 'center',
+            headerAlign: 'center',
+            disableClickEventBubbling: true,
+            renderCell: (params) => {
+                return (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
+                        <div className="editSymbol"><Edit /></div>
+                        <div className="deleteSymbol"><Delete /></div>
 
-    })
-
-    const Validation = (data, key, list) => {
-        var errorcheck = ValidationLibrary.checkValidation(
-            data,
-            cargoInfo[key].validation
-        );
-        let dynObj = {
-            value: data,
-            error: !errorcheck.state,
-            errmsg: errorcheck.msg,
-            validation: cargoInfo[key].validation,
-        };
-
-        setcargoInfo(prevState => ({
-            ...prevState,
-            [key]: dynObj,
-
-        }));
+                    </div>
+                );
+            }
+        }
+    ];
+    const rows = [
+        { id: 1, cargoName: 'Birundha', cargoId: '1',activeStatus: "pending" },
+        { id: 2, cargoName: 'Divya', cargoId: '2',activeStatus: "pending" },
+        { id: 3, cargoName: 'Lakshmi', cargoId: '3',activeStatus: "pending" },
+        { id: 4, cargoName: 'Vicky', cargoId: '1',activeStatus: "pending" },
+        { id: 5, cargoName: 'Priya', cargoId: '2',activeStatus: "pending" },
+    ];
+    const openFields = () => {
+        setOpenModal(true)
+        history.push("/addCargo")
     }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader headerTitle="Cargo" />
+                <ContentHeader headerTitle="Cargo" BtnName="Add Cargo" openFields={() => openFields()}  />
             </Grid>
-            <Grid item xs={12} spacing={2} direction="row" container>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Cargo Id"
-                        changeData={(data) => Validation(data, "cargoId")}
-                        value={cargoInfo.cargoId.value}
-                        error={cargoInfo.cargoId.error}
-                        errmsg={cargoInfo.cargoId.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Cargo Name"
-                        changeData={(data) => Validation(data, "cargoName")}
-                        value={cargoInfo.cargoName.value}
-                        error={cargoInfo.cargoName.error}
-                        errmsg={cargoInfo.cargoName.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeSts")}
-                        value={cargoInfo.activeSts.value}
-                        error={cargoInfo.activeSts.error}
-                        errmsg={cargoInfo.activeSts.errmsg}
-                    />
-                </Grid>
-            </Grid>
-            <Grid item xs={12} spacing={2} direction="row" justifyContent="end" container>
-                <Grid item xs={6} md={2} sx={6} sm={6}>
-                    <CustomButton btnName="Submit" custombtnCSS="Primary" />
-                </Grid>
-                <Grid item xs={6} md={2} sx={6} sm={6}>
-                    <CustomButton btnName="Cancel" custombtnCSS="Cancel" />
-                </Grid>
-            </Grid>
+            <>
+                <CustomTable
+                    rowData={rows}
+                    columnData={columnss}
+                    rowsPerPageOptions={[5, 25, 50, 100]}
+                />
+                <DynModel handleChangeModel={openModal} modelTitle={"Cargo"}
+                    modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
+                        <>
+                            <ViewCargo CloseModal={(bln) => setOpenModal(bln)} />
+                        </>
+                    }
+                />
+            </>
         </div>
     );
 }

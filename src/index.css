@@ -30,13 +30,18 @@ body {
   width: 100%;
 }
 .MuiList-root{
-  background: #ddedf1 !important;
+  background: white !important;
+  box-shadow: 0px 1px 4px rgb(100 116 139 / 12%) !important;
+
 }
 .MuiDrawer-docked .MuiDrawer-paper {
-  background: #ddedf1 !important;
+  background: white !important;
+  box-shadow: 0px 1px 4px rgb(100 116 139 / 12%) !important;
 }
 .MuiModal-root-MuiDrawer-root .MuiDrawer-paper{
-  background: #ddedf1 !important;
+  background: white !important;
+  box-shadow: 0px 1px 4px rgb(100 116 139 / 12%) !important;
+
 }
 
 :root {
@@ -51,6 +56,7 @@ body {
 
 @media screen and (min-width: 320px) and (max-width:480px)  {
  .drawerMenu{display: block;}
+
 }
 
 .MuiDrawer-docked .MuiDrawer-paper::-webkit-scrollbar {
@@ -79,6 +85,30 @@ body .MuiDrawer-paper::-webkit-scrollbar-thumb {
   background-color: var(--main-theme-color);    /* color of the scroll thumb */
   border-radius: 20px;       /* roundness of the scroll thumb */
   border: 3px solid var( --normal-bg-color);  /* creates padding around scroll thumb */
+}
+/* table */
+.css-1jbbcbn-MuiDataGrid-columnHeaderTitle{
+  color: var(--main-theme-color);
+  font-size: 15px;
+  font-weight: 500;
+}
+.eyeSymbol{
+  color: var(--main-theme-color);
+  cursor: pointer;
+  margin: 0px 2px;
+}
+.eyeSymbol svg, .editSymbol svg, .deleteSymbol svg{
+  font-size: 20px;
+}
+.editSymbol{
+  color: rgb(60, 177, 60);
+  cursor: pointer;
+  margin: 0px 2px;
+}
+.deleteSymbol{
+  color: rgb(255, 37, 37);
+  cursor: pointer;
+  margin: 0px 2px;
 }
 
 .log_par_div .formdiv .labeltxt{

@@ -1,13 +1,12 @@
 import react, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import {
-    EyeOutlined,
-} from '@ant-design/icons';
-import {RemoveRedEye, Edit, Delete} from '@mui/icons-material';
+
+import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 // import SVG from "react-inlinesvg";
+import QuickSearchToolbar from '../SearchBar';
 
 
-const Reports = () => {
+const CustomTable = ({ rowData, columnData, onSearch }) => {
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
         { field: 'customerId', width: 150, headerName: 'Customer Id' },
@@ -24,10 +23,10 @@ const Reports = () => {
             disableClickEventBubbling: true,
             renderCell: (params) => {
                 return (
-                    <div style={{  display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol"><RemoveRedEye  /></div>
-                        <div className="editSymbol"><Edit  /></div>
-                        <div className="deleteSymbol"><Delete  /></div>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <div className="eyeSymbol"><RemoveRedEye /></div>
+                        <div className="editSymbol"><Edit /></div>
+                        <div className="deleteSymbol"><Delete /></div>
 
                         {/* <button title="Edit customer" className="btn btn-sm mx-3 btn-icon btn-success" > <span className="svg-icon svg-icon-md"> <EyeOutlined /> </span> </button>
                         <button title="Edit customer" className="btn btn-icon btn-sm mx-3 btn-danger" >  <span className="svg-icon svg-icon-md"> r </span> </button>
@@ -46,34 +45,32 @@ const Reports = () => {
         { id: 2, customerName: 'DataGridPro', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
     ];
 
+    const requestSearch = (data) => {
+        onSearch(data)
+    }
+
     return (
         <div>
-            <h2>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                augue eget arcu dictum varius duis at
-                consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-                sapien faucibus et molestie ac.
-                <div style={{ height: 400, width: '100%' }}>
-                    <DataGrid
-                        // components={{ Toolbar: QuickSearchToolbar }}
-                        rows={rows}
-                        columns={columnss}
-                        // page={page}
-                        // pageSize={pageSize}
-                        // onPageSizeChange={handleChangeRowsPerPage}
-                        rowsPerPageOptions={[5, 25, 50, 100]}
-                    // componentsProps={{
-                    //     toolbar: {
-                    //         value: searchText,
-                    //         onChange: (event) => requestSearch(event.target.value),
-                    //         clearSearch: () => requestSearch(''),
-                    //     },
-                    // }}
-                    />
-                </div>
-            </h2>
+
+            <div style={{ height: 450, width: '100%' }}>
+                <DataGrid
+                    components={{ Toolbar: QuickSearchToolbar }}
+                    rows={rowData}
+                    columns={columnData}
+                    // page={page}
+                    // pageSize={pageSize}
+                    // onPageSizeChange={handleChangeRowsPerPage}
+                    rowsPerPageOptions={[5, 25, 50, 100]}
+                    componentsProps={{
+                        toolbar: {
+                            // value: searchText,
+                            onChange: (event) => requestSearch(event.target.value),
+                            clearSearch: () => requestSearch(''),
+                        },
+                    }}
+                />
+            </div>
         </div>
     );
 }
-export default Reports;
+export default CustomTable;
