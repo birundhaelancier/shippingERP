@@ -36,7 +36,7 @@ export default function Login() {
                     <Labelbox  type="text"/>
                     <label>Password</label>
                     <Labelbox  type="text"/>
-                    <CustomButton btnName="Log In" custombtnCSS="Primary" onBtnClick={()=>history.push("/dashborad")}/>
+                    <CustomButton btnName="Log In" custombtnCSS="Primary" onBtnClick={()=>history.push("/dashboard")}/>
 
                     <div className="for_drm">
                       <Checkbox>Remember me</Checkbox>

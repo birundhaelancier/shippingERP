@@ -56,7 +56,7 @@ function ResponsiveDrawer(props) {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar style={{ width: "100%", background: "#155a6e" }}
+            <AppBar style={{ width: "100%", background: "white" }}
                 position="fixed"
                 sx={{
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
@@ -113,7 +113,7 @@ function ResponsiveDrawer(props) {
                 </Drawer>
             </Box>
             <Box
-                style={{ background: "#f9f9f9", height: '100vh' }}
+                style={{ background: "white", height: '100vh' }}
                 component="main"
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
