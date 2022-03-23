@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import { Stack , Toolbar } from '@mui/material';
-// import AccountPopover from './pages/layouts/dashboard/AccountPopover'
+import AccountPopover from './pages/layouts/dashboard/AccountPopover'
 import {
     BrowserRouter as Router,
     Route,
@@ -75,7 +75,10 @@ function ResponsiveDrawer(props) {
                         <div className='drawerMenu'> <Menu /></div>
                     </IconButton>
                     <HeaderView />
-
+                           {/* <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}> */}
+          
+                          <AccountPopover />
+        {/* </Stack> */}
                 </Toolbar>
             </AppBar>
             <Box
@@ -99,6 +102,7 @@ function ResponsiveDrawer(props) {
                 >
                     {/* {drawer} */}
                     <SiderMenu />
+             
                 </Drawer>
                 <Drawer
                     variant="permanent"
@@ -111,10 +115,7 @@ function ResponsiveDrawer(props) {
                     {/* {drawer} */}
 
                     <SiderMenu />
-                    {/* <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          
-          <AccountPopover />
-        </Stack> */}
+            
                 </Drawer>
             </Box>
             <Box

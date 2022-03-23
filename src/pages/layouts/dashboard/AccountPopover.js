@@ -8,9 +8,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
 // components
-import MenuPopover from '../../components/MenuPopover';
+import MenuPopover from './MenuPopOver';
 //
-import account from '../../_mocks_/account';
+// import account from '../../_mocks_/account';
 
 // ----------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar  alt="photoURL" >R</Avatar>
       </IconButton>
 
       <MenuPopover
@@ -78,10 +78,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {"fghjk"}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {"gfhjk"}
           </Typography>
         </Box>
 

@@ -7,6 +7,7 @@ export default function HeaderView() {
         <div className="topHeader">
             <img src={image} style={{ width: '80%', borderRadius: '40px' }} />
             <div style={{color:"#155a6e"}}>Shipping ERP</div>
+            HeaderView
         </div>
     );
 }
