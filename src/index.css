@@ -55,8 +55,13 @@ body {
 }
 
 @media screen and (min-width: 320px) and (max-width:480px)  {
- .drawerMenu{display: block;}
-
+ .drawerMenu{display: block;
+color: var(--main-theme-color);
+width: 1rem;
+}
+.drawerMenu svg{
+  font-size: 1.3rem;
+}
 }
 
 .MuiDrawer-docked .MuiDrawer-paper::-webkit-scrollbar {
@@ -257,4 +262,17 @@ top: 50%;
   .inner_child{
     padding: 15px 10px;
   }
+}
+
+.stackContent{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.subHeading{
+  color: var(--main-theme-color);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: underline;
 }

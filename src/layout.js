@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import { Stack , Toolbar } from '@mui/material';
+import { Stack, Toolbar } from '@mui/material';
 import AccountPopover from './pages/layouts/dashboard/AccountPopover'
 import {
     BrowserRouter as Router,
@@ -64,7 +64,7 @@ function ResponsiveDrawer(props) {
                     ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Toolbar>
+                <Toolbar style={{ display: "flex", alignItems: "center" }}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -75,10 +75,9 @@ function ResponsiveDrawer(props) {
                         <div className='drawerMenu'> <Menu /></div>
                     </IconButton>
                     <HeaderView />
-                           {/* <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}> */}
-          
-                          <AccountPopover />
-        {/* </Stack> */}
+                    <Stack className='stackContent' direction="row" alignItems="end" spacing={{ xs: 0.5, sm: 1.5 }}>
+                        <AccountPopover />
+                    </Stack>
                 </Toolbar>
             </AppBar>
             <Box
@@ -97,12 +96,13 @@ function ResponsiveDrawer(props) {
                     }}
                     sx={{
                         display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, paddingTop: "65px", zIndex: 0 },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, paddingTop: "15px", zIndex: 0 },
                     }}
                 >
                     {/* {drawer} */}
+                    <HeaderView />
                     <SiderMenu />
-             
+
                 </Drawer>
                 <Drawer
                     variant="permanent"
@@ -115,11 +115,11 @@ function ResponsiveDrawer(props) {
                     {/* {drawer} */}
 
                     <SiderMenu />
-            
+
                 </Drawer>
             </Box>
             <Box
-                style={{ background: "white", height: '100vh' }}
+                style={{ background: "#fbfbfb", height: '100vh' }}
                 component="main"
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >

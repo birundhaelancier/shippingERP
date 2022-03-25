@@ -20,7 +20,6 @@ export default function CustomerClient() {
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
         { field: 'customerId', width: 150, headerName: 'Customer Id' },
-        { field: 'customerName', width: 150, headerName: 'Customer Name' },
         { field: 'companyName', width: 150, headerName: 'Company Name' },
         { field: 'mobile', width: 150, headerName: 'Mobile' },
         { field: 'email', width: 200, headerName: 'Email' },
@@ -49,11 +48,11 @@ export default function CustomerClient() {
 
 
     const rows = [
-        { id: 1, customerName: 'Birundha', customerId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 2, customerName: 'Divya', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 3, customerName: 'Lakshmi', customerId: '3', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 4, customerName: 'Vicky', customerId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 5, customerName: 'Priya', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 1, customerId: '1', customerName: 'Birundha', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 2, customerId: '2', customerName: 'Divya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 3, customerId: '3', customerName: 'Lakshmi', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 4, customerId: '1', customerName: 'Vicky', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 5, customerId: '2', customerName: 'Priya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
     ];
 
     const openFields = () => {
@@ -70,6 +69,7 @@ export default function CustomerClient() {
                     rowData={rows}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
+                    onclickEye={(data)=>setOpenModal(data)}
                 />
                 <DynModel handleChangeModel={openModal} modelTitle={"Customer / Client"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={

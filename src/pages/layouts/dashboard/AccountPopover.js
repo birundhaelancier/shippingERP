@@ -9,6 +9,8 @@ import { alpha } from '@mui/material/styles';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
 // components
 import MenuPopover from './MenuPopOver';
+import {Home, AccountCircle, Settings} from '@mui/icons-material';
+import './common.css';
 //
 // import account from '../../_mocks_/account';
 
@@ -17,17 +19,17 @@ import MenuPopover from './MenuPopOver';
 const MENU_OPTIONS = [
   {
     label: 'Home',
-    icon: homeFill,
+    icon: <Home />,
     linkTo: '/'
   },
   {
     label: 'Profile',
-    icon: personFill,
+    icon: <AccountCircle />,
     linkTo: '#'
   },
   {
     label: 'Settings',
-    icon: settings2Fill,
+    icon: <Settings />,
     linkTo: '#'
   }
 ];
@@ -62,12 +64,12 @@ export default function AccountPopover() {
               height: '100%',
               borderRadius: '50%',
               position: 'absolute',
-              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
+              bgcolor: 'transparent',
             }
           })
         }}
       >
-        <Avatar  alt="photoURL" >R</Avatar>
+        <Avatar >BE</Avatar>
       </IconButton>
 
       <MenuPopover
@@ -78,36 +80,39 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {"fghjk"}
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {"gfhjk"}
+            {"Birundha Elancier"}
           </Typography>
         </Box>
 
         <Divider sx={{ my: 1 }} />
 
-        {MENU_OPTIONS.map((option) => (
-          <MenuItem
-            key={option.label}
-            to={option.linkTo}
-            component={RouterLink}
-            onClick={handleClose}
-            sx={{ typography: 'body2', py: 1, px: 2.5 }}
-          >
-            <Box
-              component={Icon}
-              icon={option.icon}
-              sx={{
-                mr: 2,
-                width: 24,
-                height: 24
-              }}
-            />
+        {MENU_OPTIONS.map((option) => {
+          return (
+            <div className='profileOption'>
+              <div>{option.icon}</div>
+              <div>{option.label}</div>
+            </div>
+          )
+          // <MenuItem
+          //   key={option.label}
+          //   to={option.linkTo}
+          //   component={RouterLink}
+          //   onClick={handleClose}
+          //   sx={{ typography: 'body2', py: 1, px: 2.5 }}
+          // >
+          //   <Box
+          //     component={Icon}
+          //     icon={option.icon}
+          //     sx={{
+          //       mr: 2,
+          //       width: 24,
+          //       height: 24
+          //     }}
+          //   />
 
-            {option.label}
-          </MenuItem>
-        ))}
+          //   {option.label}
+          // </MenuItem>
+        })}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined">

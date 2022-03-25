@@ -45,11 +45,11 @@ export default function VendorDetails() {
     ];
 
     const rows = [
-        { id: 1, vendorName: 'Birundha', vendorId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 2, vendorName: 'Divya', vendorId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 3, vendorName: 'Lakshmi', vendorId: '3', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 4, vendorName: 'Vicky', vendorId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 5, vendorName: 'Priya', vendorId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 1,vendorId: '1', vendorName: 'Birundha',  companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 2,vendorId: '2', vendorName: 'Divya',  companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 3,vendorId: '3', vendorName: 'Lakshmi',  companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 4,vendorId: '1', vendorName: 'Vicky',  companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 5,vendorId: '2', vendorName: 'Priya',  companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
     ];
 
     const openFields = () => {

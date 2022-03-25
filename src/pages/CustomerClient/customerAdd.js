@@ -16,7 +16,7 @@ export default function AddCustomer() {
         customerName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-        customerType: {
+        businessNature: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
         companyName: {
@@ -118,24 +118,66 @@ export default function AddCustomer() {
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Customer Type"
-                        changeData={(data) => Validation(data, "customerType")}
-                        value={profileDetails.customerType.value}
-                        error={profileDetails.customerType.error}
-                        errmsg={profileDetails.customerType.errmsg}
+                        labelname="Business Nature"
+                        changeData={(data) => Validation(data, "businessNature")}
+                        value={profileDetails.businessNature.value}
+                        error={profileDetails.businessNature.error}
+                        errmsg={profileDetails.businessNature.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={12} sx={12} sm={12}>
+                    <div className='subHeading'>PROOFS INFORMATION</div>
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="number"
+                        labelname="PAN"
+                        changeData={(data) => Validation(data, "pan")}
+                        value={profileDetails.pan.value}
+                        error={profileDetails.pan.error}
+                        errmsg={profileDetails.pan.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="number"
+                        labelname="CIN"
+                        changeData={(data) => Validation(data, "cin")}
+                        value={profileDetails.cin.value}
+                        error={profileDetails.cin.error}
+                        errmsg={profileDetails.cin.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="number"
+                        labelname="MSME"
+                        changeData={(data) => Validation(data, "msme")}
+                        value={profileDetails.msme.value}
+                        error={profileDetails.msme.error}
+                        errmsg={profileDetails.msme.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Company Name"
-                        changeData={(data) => Validation(data, "companyName")}
-                        value={profileDetails.companyName.value}
-                        error={profileDetails.companyName.error}
-                        errmsg={profileDetails.companyName.errmsg}
+                        labelname="IEC"
+                        changeData={(data) => Validation(data, "iec")}
+                        value={profileDetails.iec.value}
+                        error={profileDetails.iec.error}
+                        errmsg={profileDetails.iec.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="number"
+                        labelname="GST"
+                        changeData={(data) => Validation(data, "gst")}
+                        value={profileDetails.gst.value}
+                        error={profileDetails.gst.error}
+                        errmsg={profileDetails.gst.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={12} sx={12} sm={12}>
+                    <div className='subHeading'>ADDRESS</div>
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="select"
                         labelname="Address1"
                         changeData={(data) => Validation(data, "address1")}
                         value={profileDetails.address1.value}
@@ -143,7 +185,7 @@ export default function AddCustomer() {
                         errmsg={profileDetails.address1.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
+                {/* <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Address2"
                         changeData={(data) => Validation(data, "address2")}
@@ -151,7 +193,7 @@ export default function AddCustomer() {
                         error={profileDetails.address2.error}
                         errmsg={profileDetails.address2.errmsg}
                     />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="select"
                         labelname="State"
@@ -179,41 +221,9 @@ export default function AddCustomer() {
                         errmsg={profileDetails.country.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="PAN"
-                        changeData={(data) => Validation(data, "pan")}
-                        value={profileDetails.pan.value}
-                        error={profileDetails.pan.error}
-                        errmsg={profileDetails.pan.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="GST"
-                        changeData={(data) => Validation(data, "gst")}
-                        value={profileDetails.gst.value}
-                        error={profileDetails.gst.error}
-                        errmsg={profileDetails.gst.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="CIN"
-                        changeData={(data) => Validation(data, "cin")}
-                        value={profileDetails.cin.value}
-                        error={profileDetails.cin.error}
-                        errmsg={profileDetails.cin.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="MSME"
-                        changeData={(data) => Validation(data, "msme")}
-                        value={profileDetails.msme.value}
-                        error={profileDetails.msme.error}
-                        errmsg={profileDetails.msme.errmsg}
-                    />
+
+                <Grid item xs={12} md={12} sx={12} sm={12}>
+                    <div className='subHeading'>CONTACT US</div>
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
@@ -251,15 +261,7 @@ export default function AddCustomer() {
                         errmsg={profileDetails.email.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="IEC"
-                        changeData={(data) => Validation(data, "iec")}
-                        value={profileDetails.iec.value}
-                        error={profileDetails.iec.error}
-                        errmsg={profileDetails.iec.errmsg}
-                    />
-                </Grid>
+
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Active Status"

@@ -1,5 +1,5 @@
 .topHeader{
     display: grid;
-    grid-template-columns: 25% auto;
+    grid-template-columns: 27% auto;
     align-items: center;
 }

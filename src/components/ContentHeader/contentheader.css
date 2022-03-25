@@ -24,5 +24,8 @@
      font-weight: 600;
      width: 30% !important;
     }
+    .headerContainer{
+        margin: 0.99rem 0rem;
+    }
     
    }

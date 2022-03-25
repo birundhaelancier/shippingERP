@@ -1,12 +1,13 @@
-import react, { useState } from 'react';
+import react, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 // import SVG from "react-inlinesvg";
 import QuickSearchToolbar from '../SearchBar';
+import Grid from '@mui/material/Grid';
+import './table.css';
 
-
-const CustomTable = ({ rowData, columnData, onSearch }) => {
+const CustomTable = ({ rowData, columnData, onSearch, onclickEye }) => {
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
         { field: 'customerId', width: 150, headerName: 'Customer Id' },
@@ -49,26 +50,64 @@ const CustomTable = ({ rowData, columnData, onSearch }) => {
         onSearch(data)
     }
 
+    const openList = () => {
+        onclickEye(true);
+    }
+
+    console.log(rowData, columnData, 'test')
     return (
         <div>
+            <div className='tableWeb'>
+                <div style={{ height: 450, width: '100%' }}>
+                    <DataGrid
+                        components={{ Toolbar: QuickSearchToolbar }}
+                        rows={rowData}
+                        columns={columnData}
+                        // page={page}
+                        // pageSize={pageSize}
+                        // onPageSizeChange={handleChangeRowsPerPage}
+                        rowsPerPageOptions={[5, 25, 50, 100]}
+                        componentsProps={{
+                            toolbar: {
+                                // value: searchText,
+                                onChange: (event) => requestSearch(event.target.value),
+                                clearSearch: () => requestSearch(''),
+                            },
+                        }}
+                    />
+                </div>
+            </div>
+            <div className='tableMobile'>
+                {rowData.map((data, index) => {
+                    return (
+                        <Grid item xs={12} spacing={2} direction="row" container className='card_container' >
 
-            <div style={{ height: 450, width: '100%' }}>
-                <DataGrid
-                    components={{ Toolbar: QuickSearchToolbar }}
-                    rows={rowData}
-                    columns={columnData}
-                    // page={page}
-                    // pageSize={pageSize}
-                    // onPageSizeChange={handleChangeRowsPerPage}
-                    rowsPerPageOptions={[5, 25, 50, 100]}
-                    componentsProps={{
-                        toolbar: {
-                            // value: searchText,
-                            onChange: (event) => requestSearch(event.target.value),
-                            clearSearch: () => requestSearch(''),
-                        },
-                    }}
-                />
+                            {Object.values(data).map((val, id) => {
+                                if (id !== 0) {
+                                    return (
+                                        <>
+                                            <Grid item xs={6} md={4} sx={6} sm={12}>
+                                                <label className="labeltxt">{columnData[id].headerName}</label>
+                                                <div className='contact_name'>{val}</div>
+                                            </Grid>
+                                            {/* {id+1 == columnData.length && */}
+
+                                            {/* } */}
+                                        </>
+                                    )
+                                }
+                            })}
+                            <Grid item xs={12} md={4} sx={6} sm={12} direction="row" justifyContent={'flex-end'} container>
+                                <div className='icons_view'>
+                                    <div className="eyeSymbol" onClick={openList}><RemoveRedEye /></div>
+                                    <div className="editSymbol"><Edit /></div>
+                                    <div className="deleteSymbol"><Delete /></div>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    )
+                })}
+
             </div>
         </div>
     );
