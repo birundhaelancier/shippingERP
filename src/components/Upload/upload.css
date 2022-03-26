@@ -1,0 +1,34 @@
+input[type="file"] {
+    display: none;
+  }
+  .custom-file-upload {
+      width: 100%;
+    border: 1px solid var(--main-theme-color);
+    display: inline-block;
+    padding: 7px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    background: white;
+  }
+
+  .upload_container{
+      display: flex;
+      justify-content: space-between;
+  }
+
+  .custom_upload{
+      display: grid;
+      grid-template-columns: 8rem auto;
+  }
+
+  .labeltxt {
+    color: var(--main-theme-color);
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 5px;
+  }
+
+  .upload_container svg{
+      color: var(--main-theme-color);
+  }

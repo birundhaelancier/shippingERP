@@ -101,7 +101,7 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye }) => {
                                 <div className='icons_view'>
                                     <div className="eyeSymbol" onClick={openList}><RemoveRedEye /></div>
                                     <div className="editSymbol"><Edit /></div>
-                                    <div className="deleteSymbol"><Delete /></div>
+                                    {/* <div className="deleteSymbol"><Delete /></div> */}
                                 </div>
                             </Grid>
                         </Grid>
