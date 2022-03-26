@@ -14,3 +14,18 @@
     font-weight: 600;
     margin-bottom: 2px;
 }
+.add_icons{
+    color: var(--main-theme-color);
+    font-weight:bolder;
+    font-size: 25px;
+    cursor: pointer;
+}
+.add_icons svg{
+    font-size: 2rem;
+}
+.remove_icons svg{
+    font-size: 1.5rem;
+    color: var(--main-theme-color);
+    font-weight:bolder;
+    cursor: pointer;
+}

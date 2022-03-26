@@ -5,9 +5,13 @@ import Grid from '@mui/material/Grid';
 import ContentHeader from '../../components/ContentHeader';
 import CustomButton from '../../components/Button';
 import { useHistory } from 'react-router-dom';
+import UploadFiles from '../../components/Upload';
+import { Add, Delete } from '@mui/icons-material';
 // import './customer.css';
 
 export default function AddCustomer() {
+    const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
+
     let history = useHistory()
     const [profileDetails, setprofileDetails] = useState({
         customerId: {
@@ -92,12 +96,29 @@ export default function AddCustomer() {
     const onSubmit = () => {
         history.push("/customer");
     }
+    const address = [
+        { id: 1, value: 'Register' },
+        { id: 2, value: 'Communication' },
+        { id: 3, value: 'HQ' },
+    ]
+    const handleAddClick = () => {
+        setAddmoreObj([...AddmoreObj, { address: "", gst: "", state: "", city: "", country: "" }]);
+    };
+    const handleRemoveClick = (index) => {
+        const list = [...AddmoreObj];
+        list.splice(index, 1);
+        setAddmoreObj(list);
+    };
+
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
                 <ContentHeader headerTitle="Customer /Client" />
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" container>
+            <Grid item xs={12} md={12} sx={12} sm={12}>
+                    <div className='subHeading'>CUSTOMER DETAILS</div>
+                </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Customer Id"
@@ -138,6 +159,9 @@ export default function AddCustomer() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <UploadFiles uploadLabel="PAN Image" />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="CIN"
                         changeData={(data) => Validation(data, "cin")}
@@ -145,6 +169,9 @@ export default function AddCustomer() {
                         error={profileDetails.cin.error}
                         errmsg={profileDetails.cin.errmsg}
                     />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <UploadFiles uploadLabel="CIN Image" />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
@@ -156,6 +183,9 @@ export default function AddCustomer() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <UploadFiles uploadLabel="MEME Image" />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="IEC"
                         changeData={(data) => Validation(data, "iec")}
@@ -165,62 +195,71 @@ export default function AddCustomer() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="GST"
-                        changeData={(data) => Validation(data, "gst")}
-                        value={profileDetails.gst.value}
-                        error={profileDetails.gst.error}
-                        errmsg={profileDetails.gst.errmsg}
-                    />
+                    <UploadFiles uploadLabel="IEC Image" />
                 </Grid>
-                <Grid item xs={12} md={12} sx={12} sm={12}>
+
+                <Grid item xs={12} md={12} sx={12} sm={12} direction="row" justifyContent='space-between' container>
                     <div className='subHeading'>ADDRESS</div>
+                    <div className='add_icons' onClick={handleAddClick}><Add /></div>
                 </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="select"
-                        labelname="Address1"
-                        changeData={(data) => Validation(data, "address1")}
-                        value={profileDetails.address1.value}
-                        error={profileDetails.address1.error}
-                        errmsg={profileDetails.address1.errmsg}
-                    />
-                </Grid>
-                {/* <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Address2"
-                        changeData={(data) => Validation(data, "address2")}
-                        value={profileDetails.address2.value}
-                        error={profileDetails.address2.error}
-                        errmsg={profileDetails.address2.errmsg}
-                    />
-                </Grid> */}
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="select"
-                        labelname="State"
-                        changeData={(data) => Validation(data, "state")}
-                        value={profileDetails.state.value}
-                        error={profileDetails.state.error}
-                        errmsg={profileDetails.state.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="select"
-                        labelname="City"
-                        changeData={(data) => Validation(data, "city")}
-                        value={profileDetails.city.value}
-                        error={profileDetails.city.error}
-                        errmsg={profileDetails.city.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="select"
-                        labelname="Country"
-                        changeData={(data) => Validation(data, "country")}
-                        value={profileDetails.country.value}
-                        error={profileDetails.country.error}
-                        errmsg={profileDetails.country.errmsg}
-                    />
-                </Grid>
+                {AddmoreObj.map((data, index) => {
+                    return (
+                        <>
+                            {index != 0 && <Grid item xs={12} md={12} sx={12} sm={12} direction="row" justifyContent='flex-end' container>
+                                <div className='remove_icons' onClick={() => handleRemoveClick(index)}><Delete /></div>
+                            </Grid>}
+                            <Grid item xs={12} md={4} sx={12} sm={12}>
+                                <Labelbox show type="select"
+                                    labelname="Address1"
+                                    dropdown={address}
+                                    changeData={(data) => Validation(data, "address1")}
+                                    value={profileDetails.address1.value}
+                                    error={profileDetails.address1.error}
+                                    errmsg={profileDetails.address1.errmsg}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4} sx={12} sm={12}>
+                                <Labelbox show type="select"
+                                    labelname="State"
+                                    changeData={(data) => Validation(data, "state")}
+                                    value={profileDetails.state.value}
+                                    error={profileDetails.state.error}
+                                    errmsg={profileDetails.state.errmsg}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4} sx={12} sm={12}>
+                                <Labelbox show type="select"
+                                    labelname="City"
+                                    changeData={(data) => Validation(data, "city")}
+                                    value={profileDetails.city.value}
+                                    error={profileDetails.city.error}
+                                    errmsg={profileDetails.city.errmsg}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4} sx={12} sm={12}>
+                                <Labelbox show type="select"
+                                    labelname="Country"
+                                    changeData={(data) => Validation(data, "country")}
+                                    value={profileDetails.country.value}
+                                    error={profileDetails.country.error}
+                                    errmsg={profileDetails.country.errmsg}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4} sx={12} sm={12}>
+                                <Labelbox show type="number"
+                                    labelname="GST"
+                                    changeData={(data) => Validation(data, "gst")}
+                                    value={profileDetails.gst.value}
+                                    error={profileDetails.gst.error}
+                                    errmsg={profileDetails.gst.errmsg}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4} sx={12} sm={12}>
+                                <UploadFiles uploadLabel="GST Image" />
+                            </Grid>
+                        </>
+                    )
+                })}
 
                 <Grid item xs={12} md={12} sx={12} sm={12}>
                     <div className='subHeading'>CONTACT US</div>

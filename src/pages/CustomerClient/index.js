@@ -35,7 +35,7 @@ export default function CustomerClient() {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
-                        <div className="deleteSymbol"><Delete /></div>
+                        {/* <div className="deleteSymbol"><Delete /></div> */}
 
                         {/* <button title="Edit customer" className="btn btn-sm mx-3 btn-icon btn-success" > <span className="svg-icon svg-icon-md"> <EyeOutlined /> </span> </button>
                         <button title="Edit customer" className="btn btn-icon btn-sm mx-3 btn-danger" >  <span className="svg-icon svg-icon-md"> r </span> </button>
