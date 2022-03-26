@@ -96,7 +96,7 @@ function ResponsiveDrawer(props) {
                     }}
                     sx={{
                         display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, paddingTop: "15px", zIndex: 0 },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, paddingTop: "15px", zIndex: 0,background:"#151e57" },
                     }}
                 >
                     {/* {drawer} */}
@@ -108,7 +108,7 @@ function ResponsiveDrawer(props) {
                     variant="permanent"
                     sx={{
                         display: { xs: 'none', sm: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, zIndex: 0 },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, zIndex: 0,background:"#151e57" },
                     }}
                     open
                 >

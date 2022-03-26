@@ -67,7 +67,7 @@ export default function Login() {
                 </div>
               </div>
             </div>
-            {/* <p className='pos_ab'>© 2018 Connexial,inc, All rights reserved. I <span style={{textDecoration:"underline",fontSize:"12px",marginBottom:"5px"}}>Privacy Policy</span></p> */}
+            <p className='pos_ab'>© 2018 Shipping ERP,inc, All rights reserved. I <span style={{textDecoration:"underline",fontSize:"11px",marginBottom:"5px"}}>Privacy Policy</span></p>
           </Grid>
           <Grid item xs={12} md={6} sx={12} sm={12} className="login2_le_pd">
             <div className="wel_div">

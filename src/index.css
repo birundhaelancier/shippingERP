@@ -157,6 +157,7 @@ background-size: cover;
   background-image: url("./Images/banner.jpg");
   position: relative !important;
   background-size: cover; 
+  opacity: 0.9;
 }
 /* .login2_le_pd */
 .lg_sec_par{
@@ -169,7 +170,7 @@ background-size: cover;
 .pos_ab{
   position: absolute;
     bottom: 5px;
- font-size: 12px;
+ font-size: 11px;
  margin-bottom: 5px;
 }
 .log_child__par{
@@ -201,7 +202,7 @@ border-radius: 5px;
   border: 1px solid rgb(190 190 190 / 20%);
 }
 .log_sec_par{
-  margin: 35px 0px 35px 0px;
+  margin: 35px 0px 50px 0px;
 }
 .grid_sect{
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
