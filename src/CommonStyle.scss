@@ -50,3 +50,25 @@
     min-width: 45px;
   }
 }
+
+.acct_pop_over{
+  // background-color: #f3f7ff;
+  >div{
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  >div:nth-child(5){
+    margin-bottom: 10px;
+  }
+  >div:nth-child(6){
+    >label span{
+      color:#619fdb;
+      font-weight: 500;
+    }
+    >label span:nth-child(2){
+      color:#d73771 !important;
+      font-weight: 500;
+      padding-left:5px;
+    }
+  }
+}
