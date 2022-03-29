@@ -147,6 +147,7 @@ export default function ResponsiveDrawer(props) {
           // ml: { sm: `${drawerWidth}px` },
           background: "#fff",
           boxShadow: "none",
+          zIndex:0
         }}
       >
         <Toolbar>
