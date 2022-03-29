@@ -229,16 +229,14 @@ export default function ResponsiveDrawer(props) {
         {/* <Divider /> */}
         <div
         className="header_menu"
-          sx={{
-            justifyContent: open ? "space-between" : "center",
-            // display:"grid",
-            padding:"10px 8px 0px 8px",
-            marginBottom:"25px"
+          style={{
+            marginBottom:open?"20px":"0px"
+            // justifyContent: open ? "space-between" : "center",
           }}
         >
             {open&&
             // <HeaderView/>
-            <div><img src={logo}  /></div>
+            <div><img src={logo}  style={{width:"63%"}}/></div>
 
             }
             <div style={{display:"flex",alignItems:"center",justifyContent:open?"flex-end":"center"}}>
@@ -262,16 +260,14 @@ export default function ResponsiveDrawer(props) {
       >
         <div
         className="header_menu"
-          sx={{
-            justifyContent: open ? "space-between" : "center",
-            // display:"grid",
-            padding:"10px 8px 0px 8px",
-            marginBottom:"25px"
+          style={{
+      
+            marginBottom:open?"25px":"0px"
           }}
         >
             {open&&
             // <HeaderView/>
-            <div><img src={logo}  /></div>
+            <div><img src={logo}  style={{width:"63%"}}/></div>
 
             }
             <div style={{display:"flex",alignItems:"center",justifyContent:open?"flex-end":"center"}}>

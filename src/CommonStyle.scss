@@ -79,6 +79,9 @@
 
 .header_menu{
   // text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   padding: 10px 8px;
   >div:first-child{
     // display: flex;
@@ -91,6 +94,9 @@
     align-items: center;
     justify-content: space-between;
     // padding: 0px 20px 30px 20px;
+  }
+  >div img{
+    width:63%;
   }
 }
 .menu_cus{
