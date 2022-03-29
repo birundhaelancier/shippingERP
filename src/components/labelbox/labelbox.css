@@ -1,31 +1,17 @@
-/* div.formdiv > div.selectbrdred > div.ant-select-selection{
-  border: 1px solid red !important;
-} */
 
-.formdiv {
+
+.formShow {
   /* display: inline-block; */
   width: 100%;
   text-align: left;
   position: relative;
   color: #797777;
   margin-bottom: 10px;
-  display: grid;
-  grid-template-columns: 10rem auto;
-  /* justify-content: space-between; */
+  display: flex;
   align-items: center
 }
-.formShow {
-  width: 100%;
-  text-align: left;
-  position: relative;
-  color: #797777;
-  margin-bottom: 10px;
-  display: flex;
-  /* justify-content: space-between; */
-  align-items: center;
-}
 
-.formdiv .labeltxt {
+.formShow .labeltxt {
   color: var(--main-theme-color);
     display: block;
     font-size: 13px;
@@ -33,7 +19,7 @@
     margin-bottom: 5px;
 }
 
-.formdiv .brdrcls {
+.formShow .brdrcls {
   width: 100%;
   outline: 0;
   font-size: 16px;
@@ -46,35 +32,35 @@
   color: black;
 }
 
-.formdiv .brdred {
+.formShow .brdred {
   border: 1px solid red;
 }
 
-.formdiv .selectbrdred .ant-select-selector {
+.formShow .selectbrdred .ant-select-selector {
   border: 1px solid red !important;
 }
 
-/* .formdiv .datePickerbrdred .MuiOutlinedInput-notchedOutline {
+/* .formShow .datePickerbrdred .MuiOutlinedInput-notchedOutline {
   border: 1px solid red !important;
 } */
 
-.formdiv .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.formShow .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline {
   background-color: #c9c8c8;
 }
 
-.formdiv .brdnone .ant-select-selection {
+.formShow .brdnone .ant-select-selection {
   border: none !important;
 }
 
-.formdiv .MuiFormControl-root .MuiTextField-root .MuiFormControl-marginNormal {
+.formShow .MuiFormControl-root .MuiTextField-root .MuiFormControl-marginNormal {
   box-shadow: transparent;
 }
 
-.formdiv .radiobtncolor {
+.formShow .radiobtncolor {
   color: #82af3f !important;
 }
 
-.formdiv .datepickerchnge input {
+.formShow .datepickerchnge input {
   width: 100% !important;
   padding: 20px;
   border-radius: 0px;
@@ -105,7 +91,7 @@
   box-shadow:none !important;
 }
 
-.formdiv .selectbox .ant-select-selection--single {
+.formShow .selectbox .ant-select-selection--single {
   height: unset !important;
   padding: 0px !important;
   outline: 0;
@@ -116,23 +102,23 @@
   border: 1px solid var(--main-theme-color) !important;
 }
 
-.formdiv .ant-select-disabled .ant-select-selection,
-.formdiv .ant-select-disabled {
+.formShow .ant-select-disabled .ant-select-selection,
+.formShow .ant-select-disabled {
   background-color: #c9c8c8;
   cursor: auto;
   color: black;
 }
 
-.formdiv .selectbox .ant-select-selector {
+.formShow .selectbox .ant-select-selector {
   padding-left: 5px;
   /* font-size: 13px; */
 }
 
-.formdiv .selectAdjustHeight .ant-select-selector {
+.formShow .selectAdjustHeight .ant-select-selector {
   height: 37px;
 }
 
-.formdiv .ant-select-arrow {
+.formShow .ant-select-arrow {
   top: 55%;
   right: 8px;
   color: var(--main-theme-color);
@@ -142,13 +128,13 @@
   width: 23px;
 }
 
-.formdiv .selectbox {
+.formShow .selectbox {
   /*   z-index: 1400  !important;*/
   width: 100%;
   border-radius: 0;
   outline: unset;
 }
-.formdiv .ant-select-selection {
+.formShow .ant-select-selection {
   padding: 0px !important;
   outline: 0;
   height: auto;
@@ -157,33 +143,33 @@
   border-radius: 7px !important;
   border: 1px solid #023e7d !important;
 }
-.formdiv .ant-select-selection__rendered {
+.formShow .ant-select-selection__rendered {
   position: relative;
   display: block;
   margin-right: 0;
   margin-left: 11px;
   line-height: 30px;
 }
-.formdiv .ant-select-selection--multiple .ant-select-selection__placeholder {
+.formShow .ant-select-selection--multiple .ant-select-selection__placeholder {
   margin-left: -3px !important;
   color: #b9b9b9 !important;
   font-size: 13px !important;
 }
-.formdiv .ant-select-selection-selected-value {
+.formShow .ant-select-selection-selected-value {
   margin-left: -3px !important;
   font-size: 13px !important;
   padding-right: 35px !important;
 }
-.formdiv .ant-select-search--inline .ant-select-search__field {
+.formShow .ant-select-search--inline .ant-select-search__field {
   border: none;
   box-shadow: none;
 }
 
-.formdiv .ant-select-search__field__wrap input {
+.formShow .ant-select-search__field__wrap input {
   padding-left: 0px;
 }
 
-.formdiv .Errormsg {
+.formShow .Errormsg {
   font-size: 12px;
   margin-top: 4px;
   color: red;
@@ -200,7 +186,7 @@
   z-index: 1410 !important;
 } */
 
-.formdiv .MuiFormControl-marginNormal {
+.formShow .MuiFormControl-marginNormal {
   margin-top: 0px !important;
   margin-bottom: 0px;
   width: 100%;
@@ -225,34 +211,34 @@
   font-size: 12px;
 }
 
-.formdiv .MuiInputBase-inputAdornedEnd {
+.formShow .MuiInputBase-inputAdornedEnd {
   color: black;
   padding: 8px;
   font-size: 14px;
   z-index: 1;
 }
 
-.formdiv .MuiOutlinedInput-notchedOutline {
+.formShow .MuiOutlinedInput-notchedOutline {
   /* border: 1px solid #023e7d; */
   background-color: #fff;
   border: 1px solid var(--main-theme-color);
   border-radius: .25rem; 
 }
 
-.formdiv .MuiFormControl-marginNormal button,
-.formdiv .MuiFormControl-marginNormal path {
+.formShow .MuiFormControl-marginNormal button,
+.formShow .MuiFormControl-marginNormal path {
   /* color: #023e7d; */
   z-index: 1;
   padding: 0px;
   margin: 7px;
 }
 
-.formdiv .MuiOutlinedInput-adornedEnd {
+.formShow .MuiOutlinedInput-adornedEnd {
   padding: 1%;
   /* border-radius: 7px; */
 }
 
-.formdiv .ant-select-selection-placeholder {
+.formShow .ant-select-selection-placeholder {
   color: #b9b9b9 !important;
 }
 
@@ -269,7 +255,7 @@
   margin-top: 1px;
 }
 
-.formdiv .ant-select-single .ant-select-selector .ant-select-selection-search {
+.formShow .ant-select-single .ant-select-selector .ant-select-selection-search {
   left: 5px;
 }
 

@@ -18,7 +18,7 @@ input[type="file"] {
 
   .custom_upload{
       display: grid;
-      grid-template-columns: 7rem auto;
+      grid-template-columns: 10rem auto;
   }
 
   .labeltxt {
@@ -31,4 +31,9 @@ input[type="file"] {
 
   .upload_container svg{
       color: var(--main-theme-color);
+  }
+
+  .cloudIcon svg{
+    color: var(--main-theme-color);
+    font-size: 2rem;
   }

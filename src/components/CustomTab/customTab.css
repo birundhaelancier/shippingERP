@@ -4,9 +4,10 @@
     padding: 0px 10px;
 }
 
-.tabContainer .ant-tabs-tab {
-    /* width: 6rem; */
-}
+/* .tabContainer .ant-tabs-content-holder {
+    height: 500px;
+    overflow-y: auto;
+} */
 
 .tabHeading{
     display: grid;
@@ -53,6 +54,6 @@
     transform: translate(-102px, 0px);
 } */
 
-.tabContainer ::-webkit-scrollbar {
+ .tabContainer ::-webkit-scrollbar {
     display: none;
-}
+} 

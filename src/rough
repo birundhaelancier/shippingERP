@@ -1,0 +1,27 @@
+.MuiDrawer-docked .MuiDrawer-paper::-webkit-scrollbar {
+  width: 10px;               /* width of the entire scrollbar */
+}
+
+.MuiDrawer-docked .MuiDrawer-paper::-webkit-scrollbar-track {
+  background: var( --normal-bg-color);        /* color of the tracking area */
+}
+
+.MuiDrawer-docked .MuiDrawer-paper::-webkit-scrollbar-thumb {
+  background-color: var(--main-theme-color);    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid var( --normal-bg-color);  /* creates padding around scroll thumb */
+}
+
+body .MuiDrawer-paper::-webkit-scrollbar {
+  width: 10px;               /* width of the entire scrollbar */
+}
+
+body .MuiDrawer-paper::-webkit-scrollbar-track {
+  background: var( --normal-bg-color);        /* color of the tracking area */
+}
+
+body .MuiDrawer-paper::-webkit-scrollbar-thumb {
+  background-color: var(--main-theme-color);    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid var( --normal-bg-color);  /* creates padding around scroll thumb */
+}

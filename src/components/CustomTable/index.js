@@ -64,9 +64,6 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick 
                         rows={rowData}
                         columns={columnData}
                         checkboxSelection
-                        // page={page}
-                        // pageSize={pageSize}
-                        // onPageSizeChange={handleChangeRowsPerPage}
                         rowsPerPageOptions={[5, 25, 50, 100]}
                         componentsProps={{
                             toolbar: {

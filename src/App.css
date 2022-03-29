@@ -43,3 +43,6 @@
   margin: 5px;
   font-size: 10px;
 }
+body{
+  overflow: auto !important;
+}

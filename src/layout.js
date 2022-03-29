@@ -58,7 +58,7 @@ const openedMixin = (theme) => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: "hidden",
+  // overflowX: "hidden",
 });
 
 const closedMixin = (theme) => ({
@@ -66,7 +66,7 @@ const closedMixin = (theme) => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: "hidden",
+  // overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(7)} + 1px)`,
@@ -147,6 +147,7 @@ export default function ResponsiveDrawer(props) {
           // ml: { sm: `${drawerWidth}px` },
           background: "#fff",
           boxShadow: "none",
+          zIndex:0
         }}
       >
         <Toolbar>

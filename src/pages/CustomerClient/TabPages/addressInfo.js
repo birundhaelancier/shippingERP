@@ -10,9 +10,8 @@ import { Add, Delete, CheckCircle } from '@mui/icons-material';
 import CustomTab from '../../../components/CustomTab';
 import ViewCustomer from '../viewcustomer';
 import AddFieldsBtn from '../../../components/AddFieldsBtn';
-import LabelBoxes from '../../../components/labelbox/labelbox';
 
-export default function GeneralInfo() {
+export default function AddressInfo() {
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
     let history = useHistory()
@@ -32,10 +31,10 @@ export default function GeneralInfo() {
         addressType: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-        primary: {
+        country: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-        customerEmail: {
+        address1: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
         address2: {
@@ -105,114 +104,93 @@ export default function GeneralInfo() {
         <div>
             <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
+                    <Labelbox show type="select"
+                        labelname="Address Type"
+                        changeData={(data) => Validation(data, "addressType")}
+                        value={profileDetails.addressType.value}
+                        error={profileDetails.addressType.error}
+                        errmsg={profileDetails.addressType.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={10} sx={12} sm={12}>
+                    <Labelbox show type="select"
+                        labelname="Country /Region"
+                        changeData={(data) => Validation(data, "country")}
+                        value={profileDetails.country.value}
+                        error={profileDetails.country.error}
+                        errmsg={profileDetails.country.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={10} sx={12} sm={12}>
+                    <Labelbox show type="textarea"
+                        labelname="Address"
+                        placeholder="Street1"
+                        changeData={(data) => Validation(data, "address1")}
+                        value={profileDetails.address1.value}
+                        error={profileDetails.address1.error}
+                        errmsg={profileDetails.address1.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={10} sx={12} sm={12}>
+                    <Labelbox show type="textarea"
+                        placeholder="Street2"
+                        changeData={(data) => Validation(data, "address2")}
+                        value={profileDetails.address2.value}
+                        error={profileDetails.address2.error}
+                        errmsg={profileDetails.address2.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={10} sx={12} sm={12}>
+                    <Labelbox show type="select"
+                        labelname="State"
+                        placeholder="Select or Type to add"
+                        changeData={(data) => Validation(data, "state")}
+                        value={profileDetails.state.value}
+                        error={profileDetails.state.error}
+                        errmsg={profileDetails.state.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={10} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="City"
+                        changeData={(data) => Validation(data, "city")}
+                        value={profileDetails.city.value}
+                        error={profileDetails.city.error}
+                        errmsg={profileDetails.city.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="number"
-                        labelname="Customer Id"
-                        changeData={(data) => Validation(data, "customerId")}
-                        value={profileDetails.customerId.value}
-                        error={profileDetails.customerId.error}
-                        errmsg={profileDetails.customerId.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
-                    <Grid item xs={12} md={6} sx={12} sm={12}>
-                        <Labelbox show type="select"
-                            labelname="Primary Contact"
-                            placeholder="Salutation"
-                            changeData={(data) => Validation(data, "primary")}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={3} sx={12} sm={12}>
-                        <LabelBoxes show type="text"
-                            placeholder='First Name'
-                            changeData={(data) => Validation(data, "primary")}
-
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={3} sx={12} sm={12}>
-                        <LabelBoxes show type="text"
-                            placeholder='Last Name'
-                            changeData={(data) => Validation(data, "primary")}
-
-                        />
-                    </Grid>
-
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Customer Name"
-                        changeData={(data) => Validation(data, "customerName")}
-                        value={profileDetails.customerName.value}
-                        error={profileDetails.customerName.error}
-                        errmsg={profileDetails.customerName.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Business Nature"
-                        changeData={(data) => Validation(data, "businessNature")}
-                        value={profileDetails.businessNature.value}
-                        error={profileDetails.businessNature.error}
-                        errmsg={profileDetails.businessNature.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Customer Email"
-                        changeData={(data) => Validation(data, "customerEmail")}
-                        value={profileDetails.customerEmail.value}
-                        error={profileDetails.customerEmail.error}
-                        errmsg={profileDetails.customerEmail.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
-                    <Grid item xs={12} md={8} sx={12} sm={12}>
-                        <Labelbox show type="text"
-                            labelname="Customer Phone"
-                            placeholder="Work Phone"
-                            changeData={(data) => Validation(data, "primary")}
-
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={4} sx={12} sm={12}>
-                        <LabelBoxes show type="text"
-                            placeholder='Mobile'
-                            changeData={(data) => Validation(data, "primary")}
-
-                        />
-                    </Grid>
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Website"
+                        labelname="Zip Code"
                         changeData={(data) => Validation(data, "zipCode")}
+                        value={profileDetails.zipCode.value}
+                        error={profileDetails.zipCode.error}
+                        errmsg={profileDetails.zipCode.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <AddFieldsBtn fieldName='Add More Details' />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Designation"
-                        changeData={(data) => Validation(data, "zipCode")}
+                    <Labelbox show type="number"
+                        labelname="Phone"
+                        changeData={(data) => Validation(data, "phone")}
+                        value={profileDetails.phone.value}
+                        error={profileDetails.phone.error}
+                        errmsg={profileDetails.phone.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Department"
-                        changeData={(data) => Validation(data, "zipCode")}
+                    <Labelbox show type="number"
+                        labelname="Fax"
+                        changeData={(data) => Validation(data, "fax")}
+                        value={profileDetails.fax.value}
+                        error={profileDetails.fax.error}
+                        errmsg={profileDetails.fax.errmsg}
                     />
                 </Grid>
-
-                <Grid item xs={12} md={10} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
-                    <Grid item xs={12} md={11.6} sx={12} sm={12}>
-                        <Labelbox show type="text"
-                            labelname="Skype Id"
-                            changeData={(data) => Validation(data, "zipCode")}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={0.4} sx={12} sm={12}>
-                        <AddFieldsBtn fieldName='Add Additional Field' marginView />
-                    </Grid>
+                <Grid item xs={12} md={10} sx={12} sm={12}>
+                    <AddFieldsBtn fieldName='Add Address' />
+                </Grid>
+                <Grid item xs={12} md={10} sx={12} sm={12}>
+                    <AddFieldsBtn fieldName='Add Additional Field' />
                 </Grid>
 
             </Grid>
