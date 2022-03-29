@@ -137,9 +137,11 @@ export default function AddCustomer() {
 
     return (
         <div>
-
+            <Grid item xs={12} spacing={2} direction="row" container>
+                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' />
+            </Grid>
             <CustomTab tabArray={tabArray} />
-           
+
 
             {/* <Grid item xs={12} spacing={2} direction="row" container>
                 <ContentHeader headerTitle="Customer" />

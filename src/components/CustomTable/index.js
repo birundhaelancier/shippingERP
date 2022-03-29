@@ -7,7 +7,7 @@ import QuickSearchToolbar from '../SearchBar';
 import Grid from '@mui/material/Grid';
 import './table.css';
 
-const CustomTable = ({ rowData, columnData, onSearch, onclickEye }) => {
+const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick }) => {
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
         { field: 'customerId', width: 150, headerName: 'Customer Id' },
@@ -73,6 +73,7 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye }) => {
                                 // value: searchText,
                                 onChange: (event) => requestSearch(event.target.value),
                                 clearSearch: () => requestSearch(''),
+                                onAddClick: onAddBtnClick
                             },
                         }}
                     />

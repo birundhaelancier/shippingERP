@@ -24,7 +24,7 @@ function QuickSearchToolbar(props) {
     <div className={classes.root}>
       <Grid item xs={12} spacing={2} direction="row" container>
         <Grid item xs={6} md={1.5} sx={6} sm={6}>
-          <CustomButton btnName="Add" custombtnCSS="Primary" startIcon={<Groups />} />
+          <CustomButton btnName="Add" custombtnCSS="Primary" startIcon={<Groups />} onBtnClick={props.onAddClick} />
         </Grid>
         <Grid item xs={6} md={1.5} sx={6} sm={6}>
           <CustomButton btnName="Upload" custombtnCSS="Cancel" startIcon={<FileUpload />} />

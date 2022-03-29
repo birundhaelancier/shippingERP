@@ -13,36 +13,7 @@ body {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 } */
-.MuiTypography-body1{
-  font-family: 'Poppins', sans-serif !important;
-}
-.MuiPaper-root-MuiDrawer-paper{
-  margin-top: 65px !important;
-  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
-}
-.MuiDrawer-docked .MuiDrawer-paper{
-  margin-top: 65px !important;
-}
 
-.sidemenu{
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.MuiList-root{
-  background: white !important;
-  box-shadow: 0px 1px 4px rgb(100 116 139 / 12%) !important;
-
-}
-.MuiDrawer-docked .MuiDrawer-paper {
-  background: white !important;
-  box-shadow: 0px 1px 4px rgb(100 116 139 / 12%) !important;
-}
-.MuiModal-root-MuiDrawer-root .MuiDrawer-paper{
-  background: white !important;
-  box-shadow: 0px 1px 4px rgb(100 116 139 / 12%) !important;
-
-}
 
 :root {
   --main-theme-color: #155a6e;
@@ -157,6 +128,7 @@ background-size: cover;
   background-image: url("./Images/banner.jpg");
   position: relative !important;
   background-size: cover; 
+  opacity: 0.9;
 }
 /* .login2_le_pd */
 .lg_sec_par{
@@ -169,7 +141,7 @@ background-size: cover;
 .pos_ab{
   position: absolute;
     bottom: 5px;
- font-size: 12px;
+ font-size: 11px;
  margin-bottom: 5px;
 }
 .log_child__par{
@@ -201,7 +173,7 @@ border-radius: 5px;
   border: 1px solid rgb(190 190 190 / 20%);
 }
 .log_sec_par{
-  margin: 35px 0px 35px 0px;
+  margin: 35px 0px 50px 0px;
 }
 .grid_sect{
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;

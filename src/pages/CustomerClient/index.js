@@ -20,8 +20,8 @@ export default function CustomerClient() {
 
     const columnss = [
         { field: 'id', width: 50, headerName: 'S.No' },
-        { field: 'customerId', width: 120, headerName: 'Customer Id' },
-        { field: 'companyName', width: 140, headerName: 'Company Name' },
+        { field: 'customerId', width: 130, headerName: 'Customer Id' },
+        { field: 'companyName', width: 150, headerName: 'Company Name' },
         { field: 'mobile', width: 140, headerName: 'Phone No' },
         { field: 'email', width: 200, headerName: 'Email ID' },
         { field: 'city', width: 140, headerName: 'City' },
@@ -65,14 +65,15 @@ export default function CustomerClient() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader headerTitle="Customer" BtnName="Add Client" openFields={() => openFields()} />
+                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' />
             </Grid>
             <>
                 <CustomTable
                     rowData={rows}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
-                    onclickEye={(data)=>setOpenModal(data)}
+                    onclickEye={(data) => setOpenModal(data)}
+                    onAddBtnClick={openFields}
                 />
                 <DynModel handleChangeModel={openModal} modelTitle={"Customer / Client"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={

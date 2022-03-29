@@ -6,14 +6,15 @@ import {
 } from "react-router-dom";
 import ResponsiveDrawer from './layout';
 import Login from './pages/Login'
+import { HashRouter } from 'react-router-dom';
 function Routing() {
   return (
-    <Router>
+    <HashRouter>
       <Switch>
         <Route path="/" exact component={Login}/>
         <ResponsiveDrawer />
       </Switch>
-    </Router>
+    </HashRouter>
   );
 }
 

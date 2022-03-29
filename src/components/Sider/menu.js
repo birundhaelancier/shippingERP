@@ -1,48 +1,54 @@
 
 import React from "react";
 import { Menu, Send, Dashboard, Attractions, AccountBox, BackupTable, Api, ArrowForward, ReportGmailerrorred, Description, AccountBalance, AutoFixHigh, Sell, LocalLaundryService } from '@mui/icons-material';
-
+ 
 export const menu = [
-    { title: "Dashboard", items: [], path: "/dashboard", icon: <Dashboard /> },
+  
+    { title: "Dashboard", items: [], path: "/dashboard", icon:<i class="fa fa-tachometer" aria-hidden="true"></i>},
     {
         title: "Master",
         items: [
-            { title: "Customer", path: "/customer", icon: <ArrowForward /> },
-            { title: "Vendor", path: "/vendor", icon: <ArrowForward /> },
-            { title: "Currency", path: "/currency", icon: <ArrowForward /> },
-            { title: "Country Code", path: "/country", icon: <ArrowForward /> },
-            { title: "HSN Code", path: "/hsn", icon: <ArrowForward /> },
-            { title: "Sea Ports", path: "/seaport", icon: <ArrowForward /> },
-            { title: "Air Ports", path:`/airport?type=${"AP"}`, icon: <ArrowForward /> },
-            { title: "Quote", path: "/home", icon: <ArrowForward /> },
-            { title: "Location", path: "/home", icon: <ArrowForward /> },
-            // { title: "CHA", path: "/home", icon: <ArrowForward /> },
-            // { title: "Freight Forwarders", path: "/home", icon: <ArrowForward /> },
-            // { title: "Transport", path: "/home", icon: <ArrowForward /> },
-            // { title: "Liner / Consol Agents", path: "/home", icon: <ArrowForward /> },
-            { title: "Licence", path: "/home", icon: <ArrowForward /> },
-            { title: "Scheme", path: "/home", icon: <ArrowForward /> },
-            { title: "Shipment Type", path: "/shipment", icon: <ArrowForward /> },
-            { title: "Cargo Type", path: "/cargo", icon: <ArrowForward /> },
-            { title: "Dimension Type", path: "/dimension", icon: <ArrowForward /> },
-            { title: "Reason Master", path: "/reason", icon: <ArrowForward /> },
-            { title: "Exchange Rate", path: "/exchangerate", icon: <ArrowForward /> },
+            { title: "Customer", path: "/customer", icon: "" },
+            { title: "Vendor", path: "/vendor", icon: "" },
+            { title: "Currency", path: "/currency", icon: "" },
+            { title: "Country Code", path: "/country", icon: "" },
+            { title: "HSN Code", path: "/hsn", icon: "" },
+            { title: "Sea Ports", path: "/seaport", icon: "" },
+            { title: "Air Ports", path:`/airport?type=${"AP"}`, icon: "" },
+            { title: "Quote", path: "/home", icon: "" },
+            { title: "Location", path: "/home", icon: "" },
+            // { title: "CHA", path: "/home", icon: "" },
+            // { title: "Freight Forwarders", path: "/home", icon: "" },
+            // { title: "Transport", path: "/home", icon: "" },
+            // { title: "Liner / Consol Agents", path: "/home", icon: "" },
+            { title: "Licence", path: "/home", icon: "" },
+            { title: "Scheme", path: "/home", icon: "" },
+            { title: "Shipment Type", path: "/shipment", icon: "" },
+            { title: "Cargo Type", path: "/cargo", icon: "" },
+            { title: "Dimension Type", path: "/dimension", icon: "" },
+            { title: "Reason Master", path: "/reason", icon: "" },
+            { title: "Exchange Rate", path: "/exchangerate", icon: "" },
 
         ],
-        icon: <Attractions />
+        icon: <i class="fa fa-cc-mastercard" aria-hidden="true"></i>
     },
     {
         title: "Shipments", items: [
-            { title: "Enquiry", path: "/test", icon: <ArrowForward /> },
-            { title: "Job", path: "/test", icon: <ArrowForward /> },
-            { title: "Reports", path: "/test", icon: <ArrowForward /> },
+            { title: "Enquiry", path: "/test", icon: ""},
+            { title: "Job", path: "/test", icon: ""},
+            { title: "Reports", path: "/test", icon: ""},
         ], path: "/home",
-        icon: <Api />
+        icon: <i class="fa fa-ship" aria-hidden="true"></i>
     },
-    { title: "Reports", items: [], path: "/report", icon: <ReportGmailerrorred /> },
-    { title: "Documents ", items: [], path: "/home", icon: <Description /> },
-    { title: "Accounts", items: [], path: "/test", icon: <AccountBalance /> },
-    { title: "Utility", items: [], path: "/test", icon: <AutoFixHigh /> },
-    { title: "Sales ", items: [], path: "/home", icon: <Sell /> },
-    { title: "Other Services", items: [], path: "/test", icon: <LocalLaundryService /> },
+    // { title: "Utility", items: [], path: "/test", icon: <AutoFixHigh /> },
+    { title: "Sales ", items: [], path: "/home", icon:<i class="fa fa-users" aria-hidden="true"></i>},
+    // { title: "Other Services", items: [], path: "/test", icon: <LocalLaundryService /> },
+    { title: "Reports", items: [], path: "/report", icon:<i class="fa fa-check" aria-hidden="true"></i>},
+    { title: "Accounts", items: [], path: "/test", icon:<i class="fa fa-user" aria-hidden="true"></i>},
+    { title: "Documents ", items: [], path: "/home", icon:<i class="fa fa-file-o" aria-hidden="true"></i>},
+
+    
+
+
+    
 ]
