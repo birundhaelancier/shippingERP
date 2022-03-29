@@ -7,7 +7,7 @@ import { Collapse,Toolbar,Divider } from "@material-ui/core";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
-    Link
+    Link,useLocation
 } from "react-router-dom";
 import { menu } from "./menu";
 import { hasChildren } from "./utils";
@@ -15,7 +15,7 @@ import './siders.css';
 
 
 
-export default function SiderMenu() {
+export default function SiderMenu(props) {
     return menu.map((item, key) => 
         <MenuItem key={key} item={item} />
     );
@@ -26,9 +26,10 @@ const MenuItem = ({ item }) => {
     return <Component item={item} />;
 };
 
-const SingleLevel = ({ item }) => {
+const SingleLevel = ({ item,open }) => {
+    let location=useLocation() 
     return (
-        <ListItem  button >
+        <ListItem  button component={Link} to={item.path} className={`${item.path===location.pathname? "activecolor":null}`}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <Link style={{color: "black"}} to={item.path}><ListItemText primary={item.title} style={{color:"#fff"}} /></Link>
         </ListItem>

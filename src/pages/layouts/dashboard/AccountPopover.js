@@ -87,12 +87,12 @@ export default function AccountPopover() {
           <div className='acct_pop_over'>
           <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
             <Avatar src={Profile}>BE</Avatar></div>
-            <div><b>Birundha</b></div>
+            <div><b>JHONSI</b></div>
            <div> User ID : 54678567</div>
            <div>Organization ID : 354545454</div>
            <div>123elancier@gmail.com</div>
            <div>
-             <label><span>My Account | </span><span>Sign Out</span></label>
+             <span>My Account </span> <span> | </span> <span>Sign Out</span>
            </div>
           </div>
         </Box>

@@ -41,8 +41,9 @@
     font-family: 'Poppins', sans-serif ;
     font-size: 13px;
     font-weight: 300;
+    color:#fff;
   }
-  .MuiTypography-root .MuiListItemText{
+  .MuiListItemText-root, .MuiTypography-body1{
     color:#fff;
   }
   .MuiListItemIcon-root{
@@ -61,14 +62,85 @@
     margin-bottom: 10px;
   }
   >div:nth-child(6){
-    >label span{
+    >span:nth-child(1){
       color:#619fdb;
       font-weight: 500;
     }
-    >label span:nth-child(2){
+    >span:nth-child(2){
+      padding-left: 10px;
+    }
+    >span:nth-child(3){
       color:#d73771 !important;
       font-weight: 500;
       padding-left:5px;
     }
   }
+}
+
+.header_menu{
+  // text-align: center;
+  padding: 10px 8px;
+  >div:first-child{
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    margin-bottom: 10px;
+  }
+  >div:nth-child(2){
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    // padding: 0px 20px 30px 20px;
+  }
+}
+.menu_cus{
+font-size: 22px;
+color: rgb(255, 255, 255);
+background-color: #47525d;
+padding: 10px;
+border-radius: 50px;
+}
+.ic_menu{
+  display: none;
+}
+
+
+/*Hightlight the color menulist*/
+.activecolor {
+  text-decoration: none;
+  outline: none !important;  
+  border-radius: 0px 50px 50px 0px !important;
+  background-color: rgb(15,201,227) !important
+}
+
+.activecolor .MuiTypography-root{
+  color: #fff !important;
+}
+
+.activecolor{ 
+path{
+  fill: #fff;
+}
+.MuiListItemIcon-root{
+  color:#fff !important;
+  font-size: 20px;
+}
+}
+
+.circleactiveclr{
+  width: 50px !important;
+  margin-left: 10px !important;
+  outline: none !important;
+  border-radius: 50px !important;
+  background-color: #fff !important;
+  padding-left: 10px !important;
+}
+
+
+.circleactiveclr path{
+  fill: #003359;
+}
+
+.ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td{
+  background:#f0f8ff73
 }
