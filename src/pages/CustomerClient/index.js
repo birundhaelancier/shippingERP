@@ -9,6 +9,7 @@ import DynModel from '../../components/CustomModal';
 import ViewCustomer from './viewcustomer';
 import CustomTable from '../../components/CustomTable';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import QuickSearchToolbar from '../../components/SearchBar';
 
 // import './customer.css';
 
@@ -18,15 +19,17 @@ export default function CustomerClient() {
     const [openModal, setOpenModal] = useState(false);
 
     const columnss = [
-        { field: 'id', width: 80, headerName: 'S.No' },
-        { field: 'customerId', width: 150, headerName: 'Customer Id' },
+        { field: 'id', width: 50, headerName: 'S.No' },
+        { field: 'customerId', width: 130, headerName: 'Customer Id' },
         { field: 'companyName', width: 150, headerName: 'Company Name' },
-        { field: 'mobile', width: 150, headerName: 'Mobile' },
-        { field: 'email', width: 200, headerName: 'Email' },
+        { field: 'mobile', width: 140, headerName: 'Phone No' },
+        { field: 'email', width: 200, headerName: 'Email ID' },
+        { field: 'city', width: 140, headerName: 'City' },
+        { field: 'tags', width: 120, headerName: 'Tags' },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
-            width: 150,
+            width: 90,
             align: 'center',
             headerAlign: 'center',
             disableClickEventBubbling: true,
@@ -48,11 +51,11 @@ export default function CustomerClient() {
 
 
     const rows = [
-        { id: 1, customerId: '1', customerName: 'Birundha', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 2, customerId: '2', customerName: 'Divya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 3, customerId: '3', customerName: 'Lakshmi', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 4, customerId: '1', customerName: 'Vicky', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 5, customerId: '2', customerName: 'Priya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
+        { id: 1, customerId: '1', customerName: 'Birundha', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
+        { id: 2, customerId: '2', customerName: 'Divya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
+        { id: 3, customerId: '3', customerName: 'Lakshmi', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
+        { id: 4, customerId: '1', customerName: 'Vicky', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
+        { id: 5, customerId: '2', customerName: 'Priya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
     ];
 
     const openFields = () => {
@@ -62,14 +65,15 @@ export default function CustomerClient() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader headerTitle="Customer /Client" BtnName="Add Client" openFields={() => openFields()} />
+                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' />
             </Grid>
             <>
                 <CustomTable
                     rowData={rows}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
-                    onclickEye={(data)=>setOpenModal(data)}
+                    onclickEye={(data) => setOpenModal(data)}
+                    onAddBtnClick={openFields}
                 />
                 <DynModel handleChangeModel={openModal} modelTitle={"Customer / Client"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={

@@ -1,0 +1,21 @@
+.fieldsContainer{
+    width: 13rem;
+    display: grid;
+    grid-template-columns: 2.5rem auto;
+    box-shadow: 0 0px 2px 1px rgba(211, 209, 212, 0.24);
+    background: white;
+    align-items: center;
+    padding: 4px 3px;
+    cursor: pointer;
+}
+
+.addIcon svg{
+    color: #1890ff;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.fieldName{
+    color: #1890ff;
+}

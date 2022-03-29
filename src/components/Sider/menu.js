@@ -8,7 +8,7 @@ export const menu = [
     {
         title: "Master",
         items: [
-            { title: "Customer / Client", path: "/customer", icon: "" },
+            { title: "Customer", path: "/customer", icon: "" },
             { title: "Vendor", path: "/vendor", icon: "" },
             { title: "Currency", path: "/currency", icon: "" },
             { title: "Country Code", path: "/country", icon: "" },

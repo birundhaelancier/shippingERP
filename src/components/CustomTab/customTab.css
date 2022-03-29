@@ -1,0 +1,58 @@
+.tabContainer .ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap{
+    border: 1px solid rgb(231, 231, 231);
+    border-radius: 50px;
+    padding: 0px 10px;
+}
+
+.tabContainer .ant-tabs-tab {
+    /* width: 6rem; */
+}
+
+.tabHeading{
+    display: grid;
+    grid-template-columns: 2rem auto;
+    align-items: center;
+}
+
+.tabTitle{
+    /* color: var(--main-theme-color); */
+    font-weight: 500;
+}
+
+.iconView svg{
+    /* color: var(--main-theme-color); */
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.tabContainer .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+    color: rgb(53, 192, 53);
+    border-bottom: rgb(53, 192, 53);
+}
+
+
+.iconView svg:active{
+    color: rgb(53, 192, 53) !important;
+
+}
+
+.tabContainer .ant-tabs-tab:hover{
+    color: rgb(53, 192, 53);
+    border-bottom: rgb(53, 192, 53);
+}
+.ant-tabs-ink-bar{
+    background: rgb(53, 192, 53) !important;
+    display: none;
+}
+
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-list, .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list{
+    overflow: auto;
+}
+/* .ant-tabs-nav-list{
+    transform: translate(-102px, 0px);
+} */
+
+.tabContainer ::-webkit-scrollbar {
+    display: none;
+}
