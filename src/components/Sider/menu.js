@@ -46,9 +46,7 @@ export const menu = [
     { title: "Reports", items: [], path: "/report", icon:<i class="fa fa-check" aria-hidden="true"></i>},
     { title: "Accounts", items: [], path: "/test", icon:<i class="fa fa-user" aria-hidden="true"></i>},
     { title: "Documents ", items: [], path: "/home", icon:<i class="fa fa-file-o" aria-hidden="true"></i>},
-
-    
-
-
+    { title: "Settings ", items: [], path: "/home", icon:<i class="fa fa-cog" aria-hidden="true"></i>},
+    { title: "Help Center ", items: [], path: "/home", icon:<i class="fa fa-yelp" aria-hidden="true"></i>},
     
 ]

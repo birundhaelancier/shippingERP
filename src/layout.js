@@ -183,7 +183,7 @@ export default function ResponsiveDrawer(props) {
           </Stack>
         </Toolbar>
       </AppBar>
-      <Drawer
+      <MuiDrawer
         container={container}
         variant="temporary"
         open={open}
@@ -215,13 +215,13 @@ export default function ResponsiveDrawer(props) {
             display: { sm: "none", xs:"block" },
           }}
         >
-          <MenuIcon />
+          <MenuIcon  className="dash_menu"/>
         </IconButton>
         {/* <Toolbar /> */}
 
         <Divider />
         <SiderMenu />
-      </Drawer>
+      </MuiDrawer>
 
       <Drawer
         variant="permanent"
