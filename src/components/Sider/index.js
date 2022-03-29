@@ -3,7 +3,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
+import { Collapse,Toolbar,Divider } from "@material-ui/core";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
@@ -16,7 +16,9 @@ import './siders.css';
 
 
 export default function SiderMenu() {
-    return menu.map((item, key) => <MenuItem key={key} item={item} />);
+    return menu.map((item, key) => 
+        <MenuItem key={key} item={item} />
+    );
 }
 
 const MenuItem = ({ item }) => {
@@ -26,9 +28,9 @@ const MenuItem = ({ item }) => {
 
 const SingleLevel = ({ item }) => {
     return (
-        <ListItem button>
+        <ListItem  button >
             <ListItemIcon>{item.icon}</ListItemIcon>
-            <Link style={{color: "black"}} to={item.path}><ListItemText primary={item.title} /></Link>
+            <Link style={{color: "black"}} to={item.path}><ListItemText primary={item.title} style={{color:"#fff"}} /></Link>
         </ListItem>
     );
 };
@@ -48,7 +50,7 @@ const MultiLevel = ({ item }) => {
                 <ListItemText primary={item.title} />
                 {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             </ListItem>
-            <Collapse in={open} style={{ minHeight: "none" }} timeout="auto">
+            <Collapse in={open} style={{ minHeight: "none" }} timeout="auto" className="">
                 <List component="div" disablePadding>
                     {children.map((child, key) => (
                         <Link to={child.path}><MenuItem key={key} item={child} /></Link>
@@ -57,4 +59,5 @@ const MultiLevel = ({ item }) => {
             </Collapse>
         </React.Fragment>
     );
+   
 };

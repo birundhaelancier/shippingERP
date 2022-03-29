@@ -11,6 +11,7 @@ import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '
 import MenuPopover from './MenuPopOver';
 import {Home, AccountCircle, Settings} from '@mui/icons-material';
 import './common.css';
+import Profile from '../../../Images/profile1.jpg'
 //
 // import account from '../../_mocks_/account';
 
@@ -69,7 +70,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar >BE</Avatar>
+        <Avatar src={Profile}>BE</Avatar>
       </IconButton>
 
       <MenuPopover
