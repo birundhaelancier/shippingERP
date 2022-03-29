@@ -7,7 +7,7 @@ export const menu = [
     {
         title: "Master",
         items: [
-            { title: "Customer / Client", path: "/customer", icon: <ArrowForward /> },
+            { title: "Customer", path: "/customer", icon: <ArrowForward /> },
             { title: "Vendor", path: "/vendor", icon: <ArrowForward /> },
             { title: "Currency", path: "/currency", icon: <ArrowForward /> },
             { title: "Country Code", path: "/country", icon: <ArrowForward /> },

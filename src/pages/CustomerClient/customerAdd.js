@@ -6,12 +6,17 @@ import ContentHeader from '../../components/ContentHeader';
 import CustomButton from '../../components/Button';
 import { useHistory } from 'react-router-dom';
 import UploadFiles from '../../components/Upload';
-import { Add, Delete } from '@mui/icons-material';
+import { Add, Delete, CheckCircle } from '@mui/icons-material';
+import CustomTab from '../../components/CustomTab';
+import ViewCustomer from './viewcustomer';
+import GeneralInfo from './TabPages/generalInfo';
+
+
 // import './customer.css';
 
 export default function AddCustomer() {
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
-
+    const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
     let history = useHistory()
     const [profileDetails, setprofileDetails] = useState({
         customerId: {
@@ -71,8 +76,22 @@ export default function AddCustomer() {
         activeSts: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
+        description: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
 
     })
+
+    // arrayval
+    const tabArray = [
+        { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo /> },
+        { icon: <CheckCircle />, title: 'Address Details', description: 'de65' },
+        { icon: <CheckCircle />, title: 'KYC Details', description: 'de65' },
+        { icon: <CheckCircle />, title: 'Contact Details', description: 'de65' },
+        { icon: <CheckCircle />, title: 'Documents', description: 'de65' },
+        { icon: <CheckCircle />, title: 'Payments Terms', description: 'de65' },
+        { icon: <CheckCircle />, title: 'Overview', description: 'de65' },
+    ]
 
     const Validation = (data, key, list) => {
         var errorcheck = ValidationLibrary.checkValidation(
@@ -96,28 +115,38 @@ export default function AddCustomer() {
     const onSubmit = () => {
         history.push("/customer");
     }
-    const address = [
-        { id: 1, value: 'Register' },
-        { id: 2, value: 'Communication' },
-        { id: 3, value: 'HQ' },
-    ]
-    const handleAddClick = () => {
-        setAddmoreObj([...AddmoreObj, { address: "", gst: "", state: "", city: "", country: "" }]);
+    const handleAddClick = (type) => {
+        if (type === 'general') {
+            setCustomerObj([...CustomerObj, { description: "", state: "", city: "" }])
+        } else if (type === 'address') {
+            setAddmoreObj([...AddmoreObj, { address: "", gst: "", state: "", city: "", country: "" }]);
+        }
     };
-    const handleRemoveClick = (index) => {
-        const list = [...AddmoreObj];
-        list.splice(index, 1);
-        setAddmoreObj(list);
+    const handleRemoveClick = (type, index) => {
+        if (type === 'general') {
+            const list = [...CustomerObj];
+            list.splice(index, 1);
+            setCustomerObj(list);
+        } else if (type === 'address') {
+            const list = [...AddmoreObj];
+            list.splice(index, 1);
+            setAddmoreObj(list);
+        }
+
     };
 
     return (
         <div>
-            <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader headerTitle="Customer /Client" />
+
+            <CustomTab tabArray={tabArray} />
+           
+
+            {/* <Grid item xs={12} spacing={2} direction="row" container>
+                <ContentHeader headerTitle="Customer" />
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" container>
-            <Grid item xs={12} md={12} sx={12} sm={12}>
-                    <div className='subHeading'>CUSTOMER DETAILS</div>
+                <Grid item xs={12} md={12} sx={12} sm={12}>
+                    <div className='subHeading'>GENERAL INFORMATION</div>
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
@@ -146,8 +175,53 @@ export default function AddCustomer() {
                         errmsg={profileDetails.businessNature.errmsg}
                     />
                 </Grid>
+
+                {CustomerObj.map((item, index) => {
+                    return (
+                        <>
+
+                            <Grid item xs={12} md={5} sx={12} sm={12}>
+                                <Labelbox show type="textarea"
+                                    labelname="Description"
+                                    changeData={(data) => Validation(data, "description")}
+                                    value={profileDetails.description.value}
+                                    error={profileDetails.description.error}
+                                    errmsg={profileDetails.description.errmsg}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={3} sx={12} sm={12}>
+                                <Labelbox show type="select"
+                                    labelname="State"
+                                    changeData={(data) => Validation(data, "state")}
+                                    value={profileDetails.state.value}
+                                    error={profileDetails.state.error}
+                                    errmsg={profileDetails.state.errmsg}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={3} sx={12} sm={12}>
+                                <Labelbox show type="select"
+                                    labelname="City"
+                                    changeData={(data) => Validation(data, "city")}
+                                    value={profileDetails.city.value}
+                                    error={profileDetails.city.error}
+                                    errmsg={profileDetails.city.errmsg}
+                                />
+                            </Grid>
+
+                            {index != 0 ? <Grid item xs={12} md={1} sx={12} sm={12} direction="row" justifyContent='flex-end' container>
+                                <div className='remove_icons' onClick={() => handleRemoveClick('general', index)}><Delete /></div>
+                            </Grid>
+                                :
+                                <Grid item xs={12} md={1} sx={12} sm={12} direction="row" justifyContent='flex-end' container>
+                                    <div className='add_icons' onClick={() => handleAddClick('general')}><Add /></div>
+                                </Grid>
+                            }
+
+                        </>
+                    )
+                })}
                 <Grid item xs={12} md={12} sx={12} sm={12}>
-                    <div className='subHeading'>PROOFS INFORMATION</div>
+                    <div className='subHeading'>KYC DETAILS</div>
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
@@ -197,27 +271,16 @@ export default function AddCustomer() {
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <UploadFiles uploadLabel="IEC Image" />
                 </Grid>
-
                 <Grid item xs={12} md={12} sx={12} sm={12} direction="row" justifyContent='space-between' container>
                     <div className='subHeading'>ADDRESS</div>
-                    <div className='add_icons' onClick={handleAddClick}><Add /></div>
+                    <div className='add_icons' onClick={() => handleAddClick('address')}><Add /></div>
                 </Grid>
                 {AddmoreObj.map((data, index) => {
                     return (
                         <>
                             {index != 0 && <Grid item xs={12} md={12} sx={12} sm={12} direction="row" justifyContent='flex-end' container>
-                                <div className='remove_icons' onClick={() => handleRemoveClick(index)}><Delete /></div>
+                                <div className='remove_icons' onClick={() => handleRemoveClick('address', index)}><Delete /></div>
                             </Grid>}
-                            <Grid item xs={12} md={4} sx={12} sm={12}>
-                                <Labelbox show type="select"
-                                    labelname="Address1"
-                                    dropdown={address}
-                                    changeData={(data) => Validation(data, "address1")}
-                                    value={profileDetails.address1.value}
-                                    error={profileDetails.address1.error}
-                                    errmsg={profileDetails.address1.errmsg}
-                                />
-                            </Grid>
                             <Grid item xs={12} md={4} sx={12} sm={12}>
                                 <Labelbox show type="select"
                                     labelname="State"
@@ -318,7 +381,7 @@ export default function AddCustomer() {
                 <Grid item xs={6} md={2} sx={6} sm={6}>
                     <CustomButton btnName="Cancel" custombtnCSS="Cancel" />
                 </Grid>
-            </Grid>
+            </Grid> */}
 
         </div>
     );

@@ -63,6 +63,7 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye }) => {
                         components={{ Toolbar: QuickSearchToolbar }}
                         rows={rowData}
                         columns={columnData}
+                        checkboxSelection
                         // page={page}
                         // pageSize={pageSize}
                         // onPageSizeChange={handleChangeRowsPerPage}

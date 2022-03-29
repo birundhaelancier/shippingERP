@@ -13,6 +13,7 @@ const CustomButton = (props) => {
         (props.custombtnCSS === 'Cancel' && 'CancelBtn')
       } btnContainer`}
       onClick={props.onBtnClick}
+      startIcon={props.startIcon}
     >
       {props.btnName}
     </Button>
