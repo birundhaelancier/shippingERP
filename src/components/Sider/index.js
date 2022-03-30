@@ -3,11 +3,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { Collapse,Toolbar,Divider } from "@material-ui/core";
+import { Collapse, Toolbar, Divider } from "@material-ui/core";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
-    Link
+    Link, useLocation
 } from "react-router-dom";
 import { menu } from "./menu";
 import { hasChildren } from "./utils";
@@ -15,22 +15,23 @@ import './siders.css';
 
 
 
-export default function SiderMenu() {
-    return menu.map((item, key) => 
-        <MenuItem key={key} item={item} />
+export default function SiderMenu(props) {
+    return menu.map((item, key) =>
+        <MenuItem key={key} item={item} openMenu={props.openMenu} />
     );
 }
 
-const MenuItem = ({ item }) => {
-    const Component = hasChildren(item) ? MultiLevel : SingleLevel;
-    return <Component item={item} />;
+const MenuItem = ({ item, openMenu }) => {
+    const Component = hasChildren(item, openMenu) ? MultiLevel : SingleLevel;
+    return <Component item={item} openMenu={openMenu}/>;
 };
 
-const SingleLevel = ({ item }) => {
+const SingleLevel = ({ item, openMenu }) => {
+    let location = useLocation()
     return (
-        <ListItem  button >
+        <ListItem button component={Link} to={item.path} className={`${item.path === location.pathname ? "activecolor" : null}`}>
             <ListItemIcon>{item.icon}</ListItemIcon>
-            <Link style={{color: "black"}} to={item.path}><ListItemText primary={item.title} style={{color:"#fff"}} /></Link>
+            <Link style={{ color: "black" }} to={item.path}><ListItemText primary={item.title} style={{ color: "#fff" }} /></Link>
         </ListItem>
     );
 };
@@ -59,5 +60,5 @@ const MultiLevel = ({ item }) => {
             </Collapse>
         </React.Fragment>
     );
-   
+
 };

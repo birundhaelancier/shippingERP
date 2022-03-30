@@ -45,3 +45,47 @@
        font-weight: 700;
        color: var(--main-theme-color);
    }
+
+   .tableView{
+       display: grid;
+       grid-template-columns: 8.5rem 2.5rem 3rem auto;
+       align-items: center;
+   }
+   .tableView div:first-child{
+       font-size: 1.5rem;
+       color: rgb(68, 65, 65);
+       font-weight: 500;
+   }
+   .editIcon svg{
+       color: var(--main-theme-color);
+       font-size: 1.5rem;
+   }
+   .countView{
+       color: gray;
+   }
+   .tableView div:last-child{
+       color: gray;
+       font-size: 1rem;
+   }
+   .mainValue{
+       display: flex;
+       align-items: center;
+   }
+   .mainValue div:first-child{
+       color: var(--main-theme-color);
+       font-weight: 600;
+       font-size: 1rem;
+       margin-right: 0.5rem;
+   }
+   .mainValue div:last-child{
+    font-weight: 500;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    color: gray;
+}
+
+.subHeader{
+    color: var(--main-theme-color);
+    font-size: 1.5rem;
+    font-weight: 500;
+}

@@ -5,7 +5,7 @@ import { Checkbox } from "antd";
 import CustomButton from "../components/Button";
 import HeaderView from "./Header";
 import { useHistory } from "react-router-dom";
-import logo from '../Images/logo.jpg'
+import logo from '../Images/loginlogo.png';
 const image =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0-UQvi_u2uUPPs0QmfbVKpdr7rIXZJcgw4g&usqp=CAU";
 export default function Login() {
@@ -24,9 +24,9 @@ export default function Login() {
                   src={logo}
                   style={{ width: "90px"}}
                 />
-                <div style={{ color: "#027eba", fontWeight: "bold" }}>
+                {/* <div style={{ color: "#027eba", fontWeight: "bold" }}>
                   Shipping ERP
-                </div>
+                </div> */}
               </div>
 
               <div className="inner_child">

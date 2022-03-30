@@ -10,6 +10,8 @@ import { Add, Delete, CheckCircle } from '@mui/icons-material';
 import CustomTab from '../../../components/CustomTab';
 import ViewCustomer from '../viewcustomer';
 import AddFieldsBtn from '../../../components/AddFieldsBtn';
+import FooterBtn from '../../../components/FooterButtons';
+
 
 export default function AddressInfo() {
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
@@ -195,12 +197,7 @@ export default function AddressInfo() {
 
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <Grid item xs={6} md={2} sx={6} sm={6}>
-                    <CustomButton btnName="Submit" custombtnCSS="Primary" onBtnClick={() => onSubmit()} />
-                </Grid>
-                <Grid item xs={6} md={2} sx={6} sm={6}>
-                    <CustomButton btnName="Cancel" custombtnCSS="Cancel" />
-                </Grid>
+                <FooterBtn nextBtn backBtn />
             </Grid>
         </div>
     );

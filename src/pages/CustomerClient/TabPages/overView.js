@@ -4,6 +4,8 @@ import Grid from '@mui/material/Grid';
 import CustomButton from '../../../components/Button';
 import { useHistory } from 'react-router-dom';
 import { Edit } from '@mui/icons-material';
+import FooterBtn from '../../../components/FooterButtons';
+import '../customer.css';
 
 
 // import './customer.css';
@@ -58,6 +60,16 @@ export default function OverView() {
             ]
         },
         {
+            mainHeading: 'Documents', fields: [
+                { labelname: 'Document1', value: 'document01.pdf' },
+                { labelname: 'Document2', value: 'document02.pdf' },
+                { labelname: 'Document3', value: 'document03.pdf' },
+                { labelname: 'Document4', value: 'document04.pdf' },
+
+
+            ]
+        },
+        {
             mainHeading: 'CONTACT DETAILS', fields: [
                 { labelname: 'Salutation', value: '' },
                 { labelname: 'First Name', value: '' },
@@ -81,34 +93,34 @@ export default function OverView() {
 
                 {CustomerDetails.map((data) => {
                     return (
-                        <>
+                        // <div className='cardView'>
+                            <Grid item xs={12} spacing={2} direction="row" container className='cardView'>
                             <Grid item xs={12} md={12} sx={12} sm={12} direction="row" justifyContent='space-between' container>
                                 <div className='subHeading'>{data.mainHeading}</div>
                                 <div className='add_icons'><Edit /></div>
                             </Grid>
-                            {data.fields.map((items) => {
-                                return (
-                                    <Grid item xs={12} md={4} sx={12} sm={12}>
-                                        <Labelbox show type="text"
-                                            labelname={items.labelname}
-                                            value={items.value}
-                                        />
-                                    </Grid>
-                                )
-                            })}
-                        </>
+                            {
+                        data.fields.map((items) => {
+                            return (
+                                <Grid item xs={12} md={4} sx={12} sm={12}>
+                                    <Labelbox show type="text"
+                                        labelname={items.labelname}
+                                        value={items.value}
+                                    />
+                                </Grid>
+                            )
+                        })
+                    }
+            </Grid>
 
-                    )
-                })}
-            </Grid>
-            <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <Grid item xs={6} md={2} sx={6} sm={6}>
-                    <CustomButton btnName="Submit" custombtnCSS="Primary" onBtnClick={() => onSubmit()} />
-                </Grid>
-                <Grid item xs={6} md={2} sx={6} sm={6}>
-                    <CustomButton btnName="Cancel" custombtnCSS="Cancel" />
-                </Grid>
-            </Grid>
-        </div>
+                        // </div>
+
+    )
+})}
+            </Grid >
+    <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
+        <FooterBtn backBtn />
+    </Grid>
+        </div >
     );
 }

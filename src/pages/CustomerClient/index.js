@@ -65,7 +65,7 @@ export default function CustomerClient() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' />
+                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' openFields mainTitle={"Customer"} count='20,000' heading={'Customers'} />
             </Grid>
             <>
                 <CustomTable
@@ -75,7 +75,7 @@ export default function CustomerClient() {
                     onclickEye={(data) => setOpenModal(data)}
                     onAddBtnClick={openFields}
                 />
-                <DynModel handleChangeModel={openModal} modelTitle={"Customer / Client"}
+                <DynModel handleChangeModel={openModal} modelTitle={"Customer"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
                             <ViewCustomer CloseModal={(bln) => setOpenModal(bln)} />

@@ -32,7 +32,7 @@ export default function AddCustomer() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' />
+                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' mainTitle={"Master"} subTitle='Customer' heading={'Customer Data'} />
             </Grid>
             <CustomTab tabArray={tabArray} />
         </div>

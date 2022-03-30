@@ -1,21 +1,22 @@
-import react, { useState } from 'react';
+import react, { useEffect, useState } from 'react';
 import Labelbox from '../../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
-import ContentHeader from '../../../components/ContentHeader';
 import CustomButton from '../../../components/Button';
 import { useHistory } from 'react-router-dom';
-import UploadFiles from '../../../components/Upload';
-import { Add, Delete, CheckCircle } from '@mui/icons-material';
-import CustomTab from '../../../components/CustomTab';
-import ViewCustomer from '../viewcustomer';
 import AddFieldsBtn from '../../../components/AddFieldsBtn';
 import LabelBoxes from '../../../components/labelbox/labelbox';
+import DynModel from '../../../components/CustomModal';
+import AddFields from '../../AddFields/index';
+import FooterBtn from '../../../components/FooterButtons';
+
+
 
 export default function GeneralInfo() {
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
     let history = useHistory()
+    const [FieldModal, setFieldModal] = useState(false);
     const [profileDetails, setprofileDetails] = useState({
         customerId: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
@@ -56,8 +57,18 @@ export default function GeneralInfo() {
         phone: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
+        activeStatus: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
     })
 
+    const [showList, setShowList] = useState(
+        [
+            { type: "text", labelName: "Designation", validation: ["required"], arrVal: [] },
+            { type: "text", labelName: "Department", validation: ["required"], arrVal: [] },
+            { type: "text", labelName: "Skype Id", validation: ["required"], arrVal: [] },
+        ]
+    )
 
     const Validation = (data, key, list) => {
         var errorcheck = ValidationLibrary.checkValidation(
@@ -101,6 +112,14 @@ export default function GeneralInfo() {
 
     };
 
+    const addInputBox = (obj) => {
+        if (Object.values(obj).every(data => data != '')) {
+            showList.push(obj)
+            setShowList((prevState) => ([
+                ...prevState,
+            ]));
+        }
+    }
     return (
         <div>
             <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
@@ -147,7 +166,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="select"
                         labelname="Business Nature"
                         changeData={(data) => Validation(data, "businessNature")}
                         value={profileDetails.businessNature.value}
@@ -180,49 +199,54 @@ export default function GeneralInfo() {
 
                         />
                     </Grid>
+
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Website"
-                        changeData={(data) => Validation(data, "zipCode")}
+                        changeData={(data) => Validation(data, "activeStatus")}
+                      
+                    />
+                </Grid>
+                <Grid item xs={12} md={10} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Active Status"
+                        changeData={(data) => Validation(data, "activeStatus")}
+                        value={profileDetails.activeStatus.value}
+                        error={profileDetails.activeStatus.error}
+                        errmsg={profileDetails.activeStatus.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <AddFieldsBtn fieldName='Add More Details' />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Designation"
-                        changeData={(data) => Validation(data, "zipCode")}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Department"
-                        changeData={(data) => Validation(data, "zipCode")}
-                    />
-                </Grid>
 
-                <Grid item xs={12} md={10} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
-                    <Grid item xs={12} md={11.6} sx={12} sm={12}>
-                        <Labelbox show type="text"
-                            labelname="Skype Id"
-                            changeData={(data) => Validation(data, "zipCode")}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={0.4} sx={12} sm={12}>
-                        <AddFieldsBtn fieldName='Add Additional Field' marginView />
-                    </Grid>
-                </Grid>
+                {showList?.map((data) => {
+                    return (
+                        <Grid item xs={12} md={10} sx={12} sm={12}>
+                            <Labelbox type={data.type}
+                                labelname={data.labelName}
+                            // changeData={(data) => Validation(data, "zipCode")}
+                            />
+                        </Grid>
+                    )
+                })}
 
             </Grid>
+            <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container style={{ position: 'relative', bottom: '50px' }}>
+                <AddFieldsBtn fieldName='Add Additional Field' />
+                {/* AddFieldBtn={() => setFieldModal(true)} */}
+            </Grid>
+            <DynModel handleChangeModel={FieldModal} modelTitle={"Add Fields"}
+                modalchanges="recruit_modal_css" handleChangeCloseModel={() => setFieldModal(false)} width={600} content={
+                    <>
+                        <AddFields CloseModal={(bln) => setFieldModal(bln)} addObj={(data) => addInputBox(data)} />
+                    </>
+                }
+            />
+
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <Grid item xs={6} md={2} sx={6} sm={6}>
-                    <CustomButton btnName="Submit" custombtnCSS="Primary" onBtnClick={() => onSubmit()} />
-                </Grid>
-                <Grid item xs={6} md={2} sx={6} sm={6}>
-                    <CustomButton btnName="Cancel" custombtnCSS="Cancel" />
-                </Grid>
+                <FooterBtn nextBtn />
             </Grid>
         </div>
     );

@@ -77,24 +77,37 @@ export default function AccountPopover() {
         open={open}
         onClose={handleClose}
         anchorEl={anchorRef.current}
-        sx={{ width: 220 }}
+        // style={{background:"#f3f7ff"}}
+        sx={{ width: 300}}
       >
-        <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant="subtitle1" noWrap>
+        <Box sx={{ my: 1.5, px: 2.5,textAlign:"center" }}>
+          {/* <Typography variant="subtitle1" noWrap>
             {"Birundha Elancier"}
-          </Typography>
+          </Typography> */}
+          <div className='acct_pop_over'>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <Avatar src={Profile}>BE</Avatar></div>
+            <div><b>JHONSI</b></div>
+           <div> User ID : 54678567</div>
+           <div>Organization ID : 354545454</div>
+           <div>123elancier@gmail.com</div>
+           <div>
+             <span>My Account </span> <span> | </span> <span>Sign Out</span>
+           </div>
+          </div>
         </Box>
 
-        <Divider sx={{ my: 1 }} />
+        {/* <Divider sx={{ my: 1 }} /> */}
 
-        {MENU_OPTIONS.map((option) => {
+        {/* {MENU_OPTIONS.map((option) => {
           return (
             <div className='profileOption'>
               <div>{option.icon}</div>
               <div>{option.label}</div>
             </div>
-          )
-          // <MenuItem
+          ) */}
+          {/* <label>User Id</label> */}
+          {/* // <MenuItem
           //   key={option.label}
           //   to={option.linkTo}
           //   component={RouterLink}
@@ -112,14 +125,14 @@ export default function AccountPopover() {
           //   />
 
           //   {option.label}
-          // </MenuItem>
-        })}
-
+          // </MenuItem> */}
+        {/* })} */}
+{/* 
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined">
             Logout
           </Button>
-        </Box>
+        </Box> */}
       </MenuPopover>
     </>
   );

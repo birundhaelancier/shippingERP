@@ -18,7 +18,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import PropTypes from 'prop-types';
+import logo from "./Images/logo2.png";
+import PropTypes from "prop-types";
 import DashboardShow from "./pages/Dashboard";
 import Reports from "./pages/Reports";
 import HeaderView from "./pages/Header";
@@ -49,6 +50,7 @@ import AddExchangeRate from "./pages/ExchangeRate/exchangerateadd";
 import { Route } from "react-router-dom";
 import AccountPopover from "./pages/layouts/dashboard/AccountPopover";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import { Margin } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -119,17 +121,18 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function ResponsiveDrawer(props) {
-    const { window } = props;
-    const container = window !== undefined ? () => window().document.body : undefined;
+  const { window } = props;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
   };
 
   const handleDrawerClose = () => {
-      // alert("hj")
+    // alert("hj")
     setOpen(!open);
   };
 
@@ -147,7 +150,6 @@ export default function ResponsiveDrawer(props) {
           // ml: { sm: `${drawerWidth}px` },
           background: "#fff",
           boxShadow: "none",
-          zIndex:0
         }}
       >
         <Toolbar>
@@ -156,27 +158,33 @@ export default function ResponsiveDrawer(props) {
             aria-label="open drawer"
             onClick={handleDrawerClose}
             edge="end"
+            style={{ color: "#141d56" }}
             sx={{
               marginRight: 5,
               ...(open && { display: "none" }),
-              display: { sm: "none" },
+              color: { sm: "red", xs: "blue" },
+              display: { sm: "none", xs: "block" },
             }}
           >
-            <MenuIcon />
+            <MenuIcon className="ic_menu" />
           </IconButton>
 
           <Stack
             className="stackContent"
             direction="row"
             alignItems="end"
-            style={{alignItems:"center"}}
+            style={{ alignItems: "center" }}
             spacing={{ xs: 0.5, sm: 1.5 }}
           >
-            <i class="fa fa-bell-o" aria-hidden="true" style={{
-                  color: "#141d56",
-                  fontSize:"20px",
-                  paddingRight:"15px"
-            }}></i>
+            <i
+              class="fa fa-bell-o"
+              aria-hidden="true"
+              style={{
+                color: "#141d56",
+                fontSize: "20px",
+                paddingRight: "15px",
+              }}
+            ></i>
             {/* <NotificationsOutlinedIcon  style={{color:"red"}}  className="notify"/> */}
             <div>
               <AccountPopover />
@@ -188,9 +196,10 @@ export default function ResponsiveDrawer(props) {
         container={container}
         variant="temporary"
         open={open}
+        className="dashb_par"
         onClose={handleDrawerClose}
         ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+          keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
           display: { xs: "block", sm: "none" },
@@ -205,7 +214,7 @@ export default function ResponsiveDrawer(props) {
         }}
       >
         {/* {drawer} */}
-        <IconButton
+        {/* <IconButton
           color="inherit"
           aria-label="open drawer"
           onClick={handleDrawerOpen}
@@ -213,15 +222,46 @@ export default function ResponsiveDrawer(props) {
           sx={{
             marginRight: 5,
             //   ...(open && { display: 'none' }),
-            display: { sm: "none", xs:"block" },
+            display: { sm: "none", xs:"none" },
           }}
         >
           <MenuIcon  className="dash_menu"/>
-        </IconButton>
+        </IconButton> */}
         {/* <Toolbar /> */}
 
-        <Divider />
-        <SiderMenu />
+        {/* <Divider /> */}
+        <div
+          className="header_menu"
+          style={{
+            marginBottom: open ? "20px" : "0px",
+            // justifyContent: open ? "space-between" : "center",
+          }}
+        >
+          {open && (
+            // <HeaderView/>
+            <div>
+              <img src={logo} style={{ width: "63%" }} />
+            </div>
+          )}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: open ? "flex-end" : "center",
+            }}
+          >
+            <IconButton onClick={handleDrawerClose}>
+              {/* {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />} */}
+              {/* <MenuIcon /> */}
+              <i
+                class="fa fa-bars"
+                style={{ fontSize: "18px", color: "#fff" }}
+                aria-hidden="true"
+              ></i>
+            </IconButton>
+          </div>
+        </div>
+        <SiderMenu openMenu={open}/>
       </MuiDrawer>
 
       <Drawer
@@ -232,20 +272,38 @@ export default function ResponsiveDrawer(props) {
           // '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, zIndex: 0,background:"#151e57" },
         }}
       >
-        <DrawerHeader
-          sx={{
-            justifyContent: open ? "flex-end" : "center",
+        <div
+          className="header_menu"
+          style={{
+            marginBottom: open ? "25px" : "0px",
           }}
         >
-            {open&&<HeaderView/>}
-          <IconButton onClick={handleDrawerClose}>
-            {/* {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />} */}
-            {/* <MenuIcon /> */}
-            <i class="fa fa-bars" style={{fontSize:"18px"}} aria-hidden="true"></i>
-          </IconButton>
-        </DrawerHeader>
+          {open && (
+            // <HeaderView/>
+            <div>
+              <img src={logo} style={{ width: "63%" }} />
+            </div>
+          )}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: open ? "flex-end" : "center",
+            }}
+          >
+            <IconButton onClick={handleDrawerClose}>
+              {/* {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />} */}
+              {/* <MenuIcon /> */}
+              <i
+                class="fa fa-bars"
+                style={{ fontSize: "18px", color: "#fff" }}
+                aria-hidden="true"
+              ></i>
+            </IconButton>
+          </div>
+        </div>
 
-        <SiderMenu />
+        <SiderMenu open={open} />
       </Drawer>
       <Box
         style={{ background: "#fbfbfb" }}
@@ -289,9 +347,9 @@ export default function ResponsiveDrawer(props) {
 }
 
 ResponsiveDrawer.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
-    window: PropTypes.func,
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
 };
