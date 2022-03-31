@@ -9,8 +9,8 @@ const ContentHeader = ({ userTitle, userName, openFields, mainTitle, subTitle, h
 
     return (
         <div className='headContainer'>
-            <div className='userTitle'>{userTitle}</div>
-            <div className='userName'>{userName}</div>
+            {/* <div className='userTitle'>{userTitle}</div>
+            <div className='userName'>{userName}</div> */}
             {openFields ? <div className='tableView'>
                 <div>{mainTitle}</div>
                 <div className='editIcon'><Edit /></div>

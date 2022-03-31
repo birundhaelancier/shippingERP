@@ -32,8 +32,6 @@ export default function CountryDetails() {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
-                        <div className="deleteSymbol"><Delete /></div>
-
                     </div>
                 );
             }
@@ -57,13 +55,15 @@ export default function CountryDetails() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader headerTitle="Country" BtnName="Add Country" openFields={() => openFields()} />
+                <ContentHeader openFields mainTitle={"Country"} count='20,000' heading={'Country'} />
             </Grid>
             <>
                 <CustomTable
                     rowData={rows}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
+                    onclickEye={(data) => setOpenModal(data)}
+                    onAddBtnClick={openFields}
                 />
                 <DynModel handleChangeModel={openModal} modelTitle={"Country"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={

@@ -6,13 +6,13 @@ import ContentHeader from '../../components/ContentHeader';
 import CustomButton from '../../components/Button';
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
-import ViewCurrency from './viewcurrency';
+import ViewState from './viewstate';
 import CustomTable from '../../components/CustomTable';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 // import './customer.css';
 
-export default function CurrencyDetails() {  
+export default function StateDetails() {
     const [openModal, setOpenModal] = useState(false);
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
@@ -49,27 +49,29 @@ export default function CurrencyDetails() {
         { id: 4, currencyName: 'Vicky', currencyId: '1', countryId: "5", countryName: 'India', activeStatus: "pending" },
         { id: 5, currencyName: 'Priya', currencyId: '2', countryId: "4", countryName: 'India', activeStatus: "pending" },
     ];
-    
+
     let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
-        history.push("/addCurrency")
+        history.push("/addState")
     }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader headerTitle="Currency" BtnName="Add Currency" openFields={() => openFields()}  />
+                <ContentHeader openFields mainTitle={"State"} count='20,000' heading={'States'} />
             </Grid>
             <>
                 <CustomTable
                     rowData={rows}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
+                    onclickEye={(data) => setOpenModal(data)}
+                    onAddBtnClick={openFields}
                 />
-                <DynModel handleChangeModel={openModal} modelTitle={"Currency"}
+                <DynModel handleChangeModel={openModal} modelTitle={"State"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewCurrency CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewState CloseModal={(bln) => setOpenModal(bln)} />
                         </>
                     }
                 />

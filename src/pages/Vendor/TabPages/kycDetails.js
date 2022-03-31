@@ -71,10 +71,6 @@ export default function KycDeatils() {
         list.splice(index, 1);
     };
 
-    const handleFileChange = (data) => {
-        console.log(data, 'test')
-    }
-
     return (
         <div>
             <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
@@ -90,7 +86,7 @@ export default function KycDeatils() {
                     </Grid>
                     <Grid item xs={12} md={1} sx={12} sm={12}>
                         <Grid item xs={12} md={4} sx={12} sm={12}>
-                            <UploadFiles show getOnChangeFile={(event) => handleFileChange(event)} />
+                            <UploadFiles show />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -169,7 +165,7 @@ export default function KycDeatils() {
                         />
                     </Grid>
                     <Grid item xs={12} md={0.6} sx={12} sm={12}>
-                        <UploadFiles show  />
+                        <UploadFiles show />
                     </Grid>
                     <Grid item xs={12} md={0.4} sx={12} sm={12}>
                         <AddFieldsBtn fieldName='Add Another GST' marginView AddFieldBtn={handleAddClick} />

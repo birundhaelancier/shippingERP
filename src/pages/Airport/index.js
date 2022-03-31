@@ -3,33 +3,29 @@ import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
 import ContentHeader from '../../components/ContentHeader';
-import CustomButton from '../../components/Button';
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
-import ViewCustomer from './viewcustomer';
+import ViewAirport from './viewairport';
 import CustomTable from '../../components/CustomTable';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import QuickSearchToolbar from '../../components/SearchBar';
 
 // import './customer.css';
 
-export default function CustomerClient() {
+export default function AirportDetails(props) {
     let history = useHistory()
-    const [showlist, setShowlist] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
 
+    const [openModal, setOpenModal] = useState(false);
     const columnss = [
-        { field: 'id', width: 50, headerName: 'S.No' },
-        { field: 'customerId', width: 130, headerName: 'Customer Id' },
-        { field: 'companyName', width: 150, headerName: 'Company Name' },
-        { field: 'mobile', width: 140, headerName: 'Phone No' },
-        { field: 'email', width: 200, headerName: 'Email ID' },
-        { field: 'city', width: 140, headerName: 'City' },
-        { field: 'tags', width: 120, headerName: 'Tags' },
+        { field: 'id', width: 80, headerName: 'S.No' },
+        { field: 'portId', width: 150, headerName: 'Air Port Id' },
+        { field: 'portName', width: 190, headerName: 'Air Port Name' },
+        { field: 'portCode', width: 170, headerName: 'Air Port Code' },
+        { field: 'countryName', width: 150, headerName: 'Country Name' },
+        { field: 'activeStatus', width: 150, headerName: 'Active Status' },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
-            width: 90,
+            width: 150,
             align: 'center',
             headerAlign: 'center',
             disableClickEventBubbling: true,
@@ -38,30 +34,27 @@ export default function CustomerClient() {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
-                       
                     </div>
                 );
             }
         }
     ];
 
-
     const rows = [
-        { id: 1, customerId: '1', customerName: 'Birundha', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
-        { id: 2, customerId: '2', customerName: 'Divya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
-        { id: 3, customerId: '3', customerName: 'Lakshmi', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
-        { id: 4, customerId: '1', customerName: 'Vicky', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
-        { id: 5, customerId: '2', customerName: 'Priya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
+        { id: 1, portCode: 'Birundha', countryName: '1', portCode: '8', portId: '1', portName: "testing", companyName: "testing", activeStatus: "pending" },
+        { id: 2, portCode: 'Divya', countryName: '2', portCode: '8', portId: '1', portName: "testing", companyName: "testing", activeStatus: "pending" },
+        { id: 3, portCode: 'Lakshmi', countryName: '3', portCode: '8', portId: '1', portName: "testing", companyName: "testing", activeStatus: "pending" },
+        { id: 4, portCode: 'Vicky', countryName: '1', portCode: '8', portId: '1', portName: "testing", companyName: "testing", activeStatus: "pending" },
+        { id: 5, portCode: 'Priya', countryName: '2', portCode: '8', portId: '1', portName: "testing", companyName: "testing", activeStatus: "pending" },
     ];
-
     const openFields = () => {
         setOpenModal(true)
-        history.push("/addCustomer")
+        history.push("/addAirport")
     }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' openFields mainTitle={"Customer"} count='20,000' heading={'Customers'} />
+                <ContentHeader openFields mainTitle={"Airport"} count='20,000' heading={'Airport'} />
             </Grid>
             <>
                 <CustomTable
@@ -71,10 +64,10 @@ export default function CustomerClient() {
                     onclickEye={(data) => setOpenModal(data)}
                     onAddBtnClick={openFields}
                 />
-                <DynModel handleChangeModel={openModal} modelTitle={"Customer"}
+                <DynModel handleChangeModel={openModal} modelTitle={"Airport"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewCustomer CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewAirport CloseModal={(bln) => setOpenModal(bln)} />
                         </>
                     }
                 />

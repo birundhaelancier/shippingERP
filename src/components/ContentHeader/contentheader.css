@@ -48,11 +48,11 @@
 
    .tableView{
        display: grid;
-       grid-template-columns: 8.5rem 2.5rem 3rem auto;
+       grid-template-columns: 6rem 2.5rem 3rem auto;
        align-items: center;
    }
    .tableView div:first-child{
-       font-size: 1.5rem;
+       font-size: 1rem;
        color: rgb(68, 65, 65);
        font-weight: 500;
    }
@@ -86,6 +86,6 @@
 
 .subHeader{
     color: var(--main-theme-color);
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 500;
 }
