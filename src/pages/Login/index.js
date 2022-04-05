@@ -7,7 +7,7 @@ import CustomButton from "../../components/Button";
 import { useHistory } from "react-router-dom";
 import logo from '../../Images/logologo.png';
 
-import "./login.css";
+import "./login.scss";
 const image =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0-UQvi_u2uUPPs0QmfbVKpdr7rIXZJcgw4g&usqp=CAU";
 export default function Login() {
@@ -15,9 +15,9 @@ export default function Login() {
     return (
         <div className="masterContainer">
             <Grid item xs={12} spacing={2} direction="row" justifyContent={'center'} container className="subContainer">
-                <Grid item xs={6} md={6} sx={6} sm={6} direction="row" alignItems={'center'} justifyContent={'flex-end'} container className='left_Container'>
-                    <Grid item xs={9} md={9} sx={9} sm={9} className="lg_sec_par">
-                        <div style={{ width: "20rem" }}>
+                <Grid item xs={12} md={6} sx={6} sm={12} direction="row" alignItems={'center'} justifyContent={'flex-end'} container className='left_Container'>
+                    <Grid item xs={12} md={9} sx={9} sm={12} className="lg_sec_par">
+                        <div style={{ width: "20rem" }} className="lg_sec_child">
                             <div className="lg_div_in">
                                 <img
                                     src={logo}
@@ -47,8 +47,8 @@ export default function Login() {
 
                     </Grid>
                 </Grid>
-                <Grid item xs={6} md={6} sx={6} sm={6} className='right_Container' alignItems={'center'} justifyContent={'flex-start'} container>
-                    <Grid item xs={9} md={9} sx={9} sm={9} direction="row" alignItems={'center'} justifyContent={'center'} className="login2_le" container>
+                <Grid item xs={12} md={6} sx={6} sm={12} className='right_Container' alignItems={'center'} justifyContent={'flex-start'} container>
+                    <Grid item xs={12} md={9} sx={9} sm={12} direction="row" alignItems={'center'} justifyContent={'center'} className="login2_le" container>
                         <Grid item xs={12} md={12} sx={12} sm={12} className='backImage' direction="row" alignItems={'center'} justifyContent={'center'} container  >
                             <div className="inside_box">
                                 <div className="wel_child_d">

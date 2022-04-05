@@ -1,5 +1,9 @@
 .masterContainer {
     height: 100vh;
+    .btnContainer{
+      margin:6px 0px !important;
+      padding: 5px !important;  
+    }
 }
 
 .left_Container {
@@ -60,4 +64,20 @@
 .login_description {
     padding: 8rem 5.5rem;
     color: white;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 959px)  {
+
+    .right_Container{
+      display: none !important;
+    }
+    .lg_sec_child{
+        width:27rem !important;
+    }
+    .subContainer .MuiGrid-item{
+        padding: auto !important;
+    }
+    .pos_abs{
+        text-align: center;
+    }
 }

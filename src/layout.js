@@ -152,6 +152,7 @@ export default function ResponsiveDrawer(props) {
       <AppBar
         position="fixed"
         open={open}
+        className="custom_appar"
         sx={{
           width: {
             sm: `calc(100% - ${open ? drawerWidth : 67}px)`,
