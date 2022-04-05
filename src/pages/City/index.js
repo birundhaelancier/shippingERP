@@ -16,12 +16,11 @@ export default function CityDetails() {
     const [openModal, setOpenModal] = useState(false);
     const columnss = [
         { field: 'id', width: 100, headerName: 'S.No' },
-        { field: 'cityId', width: 150, headerName: 'Country Id' },
-        { field: 'cityName', width: 170, headerName: 'City Name' },
-        { field: 'stateName', width: 170, headerName: 'State Name' },
-        { field: 'countryName', width: 170, headerName: 'Country Name' },
-        { field: 'countryCode', width: 170, headerName: 'Currency Code' },
-        { field: 'activeStatus', width: 200, headerName: 'Active Status' },
+        { field: 'cityId', width: 150, headerName: 'City Id' },
+        { field: 'cityName', width: 160, headerName: 'City Name' },
+        { field: 'stateName', width: 160, headerName: 'State Name' },
+        { field: 'countryName', width: 160, headerName: 'Country Name' },
+        { field: 'activeStatus', width: 160, headerName: 'Active Status' },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -34,6 +33,7 @@ export default function CityDetails() {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
+                        {/* <div className="deleteSymbol"><Delete /></div> */}
                     </div>
                 );
             }

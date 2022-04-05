@@ -18,7 +18,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import logo from "./Images/logo2.png";
+import logo from "./Images/layout.png";
 import PropTypes from "prop-types";
 import DashboardShow from "./pages/Dashboard";
 import Reports from "./pages/Reports";
@@ -31,10 +31,6 @@ import CountryDetails from "./pages/Country";
 import HSNDetails from "./pages/HSN";
 import SeaportDetails from "./pages/Seaport";
 import AirportDetails from "./pages/Airport";
-import ShipmentDetails from "./pages/MasterType/shipment";
-import CargoDetails from "./pages/MasterType/cargo";
-import DimensionDetails from "./pages/MasterType/dimension";
-import ReasonDetails from "./pages/MasterType/reason";
 import ExchangeRateDetails from "./pages/ExchangeRate";
 import Login from "./pages/Login";
 import AddCustomer from "./pages/CustomerClient/customerAdd";
@@ -44,13 +40,23 @@ import AddCountry from "./pages/Country/countryadd";
 import AddHSN from "./pages/HSN/hsnadd";
 import AddSeaport from "./pages/Seaport/seaportadd";
 import AddAirport from "./pages/Airport/airportadd";
-import AddShipment from "./pages/MasterType/addTypes/shipmentadd";
-import AddCargo from "./pages/MasterType/addTypes/cargoadd";
-import AddDimension from "./pages/MasterType/addTypes/dimentionadd";
-import AddReason from "./pages/MasterType/addTypes/reasonadd";
 import AddExchangeRate from "./pages/ExchangeRate/exchangerateadd";
 import CityDetails from "./pages/City/index";
 import AddCity from "./pages/City/cityadd";
+import CurrencyDetails from "./pages/Currency";
+import AddCurrency from "./pages/Currency/currencyadd";
+import ShipmentDetails from "./pages/Shipment";
+import AddShipment from "./pages/Shipment/shipmentadd";
+import CargoDetails from "./pages/Cargo";
+import AddCargo from "./pages/Cargo/cargoadd";
+import DimensionDetails from "./pages/Dimension";
+import ReasonDetails from "./pages/Reason";
+import AddDimension from "./pages/Dimension/dimensionadd";
+import AddReason from "./pages/Reason/reasonadd";
+import EnquiryDetails from './pages/Enquiry'
+import AddEnquiry from './pages/Enquiry/enquiryadd';
+
+
 import { Route } from "react-router-dom";
 import AccountPopover from "./pages/layouts/dashboard/AccountPopover";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -324,7 +330,6 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/customer" component={CustomerClient} />
         <Route exact path="/vendor" component={VendorDetails} />
         <Route exact path="/state" component={StateDetails} />
-        <Route exact path="/country" component={CountryDetails} />
         <Route exact path="/hsn" component={HSNDetails} />
         <Route exact path="/seaport" component={SeaportDetails} />
         <Route exact path="/airport" component={AirportDetails} />
@@ -337,7 +342,6 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/addCustomer" component={AddCustomer} />
         <Route exact path="/addVendor" component={AddVendor} />
         <Route exact path="/addState" component={AddState} />
-        <Route exact path="/addCountry" component={AddCountry} />
         <Route exact path="/addHsn" component={AddHSN} />
         <Route exact path="/addSeaport" component={AddSeaport} />
         <Route exact path="/addAirport" component={AddAirport} />
@@ -348,6 +352,12 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/addExchangerate" component={AddExchangeRate} />
         <Route exact path="/city" component={CityDetails} />
         <Route exact path="/addCity" component={AddCity} />
+        <Route exact path="/country" component={CountryDetails} />
+        <Route exact path="/addCountry" component={AddCountry} />
+        <Route exact path="/currency" component={CurrencyDetails} />
+        <Route exact path="/addCurrency" component={AddCurrency} />
+        <Route exact path="/enquiry" component={EnquiryDetails} />
+        <Route exact path="/addEnquiry" component={AddEnquiry} />
       </Box>
     </Box>
   );

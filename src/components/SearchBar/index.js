@@ -8,6 +8,7 @@ import { createTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/styles';
 import Grid from '@mui/material/Grid';
 import CustomButton from '../Button';
+import LabelBoxes from '../labelbox/labelbox';
 import { Groups, FileUpload, FilterList, ArrowDropDown } from '@mui/icons-material';
 
 
@@ -23,16 +24,16 @@ function QuickSearchToolbar(props) {
   return (
     <div className={classes.root}>
       <Grid item xs={12} spacing={2} direction="row" container>
-        <Grid item xs={6} md={1.5} sx={6} sm={6}>
+        <Grid item xs={6} md={1.2} sx={6} sm={6}>
           <CustomButton btnName="Add" custombtnCSS="Primary" startIcon={<Groups />} onBtnClick={props.onAddClick} />
         </Grid>
-        <Grid item xs={6} md={1.5} sx={6} sm={6}>
+        <Grid item xs={6} md={1.2} sx={6} sm={6}>
           <CustomButton btnName="Upload" custombtnCSS="Cancel" startIcon={<FileUpload />} />
         </Grid>
-        <Grid item xs={6} md={1.5} sx={6} sm={6}>
+        <Grid item xs={6} md={1.2} sx={6} sm={6}>
           <CustomButton btnName="Filter" custombtnCSS="Cancel" startIcon={<FilterList />} />
         </Grid>
-        <Grid item xs={6} md={3} sx={6} sm={6}>
+        <Grid item xs={6} md={3} sx={6} sm={6} className='hideSearch'>
           <TextField
             variant="standard"
             value={props.value}
@@ -55,10 +56,20 @@ function QuickSearchToolbar(props) {
             }}
           />
         </Grid>
-        <Grid item xs={6} md={3} sx={6} sm={6}>
-        </Grid>
-        <Grid item xs={6} md={1.5} sx={6} sm={6}>
-          <CustomButton btnName="Action" custombtnCSS="Cancel" startIcon={<ArrowDropDown/>} />
+        {/* <Grid item xs={6} md={0.1} sx={6} sm={6}>
+        </Grid> */}
+        <Grid item xs={6} md={1.3} sx={6} sm={6}>
+          <LabelBoxes show type="select"
+            placeholder="Action"
+            dropdown={
+              [
+                { id: 1, value: 'Sort' },
+                { id: 2, value: 'Filter' }
+              ]
+            }
+
+          />
+          {/* <CustomButton btnName="Action" custombtnCSS="Cancel" startIcon={<ArrowDropDown />} /> */}
         </Grid>
       </Grid>
 

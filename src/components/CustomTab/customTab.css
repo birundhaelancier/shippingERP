@@ -57,3 +57,17 @@
  .tabContainer ::-webkit-scrollbar {
     display: none;
 } 
+.tableWeb{
+    display: block;
+}
+.tableMobile{
+    display: none;
+}
+@media only screen and (min-width: 320px) and (max-width: 453px)  {
+    .tableWeb{
+      display: none;
+    }
+    .tableMobile{
+        display: block !important;
+    }
+  }

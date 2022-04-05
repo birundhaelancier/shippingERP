@@ -146,7 +146,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn />
+                <FooterBtn  saveBtn={'Submit'}/>
             </Grid>
         </div>
     );

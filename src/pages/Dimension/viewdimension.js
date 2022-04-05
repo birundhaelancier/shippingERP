@@ -1,6 +1,6 @@
 import react from 'react'
 import Grid from '@mui/material/Grid';
-import CustomButton from '../../../components/Button';
+import CustomButton from '../../components/Button';
 // import './customer.css';
 
 const ViewDimension = () => {
@@ -14,8 +14,13 @@ const ViewDimension = () => {
                 </Grid>
                 <Grid item xs={12} md={3} sx={12} sm={12}>
                     <label className="labeltxt">Dimension Name</label>
-                    <div>Birundha</div>
-                </Grid>              
+                    <div>India</div>
+                </Grid>
+                <Grid item xs={12} md={3} sx={12} sm={12}>
+                    <label className="labeltxt">Dimension Code</label>
+                    <div>2</div>
+                </Grid>
+
                 <Grid item xs={12} md={3} sx={12} sm={12}>
                     <label className="labeltxt">Active Status</label>
                     <div>Completed</div>

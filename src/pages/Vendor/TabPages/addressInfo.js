@@ -98,7 +98,7 @@ export default function AddressInfo() {
 
     return (
         <div>
-            <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
+            <Grid item xs={12} md={8} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="select"
                         labelname="Address Type"
@@ -171,6 +171,7 @@ export default function AddressInfo() {
                         value={profileDetails.phone.value}
                         error={profileDetails.phone.error}
                         errmsg={profileDetails.phone.errmsg}
+                        showFlag
                     />
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
@@ -191,7 +192,7 @@ export default function AddressInfo() {
 
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn backBtn />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'}/>
             </Grid>
         </div>
     );

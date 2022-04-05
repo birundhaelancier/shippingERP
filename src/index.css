@@ -136,8 +136,12 @@ background-size: cover;
   width: 100%;
   justify-content: center;
   align-items: center;
-  background-color: #f4f6f9;
+  /* background-color: #f4f6f9; */
+  padding: 1rem;
+  box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px; 
+  /* height: 70vh; */
 }
+
 .pos_ab{
   position: absolute;
     bottom: 5px;
@@ -191,17 +195,17 @@ border-radius: 5px;
 }
 .wel_child_d{
   border-bottom: 0.5px solid;
-  width: fit-content;
+  /* width: fit-content; */
   line-height: 2.3;
   font-size: 16px;
   margin-bottom: 5px;
 }
 .wel_div{
-color: #fff;
-top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
+  color: #fff;
+  top: 50%;
+  left: 44%;
+  transform: translate(-44%, -50%);
+  position: absolute;
 }
 
 .ant-checkbox-checked .ant-checkbox-inner {

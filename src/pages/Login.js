@@ -5,7 +5,7 @@ import { Checkbox } from "antd";
 import CustomButton from "../components/Button";
 import HeaderView from "./Header";
 import { useHistory } from "react-router-dom";
-import logo from '../Images/loginlogo.png';
+import logo from '../Images/logologo.png';
 const image =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0-UQvi_u2uUPPs0QmfbVKpdr7rIXZJcgw4g&usqp=CAU";
 export default function Login() {
@@ -22,7 +22,7 @@ export default function Login() {
               <div className="lg_div_in">
                 <img
                   src={logo}
-                  style={{ width: "90px"}}
+                  style={{ width: "50%" }}
                 />
                 {/* <div style={{ color: "#027eba", fontWeight: "bold" }}>
                   Shipping ERP
@@ -46,8 +46,8 @@ export default function Login() {
                     Forgot Password?
                   </label>
                 </div>
-                <Divider />
-                <div
+                {/* <Divider /> */}
+                {/* <div
                   style={{
                     color: "#0098f5",
                     fontWeight: "500",
@@ -56,21 +56,30 @@ export default function Login() {
                     marginTop: "15px",
                   }}
                 >
-                  Register Now User?
-                </div>
+                  Register New User?
+                </div> */}
               </div>
             </div>
-            <p className='pos_ab'>© 2018 Shipping ERP,inc, All rights reserved. I <span style={{textDecoration:"underline",fontSize:"11px",marginBottom:"5px"}}>Privacy Policy</span></p>
+            <p className='pos_ab'>© 2018 LOGI NETICS,inc, All rights reserved. I <span style={{ textDecoration: "underline", fontSize: "11px", marginBottom: "5px" }}>Privacy Policy</span></p>
           </Grid>
           <Grid item xs={12} md={6} sx={12} sm={12} className="login2_le_pd">
             <div className="wel_div">
               <div className="wel_child_d">
-                Welcome to <span className="ship_tile">Shipping ERP</span>
+                Welcome to <span className="ship_tile">LOGI NETICS</span>
               </div>
               <p style={{ fontSize: "13px" }}>
-                Discover the ERP Built for Intergrated Logistics Solutions and Futuristic Digital Platform Built for Logistics Service Providers
-                Integrated Business Solution for Seamless Movement of Goods, Covers first Mile, Middle and Last Mile Delivery
-                SaaS Platform , Fully Customizable Solution  and Real-time Tracking
+                <ul>
+                  <li>
+                    Discover the ERP Built for Intergrated Logistics Solutions and Futuristic Digital Platform Built for Logistics Service Providers.<br />
+                  </li>
+                  <li>
+                    Integrated Business Solution for Seamless Movement of Goods, Covers first Mile.
+                  </li>
+                  <li>
+                    Middle and Last Mile Delivery
+                    SaaS Platform , Fully Customizable Solution  and Real-time Tracking
+                  </li>
+                </ul>
               </p>
             </div>
           </Grid>

@@ -6,20 +6,18 @@ import ContentHeader from '../../components/ContentHeader';
 import CustomButton from '../../components/Button';
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
-import ViewReason from './viewTypes/viewreason';
+import ViewDimension from './viewdimension';
 import CustomTable from '../../components/CustomTable';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 // import './customer.css';
 
-export default function DimensionDetails() {  
+export default function DimensionDetails() {
     const [openModal, setOpenModal] = useState(false);
-    let history = useHistory()
-
     const columnss = [
         { field: 'id', width: 130, headerName: 'S.No' },
-        { field: 'reasonId', width: 230, headerName: 'Reason Id' },
-        { field: 'reasonName', width: 230, headerName: 'Reason Name' },
+        { field: 'dimensionId', width: 230, headerName: 'Dimension Id' },
+        { field: 'dimensionName', width: 230, headerName: 'Dimension Type' },
         { field: 'activeStatus', width: 230, headerName: 'Active Status' },
         {
             field: "actions", headerName: "Actions",
@@ -33,39 +31,42 @@ export default function DimensionDetails() {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
-                        <div className="deleteSymbol"><Delete /></div>
-
+                        {/* <div className="deleteSymbol"><Delete /></div> */}
                     </div>
                 );
             }
         }
     ];
     const rows = [
-        { id: 1, reasonName: 'Birundha', reasonId: '1',activeStatus: "pending" },
-        { id: 2, reasonName: 'Divya', reasonId: '2',activeStatus: "pending" },
-        { id: 3, reasonName: 'Lakshmi', reasonId: '3',activeStatus: "pending" },
-        { id: 4, reasonName: 'Vicky', reasonId: '1',activeStatus: "pending" },
-        { id: 5, reasonName: 'Priya', reasonId: '2',activeStatus: "pending" },
+        { id: 1, dimensionName: 'Birundha', dimensionId: '1', activeStatus: "pending" },
+        { id: 2, dimensionName: 'Divya', dimensionId: '2', activeStatus: "pending" },
+        { id: 3, dimensionName: 'Lakshmi', dimensionId: '3', activeStatus: "pending" },
+        { id: 4, dimensionName: 'Vicky', dimensionId: '1', activeStatus: "pending" },
+        { id: 5, dimensionName: 'Priya', dimensionId: '2', activeStatus: "pending" },
     ];
+
+    let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
-        history.push("/addReason")
+        history.push("/addDimension")
     }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader headerTitle="Reason" BtnName="Add Reason" openFields={() => openFields()}  />
+                <ContentHeader openFields mainTitle={"Dimension"} count='20,000' heading={'Dimension'} />
             </Grid>
             <>
                 <CustomTable
                     rowData={rows}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
+                    onclickEye={(data) => setOpenModal(data)}
+                    onAddBtnClick={openFields}
                 />
-                <DynModel handleChangeModel={openModal} modelTitle={"Reason"}
+                <DynModel handleChangeModel={openModal} modelTitle={"Dimension"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewReason CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewDimension CloseModal={(bln) => setOpenModal(bln)} />
                         </>
                     }
                 />

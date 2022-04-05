@@ -16,8 +16,11 @@ import './siders.css';
 
 
 export default function SiderMenu(props) {
+    const [selectIndex, setSelectIndex]=useState(0)
+    console.log(selectIndex, 'item')
+
     return menu.map((item, key) =>
-        <MenuItem key={key} item={item} openMenu={props.openMenu} />
+        <MenuItem selected={selectIndex == key} key={key} item={item} openMenu={props.openMenu} onClick={()=>setSelectIndex(key)} />
     );
 }
 

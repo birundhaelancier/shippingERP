@@ -34,6 +34,7 @@ export default function AirportDetails(props) {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
+                        {/* <div className="deleteSymbol"><Delete /></div> */}
                     </div>
                 );
             }

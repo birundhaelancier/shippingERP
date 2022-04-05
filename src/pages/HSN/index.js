@@ -15,13 +15,15 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 export default function CurrencyDetails() {
     const [openModal, setOpenModal] = useState(false);
     const columnss = [
-        { field: 'id', width: 180, headerName: 'S.No' },
-        { field: 'hsnCode', width: 280, headerName: 'HSN Code' },
-        { field: 'description', width: 280, headerName: 'Description' },
+        { field: 'id', width: 100, headerName: 'S.No' },
+        { field: 'sectionName', width: 180, headerName: 'Section Name' },
+        { field: 'chapterName', width: 180, headerName: 'Chapter Name' },
+        { field: 'hsnCode', width: 180, headerName: 'HSN Code' },
+        { field: 'description', width: 180, headerName: 'Description' },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
-            width: 280,
+            width: 200,
             align: 'center',
             headerAlign: 'center',
             disableClickEventBubbling: true,
@@ -30,8 +32,7 @@ export default function CurrencyDetails() {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
-                        <div className="deleteSymbol"><Delete /></div>
-
+                        {/* <div className="deleteSymbol"><Delete /></div> */}
                     </div>
                 );
             }
@@ -40,11 +41,11 @@ export default function CurrencyDetails() {
 
 
     const rows = [
-        { id: 1, hsnCode: '1', description: "testing", activeStatus: "pending" },
-        { id: 2, hsnCode: '2', description: "testing", activeStatus: "pending" },
-        { id: 3, hsnCode: '3', description: "testing", activeStatus: "pending" },
-        { id: 4, hsnCode: '1', description: "testing", activeStatus: "pending" },
-        { id: 5, hsnCode: '2', description: "testing", activeStatus: "pending" },
+        { id: 1, sectionName: 'section', chapterName: 'chapter', hsnCode: '1', description: "testing", activeStatus: "pending" },
+        { id: 2, sectionName: 'section', chapterName: 'chapter', hsnCode: '2', description: "testing", activeStatus: "pending" },
+        { id: 3, sectionName: 'section', chapterName: 'chapter', hsnCode: '3', description: "testing", activeStatus: "pending" },
+        { id: 4, sectionName: 'section', chapterName: 'chapter', hsnCode: '1', description: "testing", activeStatus: "pending" },
+        { id: 5, sectionName: 'section', chapterName: 'chapter', hsnCode: '2', description: "testing", activeStatus: "pending" },
     ];
     let history = useHistory()
     const openFields = () => {
@@ -54,13 +55,16 @@ export default function CurrencyDetails() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader headerTitle="HSN Code" BtnName="Add HSN Code" openFields={() => openFields()} />
+            <ContentHeader openFields mainTitle={"HSN Code"} count='20,000' heading={'HSN Code'} />
+               
             </Grid>
             <>
                 <CustomTable
                     rowData={rows}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
+                    onclickEye={(data) => setOpenModal(data)}
+                    onAddBtnClick={openFields}
                 />
                 <DynModel handleChangeModel={openModal} modelTitle={"HSN Code"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={

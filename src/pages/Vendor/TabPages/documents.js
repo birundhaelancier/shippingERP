@@ -32,7 +32,16 @@ export default function Documents() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" justifyContent={'center'} container>
-               
+            <Grid item xs={12} md={12} sx={12} sm={12}>
+                    <AddFieldsBtn fieldName='Add Documents' />
+                </Grid>
+                {uploadFileList.map((val) => {
+                    return (
+                        <Grid item xs={12} md={12} sx={12} sm={12}>
+                            <div className='uploadFiles'>{val.file}</div>
+                        </Grid>
+                    )
+                })}
                 <Grid item xs={12} md={12} sx={12} sm={12}>
                     <div className='uploadDescription'>
                         {Description.map((val)=>{
@@ -46,19 +55,10 @@ export default function Documents() {
 
                     </div>
                 </Grid>
-                <Grid item xs={12} md={12} sx={12} sm={12}>
-                    <AddFieldsBtn fieldName='Add Documents' />
-                </Grid>
-                {uploadFileList.map((val) => {
-                    return (
-                        <Grid item xs={12} md={12} sx={12} sm={12}>
-                            <div className='uploadFiles'>{val.file}</div>
-                        </Grid>
-                    )
-                })}
+              
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn backBtn />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} />
             </Grid>
         </div>
     );

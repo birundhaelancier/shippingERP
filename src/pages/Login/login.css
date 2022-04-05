@@ -1,0 +1,63 @@
+.masterContainer {
+    height: 100vh;
+}
+
+.left_Container {
+    background: white;
+    height: calc(100vh);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    left: 0;
+}
+
+.right_Container {
+    /* background-color: red; */
+    background-image: url('../../Images/banner.jpg');
+    height: calc(100vh);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    right: 0;
+}
+
+.pos_abs {
+    font-size: 11px;
+    margin-top: 1rem;
+}
+
+.backImage{
+    background-image: url('../../Images/banner.jpg') !important;
+    position: relative !important;
+    background-size: cover;
+    opacity: 0.9;
+    padding: 1rem;
+    box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px; 
+}
+
+.login2_le {
+    background-image: url('../../Images/ship1.jpg') !important;
+    /* position: relative !important;
+    background-size: cover;
+    opacity: 0.9;
+    padding: 1rem;
+    box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;  */
+    background-size: cover;
+
+}
+
+.inside_box {
+    padding: 4.8rem 0;
+    color: white;
+    width: 20rem;
+
+}
+
+.subContainer .MuiGrid-item {
+    padding-left: 0px !important;
+}
+
+.login_description {
+    padding: 8rem 5.5rem;
+    color: white;
+}

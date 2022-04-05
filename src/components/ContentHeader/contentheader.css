@@ -48,7 +48,7 @@
 
    .tableView{
        display: grid;
-       grid-template-columns: 6rem 2.5rem 3rem auto;
+       grid-template-columns: auto 2.5rem 4rem auto;
        align-items: center;
    }
    .tableView div:first-child{
@@ -59,6 +59,7 @@
    .editIcon svg{
        color: var(--main-theme-color);
        font-size: 1.5rem;
+       margin-left: 5px;
    }
    .countView{
        color: gray;
@@ -70,11 +71,12 @@
    .mainValue{
        display: flex;
        align-items: center;
+       margin-bottom: 0.5rem;
    }
    .mainValue div:first-child{
        color: var(--main-theme-color);
        font-weight: 600;
-       font-size: 1rem;
+       font-size: 1.3rem;
        margin-right: 0.5rem;
    }
    .mainValue div:last-child{

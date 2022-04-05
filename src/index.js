@@ -5,6 +5,7 @@ import App from './App';
 import ResponsiveDrawerfrom from './layout';
 import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css'; 
+import 'react-phone-number-input/style.css'
 import { Provider } from 'react-redux';
 import store from './Redux/Store/store';
 

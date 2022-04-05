@@ -17,12 +17,12 @@ export default function AddCountry() {
 
     const tabArray = [
         { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo /> },
-        { icon: <CheckCircle />, title: '', description: '' },
-        { icon: <CheckCircle />, title: '', description: '' },
-        { icon: <CheckCircle />, title: '', description: '' },
-        { icon: <CheckCircle />, title: '', description: ''},
-        // { icon: <CheckCircle />, title: 'Payments Terms', description: 'de65' },
-        { icon: <CheckCircle />, title: '', description: '' },
+        { icon: '', title: '', description: '' },
+        { icon: '', title: '', description: '' },
+        { icon: '', title: '', description: '' },
+        { icon: '', title: '', description: ''},
+        // { icon: '', title: 'Payments Terms', description: 'de65' },
+        { icon: '', title: '', description: '' },
     ]
 
     return (

@@ -179,7 +179,7 @@ export default function KycDeatils() {
 
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn backBtn />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} />
             </Grid>
         </div>
     );

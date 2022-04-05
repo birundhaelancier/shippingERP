@@ -113,7 +113,7 @@ export default function GeneralInfo() {
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="number"
-                        labelname="Country Id"
+                        labelname="Country Name"
                         changeData={(data) => Validation(data, "countryId")}
                         value={seaportInfo.countryId.value}
                         error={seaportInfo.countryId.error}
@@ -143,7 +143,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn />
+                <FooterBtn saveBtn={'Submit'} />
             </Grid>
         </div>
     );

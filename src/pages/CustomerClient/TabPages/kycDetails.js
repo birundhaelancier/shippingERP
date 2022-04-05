@@ -77,9 +77,9 @@ export default function KycDeatils() {
 
     return (
         <div>
-            <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
+            <Grid item xs={12} md={8} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
                 <Grid item xs={12} md={10} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
-                    <Grid item xs={12} md={11} sx={12} sm={12}>
+                    <Grid item xs={12} md={12} sx={12} sm={12}>
                         <Labelbox show type="number"
                             labelname="PAN Number"
                             changeData={(data) => Validation(data, "pan")}
@@ -183,7 +183,7 @@ export default function KycDeatils() {
 
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn backBtn />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} />
             </Grid>
         </div>
     );

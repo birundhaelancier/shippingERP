@@ -138,16 +138,9 @@ export default function GeneralInfo() {
                 <AddFieldsBtn fieldName='Add Additional Field' />
                 {/* AddFieldBtn={() => setFieldModal(true)} */}
             </Grid>
-            <DynModel handleChangeModel={FieldModal} modelTitle={"Add Fields"}
-                modalchanges="recruit_modal_css" handleChangeCloseModel={() => setFieldModal(false)} width={600} content={
-                    <>
-                        <AddFields CloseModal={(bln) => setFieldModal(bln)} addObj={(data) => addInputBox(data)} />
-                    </>
-                }
-            />
-
+           
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn />
+                <FooterBtn saveBtn={'Submit'}/>
             </Grid>
         </div>
     );

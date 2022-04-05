@@ -1,0 +1,83 @@
+.btnShow{
+    display: grid;
+    grid-template-columns: 7rem 7rem;
+}
+.btnShow button{
+    margin-right: 10px;
+}
+
+/* Modal */
+.labeltxt{
+    color: var(--main-theme-color);
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+.add_icons{
+    color: var(--main-theme-color);
+    font-weight:bolder;
+    font-size: 25px;
+    cursor: pointer;
+}
+.add_icons svg{
+    font-size: 1.5rem;
+}
+.remove_icons svg{
+    font-size: 1.5rem;
+    color: var(--main-theme-color);
+    font-weight:bolder;
+    cursor: pointer;
+}
+
+/* cardView */
+
+.cardView{
+    background: white;
+    margin: 15px 10px;
+    box-shadow: 0px 1px 3px 1px rgba(162, 165, 168, 0.12) ;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* DocumentTab */
+
+.uploadDescription{
+    /* box-shadow: 1px 1px 5px 2px rgba(49, 129, 209, 0.12) ; */
+    border: 1px solid rgb(240, 240, 240);
+    padding: 10px;
+    background: rgb(243, 243, 243);
+}
+
+.uploadContent{
+    display: grid;
+    grid-template-columns: 2rem auto;
+    align-items: center;
+}
+.startIcon svg{
+    color: var(--main-theme-color);
+    font-size: 1rem;
+}
+.uploadData{
+    color: var(--main-theme-color);
+    font-size: 0.8rem;
+}
+
+.uploadFiles{
+    color: var(--main-theme-color);
+    font-size: 1rem;
+    padding-left: 2rem;
+}
+
+.labeltxtView{
+    color: var(--main-theme-color);
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.mobile_label .custom_labelbox{
+    position: relative;
+    bottom: 5px;
+}

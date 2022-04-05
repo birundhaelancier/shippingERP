@@ -5,7 +5,7 @@ import {
   Switch,Route
 } from "react-router-dom";
 import ResponsiveDrawer from './layout';
-import Login from './pages/Login'
+import Login from './pages/Login/index'
 import { HashRouter } from 'react-router-dom';
 function Routing() {
   return (

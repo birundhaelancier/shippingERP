@@ -27,11 +27,7 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick 
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol"><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
-                        <div className="deleteSymbol"><Delete /></div>
-
-                        {/* <button title="Edit customer" className="btn btn-sm mx-3 btn-icon btn-success" > <span className="svg-icon svg-icon-md"> <EyeOutlined /> </span> </button>
-                        <button title="Edit customer" className="btn btn-icon btn-sm mx-3 btn-danger" >  <span className="svg-icon svg-icon-md"> r </span> </button>
-                        <button title="Edit customer" className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"> <span className="svg-icon svg-icon-md svg-icon-primary"> y </span> </button> */}
+                        {/* <div className="deleteSymbol"><Delete /></div> */}
                     </div>
                 );
             }
@@ -53,8 +49,6 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick 
     const openList = () => {
         onclickEye(true);
     }
-
-    console.log(rowData, columnData, 'test')
     return (
         <div>
             <div className='tableWeb'>
@@ -77,6 +71,9 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick 
                 </div>
             </div>
             <div className='tableMobile'>
+                <Grid>
+                    <QuickSearchToolbar onAddClick={onAddBtnClick} />
+                </Grid>
                 {rowData.map((data, index) => {
                     return (
                         <Grid item xs={12} spacing={2} direction="row" container className='card_container' >

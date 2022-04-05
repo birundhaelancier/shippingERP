@@ -12,7 +12,7 @@
   display: grid;
   grid-template-columns: 10rem auto;
   /* justify-content: space-between; */
-  /* align-items: center */
+  align-items: center
 }
 .formShow {
   width: 100%;
@@ -295,4 +295,26 @@
 
 .ant-select-dropdown-menu-item {
   color: rgb(102, 98, 98);
+}
+/* flag */
+input[type=tel] {
+  /* Awesome styling */
+  border: none;
+}
+input[type=tel]:focus {
+  /* Awesome styling */
+  outline: none !important;
+}
+
+.brdrclsFlag{
+  width: 100%;
+  outline: 0;
+  font-size: 13px;
+  padding: .5rem .75rem;
+  /* box-shadow: 0 0 1.5px 0px #ccc; */
+  background-clip: padding-box;
+  border: 1px solid var(--main-theme-color);
+  border-radius: .25rem;
+  /* height: 35px; */
+  color: black;
 }

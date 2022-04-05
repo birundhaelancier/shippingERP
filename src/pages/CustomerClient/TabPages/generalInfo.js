@@ -10,8 +10,6 @@ import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
 
-
-
 export default function GeneralInfo() {
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
@@ -69,6 +67,7 @@ export default function GeneralInfo() {
             { type: "text", labelName: "Skype Id", validation: ["required"], arrVal: [] },
         ]
     )
+    const [value, setValue] = useState();
 
     const Validation = (data, key, list) => {
         var errorcheck = ValidationLibrary.checkValidation(
@@ -120,9 +119,10 @@ export default function GeneralInfo() {
             ]));
         }
     }
+    console.log(value, 'value');
     return (
         <div>
-            <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
+            <Grid item xs={12} md={8}  sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Customer Id"
@@ -133,21 +133,22 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
-                    <Grid item xs={12} md={6} sx={12} sm={12}>
-                        <Labelbox show type="select"
-                            labelname="Primary Contact"
-                            placeholder="Salutation"
+                    <Grid item xs={12} md={3.3} sx={12} sm={12}>
+                        <div className='labeltxtLabel'>Primary Contact</div>
+                    </Grid>
+                    <Grid item xs={12} md={1.7} sx={12} sm={12}>
+                        <LabelBoxes show type="select"
+                            placeholder='Salutation'
                             changeData={(data) => Validation(data, "primary")}
                         />
                     </Grid>
-                    <Grid item xs={12} md={3} sx={12} sm={12}>
+                    <Grid item xs={12} md={3.5} sx={12} sm={12}>
                         <LabelBoxes show type="text"
                             placeholder='First Name'
                             changeData={(data) => Validation(data, "primary")}
-
                         />
                     </Grid>
-                    <Grid item xs={12} md={3} sx={12} sm={12}>
+                    <Grid item xs={12} md={3.5} sx={12} sm={12}>
                         <LabelBoxes show type="text"
                             placeholder='Last Name'
                             changeData={(data) => Validation(data, "primary")}
@@ -158,7 +159,7 @@ export default function GeneralInfo() {
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Customer Name"
+                        labelname="Company Name"
                         changeData={(data) => Validation(data, "customerName")}
                         value={profileDetails.customerName.value}
                         error={profileDetails.customerName.error}
@@ -176,27 +177,27 @@ export default function GeneralInfo() {
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Customer Email"
+                        labelname="Email"
                         changeData={(data) => Validation(data, "customerEmail")}
                         value={profileDetails.customerEmail.value}
                         error={profileDetails.customerEmail.error}
                         errmsg={profileDetails.customerEmail.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
+                <Grid item xs={12} md={10} sx={12} sm={12} spacing={1} direction="row" justifyContent={'center'} container>
                     <Grid item xs={12} md={8} sx={12} sm={12}>
-                        <Labelbox show type="text"
-                            labelname="Customer Phone"
+                        <Labelbox show type="number"
+                            labelname="Phone"
                             placeholder="Work Phone"
                             changeData={(data) => Validation(data, "primary")}
-
+                            showFlag
                         />
                     </Grid>
-                    <Grid item xs={12} md={4} sx={12} sm={12}>
-                        <LabelBoxes show type="text"
+                    <Grid item xs={12} md={4} sx={12} sm={12} className='mobile_label'>
+                        <LabelBoxes show type="number"
                             placeholder='Mobile'
                             changeData={(data) => Validation(data, "primary")}
-
+                            showFlag
                         />
                     </Grid>
 
@@ -205,7 +206,7 @@ export default function GeneralInfo() {
                     <Labelbox show type="text"
                         labelname="Website"
                         changeData={(data) => Validation(data, "activeStatus")}
-                      
+
                     />
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
@@ -233,7 +234,7 @@ export default function GeneralInfo() {
                 })}
 
             </Grid>
-            <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container style={{ position: 'relative', bottom: '50px' }}>
+            <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container className='addBtnPosition'>
                 <AddFieldsBtn fieldName='Add Additional Field' />
                 {/* AddFieldBtn={() => setFieldModal(true)} */}
             </Grid>
@@ -246,7 +247,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn />
+                <FooterBtn nextBtn saveBtn={"Save Stage"} />
             </Grid>
         </div>
     );

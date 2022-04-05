@@ -18,7 +18,7 @@ export default function CountryDetails() {
         { field: 'id', width: 100, headerName: 'S.No' },
         { field: 'countryId', width: 150, headerName: 'Country Id' },
         { field: 'countryName', width: 200, headerName: 'Country Name' },
-        { field: 'countryCode', width: 200, headerName: 'Currency Code' },
+        { field: 'countryCode', width: 200, headerName: 'Country Code' },
         { field: 'activeStatus', width: 200, headerName: 'Active Status' },
         {
             field: "actions", headerName: "Actions",
@@ -32,6 +32,7 @@ export default function CountryDetails() {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
+                        {/* <div className="deleteSymbol"><Delete /></div> */}
                     </div>
                 );
             }

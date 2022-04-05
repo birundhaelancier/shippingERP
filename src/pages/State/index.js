@@ -16,10 +16,9 @@ export default function StateDetails() {
     const [openModal, setOpenModal] = useState(false);
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
-        { field: 'currencyId', width: 150, headerName: 'Currency Id' },
-        { field: 'currencyName', width: 150, headerName: 'Currency Name' },
-        { field: 'countryId', width: 150, headerName: 'Country Name' },
-        { field: 'countryName', width: 150, headerName: 'Country Name' },
+        { field: 'stateId', width: 170, headerName: 'State Id' },
+        { field: 'stateName', width: 170, headerName: 'State Name' },
+        { field: 'countryName', width: 170, headerName: 'Country Name' },
         { field: 'activeStatus', width: 200, headerName: 'Active Status' },
         {
             field: "actions", headerName: "Actions",
@@ -33,8 +32,7 @@ export default function StateDetails() {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
                         <div className="editSymbol"><Edit /></div>
-                        <div className="deleteSymbol"><Delete /></div>
-
+                        {/* <div className="deleteSymbol"><Delete /></div> */}
                     </div>
                 );
             }
@@ -43,11 +41,11 @@ export default function StateDetails() {
 
 
     const rows = [
-        { id: 1, currencyName: 'Birundha', currencyId: '1', countryId: "1", countryName: 'India', activeStatus: "pending" },
-        { id: 2, currencyName: 'Divya', currencyId: '2', countryId: "2", countryName: 'India', activeStatus: "pending" },
-        { id: 3, currencyName: 'Lakshmi', currencyId: '3', countryId: "3", countryName: 'India', activeStatus: "pending" },
-        { id: 4, currencyName: 'Vicky', currencyId: '1', countryId: "5", countryName: 'India', activeStatus: "pending" },
-        { id: 5, currencyName: 'Priya', currencyId: '2', countryId: "4", countryName: 'India', activeStatus: "pending" },
+        { id: 1, stateName: 'Birundha', stateId: '1', countryId: "1", countryName: 'India', activeStatus: "pending" },
+        { id: 2, stateName: 'Divya', stateId: '2', countryId: "2", countryName: 'India', activeStatus: "pending" },
+        { id: 3, stateName: 'Lakshmi', stateId: '3', countryId: "3", countryName: 'India', activeStatus: "pending" },
+        { id: 4, stateName: 'Vicky', stateId: '1', countryId: "5", countryName: 'India', activeStatus: "pending" },
+        { id: 5, stateName: 'Priya', stateId: '2', countryId: "4", countryName: 'India', activeStatus: "pending" },
     ];
 
     let history = useHistory()

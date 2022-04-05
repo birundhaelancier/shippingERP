@@ -5,6 +5,8 @@ import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
 import AddFieldsBtn from '../../../components/AddFieldsBtn';
 import FooterBtn from '../../../components/FooterButtons';
+import LabelBoxes from '../../../components/labelbox/labelbox';
+
 
 
 export default function ContactPerson() {
@@ -85,69 +87,64 @@ export default function ContactPerson() {
 
     return (
         <div>
-            <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
-            <Grid item xs={12} md={6} sx={12} sm={12}>
-                    <Labelbox show type="select"
-                        labelname="Salutation"
-                        changeData={(data) => Validation(data, "salutation")}
-                        value={profileDetails.salutation.value}
-                        error={profileDetails.salutation.error}
-                        errmsg={profileDetails.salutation.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                   
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="First Name"
-                        changeData={(data) => Validation(data, "firstName")}
-                        value={profileDetails.firstName.value}
-                        error={profileDetails.firstName.error}
-                        errmsg={profileDetails.firstName.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Last Name"
-                        changeData={(data) => Validation(data, "lastName")}
-                        value={profileDetails.lastName.value}
-                        error={profileDetails.lastName.error}
-                        errmsg={profileDetails.lastName.errmsg}
-                    />
+            <Grid item xs={12} md={8} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
+                <Grid item xs={12} md={10} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
+                    <Grid item xs={12} md={3.3} sx={12} sm={12}>
+                        <div className='labeltxtLabel'>Primary Contact</div>
+                    </Grid>
+                    <Grid item xs={12} md={1.7} sx={12} sm={12}>
+                        <LabelBoxes show type="select"
+                            placeholder='Salutation'
+                            changeData={(data) => Validation(data, "primary")}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={3.5} sx={12} sm={12}>
+                        <LabelBoxes show type="text"
+                            placeholder='First Name'
+                            changeData={(data) => Validation(data, "primary")}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={3.5} sx={12} sm={12}>
+                        <LabelBoxes show type="text"
+                            placeholder='Last Name'
+                            changeData={(data) => Validation(data, "primary")}
+
+                        />
+                    </Grid>
+
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Email Address"
+                        labelname="Email"
                         changeData={(data) => Validation(data, "email")}
                         value={profileDetails.email.value}
                         error={profileDetails.email.error}
                         errmsg={profileDetails.email.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Work Phone"
-                        changeData={(data) => Validation(data, "phone")}
-                        value={profileDetails.phone.value}
-                        error={profileDetails.phone.error}
-                        errmsg={profileDetails.phone.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Mobile"
-                        changeData={(data) => Validation(data, "mobile")}
-                        value={profileDetails.mobile.value}
-                        error={profileDetails.mobile.error}
-                        errmsg={profileDetails.mobile.errmsg}
-                    />
+                <Grid item xs={12} md={10} sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
+                    <Grid item xs={12} md={8} sx={12} sm={12}>
+                        <Labelbox show type="number"
+                            labelname="Phone"
+                            placeholder="Work Phone"
+                            changeData={(data) => Validation(data, "primary")}
+                            showFlag
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4} sx={12} sm={12} className='mobile_label'>
+                        <LabelBoxes show type="number"
+                            placeholder='Mobile'
+                            changeData={(data) => Validation(data, "primary")}
+                            showFlag
+                        />
+                    </Grid>
+
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Website"
                         changeData={(data) => Validation(data, "mobile")}
-                        
+
                     />
                 </Grid>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
@@ -166,14 +163,14 @@ export default function ContactPerson() {
                             />
                         </Grid>
                     )
-                })}            
+                })}
             </Grid>
             <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container style={{ position: 'relative', bottom: '50px' }}>
-                    <AddFieldsBtn fieldName='Add Additional Field' />
-                    {/* AddFieldBtn={() => setFieldModal(true)} */}
-                </Grid>
+                <AddFieldsBtn fieldName='Add Additional Field' />
+                {/* AddFieldBtn={() => setFieldModal(true)} */}
+            </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn backBtn />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} />
             </Grid>
         </div >
     );

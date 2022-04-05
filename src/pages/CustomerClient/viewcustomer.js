@@ -1,7 +1,7 @@
 import react from 'react'
 import Grid from '@mui/material/Grid';
 import CustomButton from '../../components/Button';
-import './customer.css';
+import '../customer.css';
 
 const ViewCustomer = () => {
 

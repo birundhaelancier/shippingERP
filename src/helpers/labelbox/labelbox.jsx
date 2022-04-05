@@ -12,6 +12,7 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import MomentUtils from "@date-io/moment";
+import PhoneInput from 'react-phone-number-input';
 // import DateFnsUtils from '@date-io/date-fns';
 // import {
 //   MuiPickersUtilsProvider,
@@ -86,7 +87,7 @@ export default class Labelbox extends Component {
 						<input className={`${data.error && "brdred"} brdrcls`} value={this.props.value} maxLength={this.props.maxlength} type="text"
 							onChange={(e) => this.props.changeData && this.props.changeData(e.target.value)}
 							onBlur={(e) => this.props.SubmitData && this.props.SubmitData(e.target.value)}
-							placeholder={this.props.placeholder} disabled={this.props.disabled} hidden={this.props.hidden}/>
+							placeholder={this.props.placeholder} disabled={this.props.disabled} hidden={this.props.hidden} />
 						{
 							<div className="Errormsg">
 								<div>{data.error && data.errmsg}</div>
@@ -101,7 +102,17 @@ export default class Labelbox extends Component {
 				<div className="formdiv">
 					<label className="labeltxt">{data.labelname}</label>
 					<div>
-						<input className={`${data.error && "brdred"} brdrcls`} min="0" value={this.props.value} type="number" onChange={(e) => this.props.changeData && this.props.changeData(e.target.value)} onKeyDown={e => (e.key === "e" || e.key === "+" || e.key === "-") && e.preventDefault()} disabled={this.props.disabled} />
+						{data.showFlag ?
+							<PhoneInput
+								international
+								countryCallingCodeEditable={false}
+								placeholder={this.props.placeholder}
+								defaultCountry="IN"
+								className={`${data.error && "brdred"} brdrclsFlag`} min="0" value={this.props.value} onChange={(val) => this.props.changeData && this.props.changeData(val)} disabled={this.props.disabled}
+							/>
+							:
+							<input className={`${data.error && "brdred"} brdrcls`} min="0" value={this.props.value} type="number" onChange={(e) => this.props.changeData && this.props.changeData(e.target.value)} onKeyDown={e => (e.key === "e" || e.key === "+" || e.key === "-") && e.preventDefault()} disabled={this.props.disabled} />
+						}
 						{
 							<div className="Errormsg">
 								<div>{data.error && data.errmsg}</div>
@@ -174,7 +185,7 @@ export default class Labelbox extends Component {
 								format="D-MM-YYYY"
 								margin="normal"
 								id="date-picker-inline"
-								
+
 								// value={this.state.selecteddate}
 								InputProps={{ readOnly: true }}
 								value={this.props.value === "" ? null : this.props.value}
@@ -221,10 +232,10 @@ export default class Labelbox extends Component {
 								minTime={this.props.minTime && this.props.minTime}
 								maxTime={this.props.maxTime && this.props.maxTime}
 								InputProps={{ readOnly: true }}
-								// keyboardIcon={<img src={TimerIcon} className="labelboxTimePicker"
-								// 	minTime={this.props.minTime && this.props.minTime}
-								// 	maxTime={this.props.maxTime && this.props.maxTime} />
-								// }
+							// keyboardIcon={<img src={TimerIcon} className="labelboxTimePicker"
+							// 	minTime={this.props.minTime && this.props.minTime}
+							// 	maxTime={this.props.maxTime && this.props.maxTime} />
+							// }
 							/>
 						</MuiPickersUtilsProvider>
 						{

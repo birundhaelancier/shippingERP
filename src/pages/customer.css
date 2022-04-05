@@ -14,6 +14,15 @@
     font-weight: 600;
     margin-bottom: 2px;
 }
+.labeltxtLabel{
+    color: var(--main-theme-color);
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    /* text-align: center; */
+}
 .add_icons{
     color: var(--main-theme-color);
     font-weight:bolder;
@@ -37,6 +46,7 @@
     margin: 15px 10px;
     box-shadow: 0px 1px 3px 1px rgba(162, 165, 168, 0.12) ;
     padding-right: 1rem;
+    padding-bottom: 1rem;
 }
 
 /* DocumentTab */
@@ -66,4 +76,28 @@
     color: var(--main-theme-color);
     font-size: 1rem;
     padding-left: 2rem;
+}
+
+.labeltxtView{
+    color: var(--main-theme-color);
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.mobile_label .custom_labelbox{
+    position: relative;
+    bottom: 5px;
+}
+
+.addBtnPosition{
+    position: relative;
+    bottom: 50px;
+}
+@media only screen and (min-width: 320px) and (max-width: 453px) {
+    .addBtnPosition{
+        position: relative;
+        bottom: 0px;
+    }
 }

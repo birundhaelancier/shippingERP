@@ -19,6 +19,8 @@ import MomentUtils from "@date-io/moment";
 //   KeyboardDatePicker,
 // } from '@material-ui/pickers';
 import { DatePicker, Select } from 'antd';
+import PhoneInput from 'react-phone-number-input';
+
 // import SelectionIcon from '../../images/select.svg';
 // import TimerIcon from '../../images/timerIcon.svg';
 import { TimePicker } from '@material-ui/pickers'
@@ -80,13 +82,13 @@ export default class Labelbox extends Component {
 	renderinput = (data) => {
 		if (data.type == 'text') {
 			return (
-				<div className="formShow inputlabel">
+				<div className="formShows inputlabel">
 					<label className="labeltxt">{data.labelname}</label>
 					<div>
 						<input className={`${data.error && "brdred"} brdrcls`} value={this.props.value} maxLength={this.props.maxlength} type="text"
 							onChange={(e) => this.props.changeData && this.props.changeData(e.target.value)}
 							onBlur={(e) => this.props.SubmitData && this.props.SubmitData(e.target.value)}
-							placeholder={this.props.placeholder} disabled={this.props.disabled} hidden={this.props.hidden}/>
+							placeholder={this.props.placeholder} disabled={this.props.disabled} hidden={this.props.hidden} />
 						{
 							<div className="Errormsg">
 								<div>{data.error && data.errmsg}</div>
@@ -98,10 +100,19 @@ export default class Labelbox extends Component {
 			)
 		} else if (data.type == 'number') {
 			return (
-				<div className="formShow">
+				<div className="formShows">
 					<label className="labeltxt">{data.labelname}</label>
 					<div>
-						<input className={`${data.error && "brdred"} brdrcls`} min="0" value={this.props.value} type="number" onChange={(e) => this.props.changeData && this.props.changeData(e.target.value)} onKeyDown={e => (e.key === "e" || e.key === "+" || e.key === "-") && e.preventDefault()} disabled={this.props.disabled} />
+						{data.showFlag ?
+							<PhoneInput
+								international
+								countryCallingCodeEditable={false}
+								placeholder={this.props.placeholder}
+								defaultCountry="IN"
+								className={`${data.error && "brdred"} brdrclsFlag`} min="0" value={this.props.value} onChange={(val) => this.props.changeData && this.props.changeData(val)} disabled={this.props.disabled}
+							/>
+							:
+							<input className={`${data.error && "brdred"} brdrcls`} min="0" placeholder={this.props.placeholder} value={this.props.value} type="number" onChange={(e) => this.props.changeData && this.props.changeData(e.target.value)} onKeyDown={e => (e.key === "e" || e.key === "+" || e.key === "-") && e.preventDefault()} disabled={this.props.disabled} />}
 						{
 							<div className="Errormsg">
 								<div>{data.error && data.errmsg}</div>
@@ -114,7 +125,7 @@ export default class Labelbox extends Component {
 			)
 		} else if (data.type == 'textarea') {
 			return (
-				<div className="formShow">
+				<div className="formShows">
 					<label className="labeltxt">{data.labelname}</label>
 					<div>
 						<textarea className={`${data.error && "brdred"} brdrcls`} rows={this.props.rows} cols="50" value={this.props.value} placeholder={this.props.placeholder} onChange={(e) => this.props.changeData && this.props.changeData(e.target.value)} disabled={this.props.disabled}></textarea>
@@ -131,7 +142,7 @@ export default class Labelbox extends Component {
 		} else if (data.type == 'radio') {
 			// console.log(this.props.checked,"checked")
 			return (
-				<div className="formShow">
+				<div className="formShows">
 					<label className="labeltxt">{data.labelname}</label>
 					<div>
 						<FormControlLabel control={<Radio className="radiobtncolor" icon={<RadioButtonUncheckedIcon fontSize="small" />}
@@ -151,7 +162,7 @@ export default class Labelbox extends Component {
 			const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
 			return (
-				<div className="formShow">
+				<div className="formShows">
 					<label className="labeltxt">{data.labelname}</label>
 					<div className={`${data.error && "datePickerbrdred"} ${this.props.className}`}>
 						{console.log(this.props.format === "MMM-yyyy", "teyyyyst")}
@@ -174,7 +185,7 @@ export default class Labelbox extends Component {
 								format="D-MM-YYYY"
 								margin="normal"
 								id="date-picker-inline"
-								
+
 								// value={this.state.selecteddate}
 								InputProps={{ readOnly: true }}
 								value={this.props.value === "" ? null : this.props.value}
@@ -203,7 +214,7 @@ export default class Labelbox extends Component {
 			const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
 			return (
-				<div className="formShow">
+				<div className="formShows">
 					<label className="labeltxt">{data.labelname}</label>
 					<div >
 
@@ -221,10 +232,10 @@ export default class Labelbox extends Component {
 								minTime={this.props.minTime && this.props.minTime}
 								maxTime={this.props.maxTime && this.props.maxTime}
 								InputProps={{ readOnly: true }}
-								// keyboardIcon={<img src={TimerIcon} className="labelboxTimePicker"
-								// 	minTime={this.props.minTime && this.props.minTime}
-								// 	maxTime={this.props.maxTime && this.props.maxTime} />
-								// }
+							// keyboardIcon={<img src={TimerIcon} className="labelboxTimePicker"
+							// 	minTime={this.props.minTime && this.props.minTime}
+							// 	maxTime={this.props.maxTime && this.props.maxTime} />
+							// }
 							/>
 						</MuiPickersUtilsProvider>
 						{
@@ -268,7 +279,7 @@ export default class Labelbox extends Component {
 				selectValue = optionValue
 			}
 			return (
-				<div className="formShow">
+				<div className="formShows">
 					<label className="labeltxt">{data.labelname}</label>
 
 					<Select disabled={this.props.disabled && true}
