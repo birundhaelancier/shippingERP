@@ -21,23 +21,27 @@ export default function Documents() {
     ]
 
     const uploadFileList = [
-        { file: 'Document1.pdf' },
-        { file: 'Document2.pdf' },
-        { file: 'Document3.pdf' },
-        { file: 'Document4.pdf' },
-        { file: 'Document5.pdf' },
+        { file: 'Document1', value: 'Document1.pdf' },
     ]
 
     return (
         <div>
-            <Grid item xs={12} spacing={2} direction="row" justifyContent={'center'} container>
-            <Grid item xs={12} md={12} sx={12} sm={12}>
+            <Grid item xs={12} spacing={2} direction="row" alignItems={'center'} container>
+                <Grid item xs={12} md={12} sx={12} sm={12}>
                     <AddFieldsBtn fieldName='Add Documents' />
                 </Grid>
                 {uploadFileList.map((val) => {
                     return (
-                        <Grid item xs={12} md={12} sx={12} sm={12}>
-                            <div className='uploadFiles'>{val.file}</div>
+                        <Grid item xs={12} md={6} sx={12} sm={12} spacing={2} direction="row" alignItems={'center'} container>
+                            <Grid item xs={12} md={11} sx={12} sm={12}>
+                                <Labelbox show type="text"
+                                    labelname={val.file}
+                                    value={val.value}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={0.6} sx={12} sm={12}>
+                                <UploadFiles show />
+                            </Grid>
                         </Grid>
                     )
                 })}
@@ -55,7 +59,7 @@ export default function Documents() {
 
                     </div>
                 </Grid>
-              
+
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
                 <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} />

@@ -35,7 +35,7 @@ export default function Login() {
 
                                 <div className="for_drm">
                                     <Checkbox>Remember me</Checkbox>
-                                    <label style={{ color: "#0098f5", fontWeight: "500" }}>
+                                    <label style={{ color: "#0098f5", fontWeight: "500", fontSize: '13px' }}>
                                         Forgot Password?
                                     </label>
                                 </div>
@@ -52,22 +52,21 @@ export default function Login() {
                         <Grid item xs={12} md={12} sx={12} sm={12} className='backImage' direction="row" alignItems={'center'} justifyContent={'center'} container  >
                             <div className="inside_box">
                                 <div className="wel_child_d">
-                                    Welcome to <span className="ship_tile">LOGI NETICS</span>
+                                    Welcome to <span className="ship_tile">LOGINETICS</span>
                                 </div>
-                               <p style={{ fontSize: "13px" }}>
+                                <p style={{ fontSize: "13px" }}>
                                     <ul>
                                         <li>
                                             Discover the ERP Built for Intergrated Logistics Solutions and Futuristic Digital Platform Built for Logistics Service Providers.<br />
                                         </li>
                                         <li>
-                                            Integrated Business Solution for Seamless Movement of Goods, Covers first Mile.
+                                            Integrated Business Solution for Seamless Movement of Goods, Covers first Mile Middle and Last Mile.
                                         </li>
                                         <li>
-                                            Middle and Last Mile Delivery
-                                            SaaS Platform , Fully Customizable Solution  and Real-time Tracking
+                                            Delivery SaaS Platform , Fully Customizable Solution  and Real-time Tracking
                                         </li>
                                     </ul>
-                                </p> 
+                                </p>
                             </div>
 
                         </Grid>

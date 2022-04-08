@@ -1,0 +1,11 @@
+.plus_Icon{
+    color: var(--main-theme-color);
+    margin: 0 1rem;
+    font-weight: 500;
+}
+
+.menuList{
+    padding: 3px;
+    border-bottom: 1px solid rgb(235, 235, 235);
+    cursor: pointer;
+}

@@ -70,8 +70,8 @@ export default function GeneralInfo() {
     }
     return (
         <div>
-            <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+            <Grid item xs={12} spacing={2} direction="row" justifyContent={'center'} container>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Cargo Id"
                         changeData={(data) => Validation(data, "CargoId")}
@@ -80,7 +80,7 @@ export default function GeneralInfo() {
                         errmsg={CargoInfo.CargoId.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Cargo Type"
                         changeData={(data) => Validation(data, "CargoType")}
@@ -89,18 +89,8 @@ export default function GeneralInfo() {
                         errmsg={CargoInfo.CargoType.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeSts")}
-                        value={CargoInfo.activeSts.value}
-                        error={CargoInfo.activeSts.error}
-                        errmsg={CargoInfo.activeSts.errmsg}
-                    />
-                </Grid>
-
             </Grid>
-            <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container style={{ position: 'relative', bottom: '50px' }}>
+            <Grid item xs={12} md={4} sx={12} sm={12} direction="row" container >
                 <AddFieldsBtn fieldName='Add Additional Field' />
                 {/* AddFieldBtn={() => setFieldModal(true)} */}
             </Grid>
@@ -112,7 +102,7 @@ export default function GeneralInfo() {
                 }
             />
 
-            <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container style={{marginTop: '3rem'}}>
+            <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container >
                 <FooterBtn saveBtn={'Submit'} />
             </Grid>
         </div>

@@ -9,7 +9,7 @@ import { alpha } from '@mui/material/styles';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
 // components
 import MenuPopover from './MenuPopOver';
-import {Home, AccountCircle, Settings} from '@mui/icons-material';
+import { Home, AccountCircle, Settings } from '@mui/icons-material';
 import './common.css';
 import Profile from '../../../Images/profile1.jpg'
 //
@@ -78,22 +78,22 @@ export default function AccountPopover() {
         onClose={handleClose}
         anchorEl={anchorRef.current}
         // style={{background:"#f3f7ff"}}
-        sx={{ width: 300}}
+        sx={{ width: 300 }}
       >
-        <Box sx={{ my: 1.5, px: 2.5,textAlign:"center" }}>
+        <Box sx={{ my: 1.5, px: 2.5, textAlign: "center" }}>
           {/* <Typography variant="subtitle1" noWrap>
             {"Birundha Elancier"}
           </Typography> */}
           <div className='acct_pop_over'>
-          <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <Avatar src={Profile}>BE</Avatar></div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Avatar src={Profile}>BE</Avatar></div>
             <div><b>JHONSI</b></div>
-           <div> User ID : 54678567</div>
-           <div>Organization ID : 354545454</div>
-           <div>123elancier@gmail.com</div>
-           <div>
-             <span>My Account </span> <span> | </span> <span>Sign Out</span>
-           </div>
+            <div> User ID : 54678567</div>
+            <div>Organization ID : 354545454</div>
+            <div>123elancier@gmail.com</div>
+            <div>
+              <span>My Account </span> <span> | </span> <span>Sign Out</span>
+            </div>
           </div>
         </Box>
 
@@ -106,8 +106,8 @@ export default function AccountPopover() {
               <div>{option.label}</div>
             </div>
           ) */}
-          {/* <label>User Id</label> */}
-          {/* // <MenuItem
+        {/* <label>User Id</label> */}
+        {/* // <MenuItem
           //   key={option.label}
           //   to={option.linkTo}
           //   component={RouterLink}
@@ -127,7 +127,7 @@ export default function AccountPopover() {
           //   {option.label}
           // </MenuItem> */}
         {/* })} */}
-{/* 
+        {/* 
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined">
             Logout

@@ -112,7 +112,7 @@ export default function GeneralInfo() {
                 }
             />
 
-            <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container style={{marginTop: '3rem'}}>
+            <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
                 <FooterBtn saveBtn={'Submit'} />
             </Grid>
         </div>

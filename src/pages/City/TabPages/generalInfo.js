@@ -96,8 +96,8 @@ export default function GeneralInfo() {
     }
     return (
         <div>
-            <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+            <Grid item xs={12} spacing={2} direction="row" container>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="City Id"
                         changeData={(data) => Validation(data, "cityId")}
@@ -106,7 +106,7 @@ export default function GeneralInfo() {
                         errmsg={profileDetails.cityId.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="City Name"
                         changeData={(data) => Validation(data, "cityName")}
@@ -115,7 +115,7 @@ export default function GeneralInfo() {
                         errmsg={profileDetails.cityName.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="State Name"
                         changeData={(data) => Validation(data, "stateName")}
@@ -124,7 +124,7 @@ export default function GeneralInfo() {
                         errmsg={profileDetails.stateName.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Country Name"
                         changeData={(data) => Validation(data, "countryName")}
@@ -134,7 +134,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Active Status"
                         changeData={(data) => Validation(data, "activeStatus")}
@@ -145,7 +145,7 @@ export default function GeneralInfo() {
                 </Grid>
 
             </Grid>
-            <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container style={{ position: 'relative', bottom: '50px' }}>
+            <Grid item xs={12} md={4} sx={12} sm={12} direction="row" container >
                 <AddFieldsBtn fieldName='Add Additional Field' />
                 {/* AddFieldBtn={() => setFieldModal(true)} */}
             </Grid>

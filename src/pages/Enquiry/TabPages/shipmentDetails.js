@@ -98,7 +98,7 @@ export default function ShipmentDetails() {
 
     return (
         <div>
-            <Grid item xs={12} spacing={2} direction="row" justifyContent={'center'} container>
+            <Grid item xs={12} spacing={2} direction="row" container>
                 <Grid item xs={12} md={6} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="ENQ No"
@@ -124,8 +124,10 @@ export default function ShipmentDetails() {
                         labelname="Shipment Description" showFlag
                         changeData={(data) => Validation(data, "activeStatus")} />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12} >
-                    <AddFieldsBtn fieldName='Next' AddFieldBtn={() => setShowInput(!showInput)} />
+                <Grid item xs={12} md={2} sx={12} sm={12} >
+                <CustomButton btnName={'Next'} custombtnCSS="Primary" onBtnClick={() => setShowInput(!showInput)} />
+
+                    {/* <AddFieldsBtn fieldName='Next' AddFieldBtn={() => setShowInput(!showInput)} /> */}
                 </Grid>
                 {showInput &&
                     <>

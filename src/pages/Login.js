@@ -73,11 +73,10 @@ export default function Login() {
                     Discover the ERP Built for Intergrated Logistics Solutions and Futuristic Digital Platform Built for Logistics Service Providers.<br />
                   </li>
                   <li>
-                    Integrated Business Solution for Seamless Movement of Goods, Covers first Mile.
+                    Integrated Business Solution for Seamless Movement of Goods, Covers first Mile Middle and Last Mile.
                   </li>
                   <li>
-                    Middle and Last Mile Delivery
-                    SaaS Platform , Fully Customizable Solution  and Real-time Tracking
+                    Delivery SaaS Platform , Fully Customizable Solution  and Real-time Tracking
                   </li>
                 </ul>
               </p>

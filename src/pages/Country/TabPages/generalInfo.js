@@ -93,8 +93,8 @@ export default function GeneralInfo() {
     }
     return (
         <div>
-            <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+            <Grid item xs={12} spacing={2} direction="row" container>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Country Id"
                         changeData={(data) => Validation(data, "countryId")}
@@ -103,7 +103,7 @@ export default function GeneralInfo() {
                         errmsg={profileDetails.countryId.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Country Name"
                         changeData={(data) => Validation(data, "countryName")}
@@ -113,7 +113,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Country Code"
                         changeData={(data) => Validation(data, "countryCode")}
@@ -123,7 +123,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Active Status"
                         changeData={(data) => Validation(data, "activeStatus")}
@@ -134,7 +134,7 @@ export default function GeneralInfo() {
                 </Grid>
 
             </Grid>
-            <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container style={{ position: 'relative', bottom: '50px' }}>
+            <Grid item xs={12} md={4} sx={12} sm={12} direction="row" justifyContent={'flex-start'} container >
                 <AddFieldsBtn fieldName='Add Additional Field' />
                 {/* AddFieldBtn={() => setFieldModal(true)} */}
             </Grid>

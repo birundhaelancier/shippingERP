@@ -11,8 +11,19 @@
 
 .tabHeading{
     display: grid;
-    grid-template-columns: 2rem auto;
+    grid-template-columns: 2rem auto 2rem;
     align-items: center;
+    justify-content: center;
+}
+.tabHeading .MuiIconButton-root{
+    width: 3rem;
+    height: 0px;
+}
+.tabHeading .MuiIconButton-root:hover{
+   background: none;
+}
+.tabHeading .MuiPaper-root-MuiPopover-paper{
+    box-shadow: none;
 }
 
 .tabTitle{
@@ -70,4 +81,8 @@
     .tableMobile{
         display: block !important;
     }
+  }
+
+  .tabContainer .ant-tabs > .ant-tabs-nav, .ant-tabs > div > .ant-tabs-nav{
+    position: unset;
   }

@@ -55,6 +55,8 @@ import AddDimension from "./pages/Dimension/dimensionadd";
 import AddReason from "./pages/Reason/reasonadd";
 import EnquiryDetails from './pages/Enquiry'
 import AddEnquiry from './pages/Enquiry/enquiryadd';
+import JobsDetails from './pages/Jobs'
+import AddJobs from './pages/Jobs/jobadd';
 
 
 import { Route } from "react-router-dom";
@@ -359,6 +361,8 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/addCurrency" component={AddCurrency} />
         <Route exact path="/enquiry" component={EnquiryDetails} />
         <Route exact path="/addEnquiry" component={AddEnquiry} />
+        <Route exact path="/jobs" component={JobsDetails} />
+        <Route exact path="/addJobs" component={AddJobs} />
       </Box>
     </Box>
   );

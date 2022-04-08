@@ -37,7 +37,7 @@ export default function OverView() {
                 { labelname: 'Origin', value: 'address' },
                 { labelname: 'Designation', value: 'country' },
                 { labelname: 'Commodity', value: 'street1' },
-                { labelname: 'Shipment Team', value: 'street2' },
+                { labelname: 'Shipment Type', value: 'street2' },
                 { labelname: 'Nature of Clearance', value: 'state' },
                 { labelname: 'Cargo Types', value: 'city' },
                 { labelname: 'Package Type', value: 'zip' },
@@ -56,12 +56,6 @@ export default function OverView() {
                 { labelname: 'Enquiry Status', value: 'mail' },
                 { labelname: 'Enquiry Cut of Date', value: 'street2' },
                 { labelname: 'Reason', value: 'state' },
-            ]
-        },
-        {
-            mainHeading: 'RATE REQUEST', fields: [
-                { labelname: 'Vendor Type', value: 'pan' },           
-
             ]
         },
     ]

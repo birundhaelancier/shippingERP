@@ -15,14 +15,13 @@ import RateRequest from './TabPages/rateRequest';
 import OverView from './TabPages/overview';
 
 
-export default function AddEnquiry() {
+export default function AddJobs() {
 
     const tabArray = [
         { icon: <CheckCircle />, title: 'Customer Details', description: <CustomerDetails /> },
         { icon: <CheckCircle />, title: 'Shipment Details', description: <ShipmentDetails /> },
         { icon: <CheckCircle />, title: 'Overview', description: <OverView /> },
         { icon: <CheckCircle />, title: 'Rate Request', description: <RateRequest /> },
-        // { icon: <CheckCircle />, title: 'Payments Terms', description: 'de65' },
     ]
 
     return (

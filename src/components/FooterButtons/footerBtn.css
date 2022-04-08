@@ -21,7 +21,7 @@
 }
 
 .tableWeb {
-    display: block;
+    display: block !important;
 }
 
 .tableMobile {

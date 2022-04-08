@@ -1,21 +1,26 @@
-import react from 'react';
-import { Collapse } from 'antd';
-import { Tabs } from 'antd';
+import React, { useState, useEffect, useRef } from 'react';
+import MenuPopover from '../../pages/layouts/dashboard/MenuPopOver';
+import { Collapse, Tabs } from 'antd';
+import { Avatar, IconButton } from '@mui/material';
+import MenuPopOver from '../PopOver';
 
 import './customTab.css';
 
-const CustomTab = ({ tabArray }) => {
+const CustomTab = ({ tabArray, getMenuValue }) => {
     const { TabPane } = Tabs;
     const { Panel } = Collapse;
+    const anchorRef = useRef(null);
+    const [open, setOpen] = useState(false);
 
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
     function callback(key) {
         console.log(key);
     }
-    const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
 
     return (
         <div className='tabContainer'>
@@ -23,17 +28,22 @@ const CustomTab = ({ tabArray }) => {
                 <Tabs defaultActiveKey="0">
                     {tabArray.map((data, index) => {
                         return (
-                            <TabPane
-                                tab={
-                                    <div className='tabHeading'>
-                                        <div className='iconView'>{data.icon}</div>
-                                        <div className='tabTitle'>{data.title}</div>
-                                    </div>
-                                }
-                                key={index}
-                            >
-                                {data.description}
-                            </TabPane>
+                            <>
+                                <TabPane
+                                    tab={
+                                        <>
+                                            <div className='tabHeading'>
+                                                <div className='iconView'>{data.icon}</div>
+                                                <div className='tabTitle'>{data.title}</div>
+                                                {data?.actionVal && data.actionVal.length > 0 && <MenuPopOver content={data.actionVal} getListValue={(data) => getMenuValue(data)} />}
+                                            </div>
+                                        </>
+                                    }
+                                    key={index}
+                                >
+                                    {data.description}
+                                </TabPane>
+                            </>
                         )
                     })}
                 </Tabs>

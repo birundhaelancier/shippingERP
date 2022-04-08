@@ -6,3 +6,24 @@
 .hideSearch{
     display: block;
 }
+
+.hideSearch .MuiSvgIcon-root{
+    margin: 0px 6px;
+}
+
+.action_pop_over{
+    padding: 1rem;
+}
+
+.hamberMenu{
+    background: #141d56;
+}
+
+.action_btn .MuiButtonBase-root{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.action_btn .MuiButtonBase-root:hover{
+    background: none;
+}

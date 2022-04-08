@@ -105,8 +105,10 @@ export default class Labelbox extends Component {
 						{data.showFlag ?
 							<PhoneInput
 								international
-								countryCallingCodeEditable={false}
-								placeholder={this.props.placeholder}
+								countryCallingCodeEditable
+								addInternationalOption={false}
+								displayInitialValueAsLocalNumber
+								placeholder="Enter phone number"
 								defaultCountry="IN"
 								className={`${data.error && "brdred"} brdrclsFlag`} min="0" value={this.props.value} onChange={(val) => this.props.changeData && this.props.changeData(val)} disabled={this.props.disabled}
 							/>

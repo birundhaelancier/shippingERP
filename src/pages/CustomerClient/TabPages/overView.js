@@ -19,7 +19,6 @@ export default function OverView() {
     const CustomerDetails = [
         {
             mainHeading: 'GENERAL INFORMATION', fields: [
-                { labelname: 'Customer Id', value: '676' },
                 { labelname: 'First Name', value: 'fname' },
                 { labelname: 'Last Name', value: 'lname' },
                 { labelname: 'Customer Name', value: 'customerName' },
@@ -104,6 +103,7 @@ export default function OverView() {
                                     return (
                                         <Grid item xs={12} md={3} sx={12} sm={12}>
                                             {/* <Grid item xs={12} md={3} sx={12} sm={12}> */}
+                                            
                                             <label className="labeltxtView">{items.labelname}</label>
                                             <div>{items.value}</div>
                                             {/* </Grid> */}

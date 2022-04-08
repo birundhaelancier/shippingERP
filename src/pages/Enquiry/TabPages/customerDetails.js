@@ -99,8 +99,7 @@ export default function CustomerDetails() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" justifyContent={'center'} container>
-
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Customer Type"
                         changeData={(data) => Validation(data, "customerType")}
@@ -109,7 +108,7 @@ export default function CustomerDetails() {
                         errmsg={profileDetails.customerType.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Customer Name"
                         changeData={(data) => Validation(data, "customerName")}
@@ -118,7 +117,7 @@ export default function CustomerDetails() {
                         errmsg={profileDetails.customerName.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Contact Person"
                         changeData={(data) => Validation(data, "contactPerson")}
@@ -127,12 +126,12 @@ export default function CustomerDetails() {
                         errmsg={profileDetails.contactPerson.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Designation"
                         changeData={(data) => Validation(data, "activeStatus")} />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Phone"
                         placeholder="Work Phone"
@@ -140,7 +139,7 @@ export default function CustomerDetails() {
                         showFlag
                     />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12} className='mobile_label'>
+                <Grid item xs={12} md={4} sx={12} sm={12} className='mobile_label'>
                     <Labelbox show type="number"
                         labelname='Mobile'
                         placeholder='Mobile'
@@ -148,7 +147,7 @@ export default function CustomerDetails() {
                         showFlag
                     />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Email"
                         changeData={(data) => Validation(data, "customerEmail")}
@@ -157,36 +156,36 @@ export default function CustomerDetails() {
                         errmsg={profileDetails.customerEmail.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="textarea"
                         labelname="Address"
                         changeData={(data) => Validation(data, "activeStatus")}
 
                     />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="City"
                         changeData={(data) => Validation(data, "activeStatus")} />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="State" showFlag
                         changeData={(data) => Validation(data, "activeStatus")} />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Country" showFlag
                         changeData={(data) => Validation(data, "activeStatus")} />
                 </Grid>
-                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                   
                 </Grid>
 
                 {/* 
                 {showList?.map((data) => {
                     return (
-                        <Grid item xs={12} md={6} sx={12} sm={12}>
+                        <Grid item xs={12} md={4} sx={12} sm={12}>
                             <Labelbox type={data.type}
                                 labelname={data.labelName}
                             // changeData={(data) => Validation(data, "zipCode")}

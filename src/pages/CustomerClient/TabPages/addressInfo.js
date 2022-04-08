@@ -104,8 +104,8 @@ export default function AddressInfo() {
 
     return (
         <div>
-            <Grid item xs={12} md={8}  sx={12} sm={12} spacing={2} direction="row" justifyContent={'center'} container>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+            <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" container>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="select"
                         labelname="Address Type"
                         changeData={(data) => Validation(data, "addressType")}
@@ -114,7 +114,28 @@ export default function AddressInfo() {
                         errmsg={profileDetails.addressType.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="textarea"
+                        labelname="Address1"
+                        placeholder="Street1"
+                        changeData={(data) => Validation(data, "address1")}
+                        value={profileDetails.address1.value}
+                        error={profileDetails.address1.error}
+                        errmsg={profileDetails.address1.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="textarea"
+                        labelname="Address2"
+                        placeholder="Street2"
+                        changeData={(data) => Validation(data, "address2")}
+                        value={profileDetails.address2.value}
+                        error={profileDetails.address2.error}
+                        errmsg={profileDetails.address2.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="select"
                         labelname="Country /Region"
                         changeData={(data) => Validation(data, "country")}
@@ -123,26 +144,7 @@ export default function AddressInfo() {
                         errmsg={profileDetails.country.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="textarea"
-                        labelname="Address"
-                        placeholder="Street1"
-                        changeData={(data) => Validation(data, "address1")}
-                        value={profileDetails.address1.value}
-                        error={profileDetails.address1.error}
-                        errmsg={profileDetails.address1.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="textarea"
-                        placeholder="Street2"
-                        changeData={(data) => Validation(data, "address2")}
-                        value={profileDetails.address2.value}
-                        error={profileDetails.address2.error}
-                        errmsg={profileDetails.address2.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="select"
                         labelname="State"
                         placeholder="Select or Type to add"
@@ -152,7 +154,7 @@ export default function AddressInfo() {
                         errmsg={profileDetails.state.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="City"
                         changeData={(data) => Validation(data, "city")}
@@ -161,7 +163,7 @@ export default function AddressInfo() {
                         errmsg={profileDetails.city.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Zip Code"
                         changeData={(data) => Validation(data, "zipCode")}
@@ -170,7 +172,7 @@ export default function AddressInfo() {
                         errmsg={profileDetails.zipCode.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Phone"
                         changeData={(data) => Validation(data, "phone")}
@@ -180,7 +182,7 @@ export default function AddressInfo() {
                         showFlag
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Fax"
                         changeData={(data) => Validation(data, "fax")}
@@ -189,10 +191,10 @@ export default function AddressInfo() {
                         errmsg={profileDetails.fax.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <AddFieldsBtn fieldName='Add Address' />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <AddFieldsBtn fieldName='Add Additional Field' />
                 </Grid>
 

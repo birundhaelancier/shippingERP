@@ -307,7 +307,7 @@ input[type=tel]:focus {
 }
 
 .brdrclsFlag{
-  width: 100%;
+  width: 80%;
   outline: 0;
   font-size: 13px;
   padding: .5rem .75rem;

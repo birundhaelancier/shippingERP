@@ -83,8 +83,8 @@ export default function GeneralInfo() {
     }
     return (
         <div>
-            <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+            <Grid item xs={12} spacing={2} direction="row" justifyContent={'center'} container>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Air Port Id"
                         changeData={(data) => Validation(data, "portId")}
@@ -93,7 +93,7 @@ export default function GeneralInfo() {
                         errmsg={AirportInfo.portId.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Air Port Code"
                         changeData={(data) => Validation(data, "portCode")}
@@ -102,7 +102,7 @@ export default function GeneralInfo() {
                         errmsg={AirportInfo.portCode.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Air Port Name"
                         changeData={(data) => Validation(data, "portName")}
@@ -111,7 +111,7 @@ export default function GeneralInfo() {
                         errmsg={AirportInfo.portName.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Country Id"
                         changeData={(data) => Validation(data, "countryId")}
@@ -120,17 +120,8 @@ export default function GeneralInfo() {
                         errmsg={AirportInfo.countryId.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeSts")}
-                        value={AirportInfo.activeSts.value}
-                        error={AirportInfo.activeSts.error}
-                        errmsg={AirportInfo.activeSts.errmsg}
-                    />
-                </Grid>
             </Grid>
-            <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container style={{ position: 'relative', bottom: '50px' }}>
+            <Grid item xs={12} md={4} sx={12} sm={12} direction="row" container >
                 <AddFieldsBtn fieldName='Add Additional Field' />
                 {/* AddFieldBtn={() => setFieldModal(true)} */}
             </Grid>
