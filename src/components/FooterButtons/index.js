@@ -4,7 +4,7 @@ import CustomButton from '../Button';
 import { Save, ArrowBack, ArrowForward, HighlightOff } from '@mui/icons-material';
 import './footerBtn.css';
 
-const FooterBtn = ({ backBtn, nextBtn, saveBtn, onSubmit }) => {
+const FooterBtn = ({ onSaveBtn, backBtn, nextBtn, saveBtn, onSubmit }) => {
     return (
         // <div>
         //     <div className='tableWeb'>
@@ -35,7 +35,7 @@ const FooterBtn = ({ backBtn, nextBtn, saveBtn, onSubmit }) => {
         <Grid item xs={12} spacing={2} direction="row" container className='footerBrnContainer' >
             <Grid item xs={7} md={7} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-end'} container>
                 <Grid item xs={3} md={3} sx={12} sm={12} >
-                    <CustomButton btnName={saveBtn} custombtnCSS="Primary" startIcon={<Save />} onBtnClick={onSubmit} />
+                    <CustomButton btnName={saveBtn} custombtnCSS="Primary" startIcon={<Save />} onBtnClick={onSaveBtn} />
                 </Grid><Grid item xs={3} md={3} sx={12} sm={12} >
                     <CustomButton
                         btnName="Cancel" custombtnCSS="Cancel" startIcon={<HighlightOff />} onBtnClick={onSubmit} />

@@ -98,6 +98,25 @@ export default class Labelbox extends Component {
 				</div>
 
 			)
+		}
+		else if (data.type == 'password') {
+			return (
+				<div className="formShows inputlabel">
+					<label className="labeltxt">{data.labelname}</label>
+					<div>
+						<input className={`${data.error && "brdred"} brdrcls`} value={this.props.value} maxLength={this.props.maxlength} type="password"
+							onChange={(e) => this.props.changeData && this.props.changeData(e.target.value)}
+							onBlur={(e) => this.props.SubmitData && this.props.SubmitData(e.target.value)}
+							placeholder={this.props.placeholder} disabled={this.props.disabled} hidden={this.props.hidden} />
+						{
+							<div className="Errormsg">
+								<div>{data.error && data.errmsg}</div>
+							</div>
+						}
+					</div>
+				</div>
+
+			)
 		} else if (data.type == 'number') {
 			return (
 				<div className="formShows">

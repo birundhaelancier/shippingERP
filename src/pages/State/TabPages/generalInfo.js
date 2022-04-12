@@ -13,49 +13,43 @@ import FooterBtn from '../../../components/FooterButtons';
 
 
 export default function GeneralInfo() {
-    const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
-    const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
     let history = useHistory()
     const [FieldModal, setFieldModal] = useState(false);
-    const [profileDetails, setprofileDetails] = useState({
-        stateId: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        countryName: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },      
-        stateName: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-     
-        activeStatus: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-    })
 
-    const [showList, setShowList] = useState(
+
+    const [stateDetails, setstateDetails] = useState(
         [
-            { type: "text", labelName: "Designation", validation: ["required"], arrVal: [] },
-            { type: "text", labelName: "Department", validation: ["required"], arrVal: [] },
-            { type: "text", labelName: "Skype Id", validation: ["required"], arrVal: [] },
+            {
+                type: "text", key: 'stateId', labelName: "State Id", value: "", validation: [{ name: "required" }], error: null, errmsg: null
+            },
+            {
+                type: "text", key: 'countryName', labelName: "Country Name", value: "", validation: [{ name: "required" }], error: null, errmsg: null
+            },
+            {
+                type: "text", key: 'stateName', labelName: "State Name", value: "", validation: [{ name: "required" }], error: null, errmsg: null
+            },
+            {
+                type: "text", key: 'activeStatus', labelName: "Active Status", value: "", validation: [{ name: "required" }], error: null, errmsg: null
+            },
         ]
     )
 
-    const Validation = (data, key, list) => {
+    const Validation = (data, row, list) => {
+
         var errorcheck = ValidationLibrary.checkValidation(
             data,
-            profileDetails[key].validation
+            row.validation
         );
         let dynObj = {
             value: data,
             error: !errorcheck.state,
             errmsg: errorcheck.msg,
-            validation: profileDetails[key].validation,
+            validation: row.validation,
         };
 
-        setprofileDetails(prevState => ({
+        setstateDetails(prevState => ({
             ...prevState,
-            [key]: dynObj,
+            dynObj,
 
         }));
     }
@@ -63,78 +57,59 @@ export default function GeneralInfo() {
     const onSubmit = () => {
         history.push("/customer");
     }
-    const handleAddClick = (type) => {
-        if (type === 'general') {
-            setCustomerObj([...CustomerObj, { description: "", state: "", city: "" }])
-        } else if (type === 'address') {
-            setAddmoreObj([...AddmoreObj, { address: "", gst: "", state: "", city: "", country: "" }]);
-        }
-    };
-    const handleRemoveClick = (type, index) => {
-        if (type === 'general') {
-            const list = [...CustomerObj];
-            list.splice(index, 1);
-            setCustomerObj(list);
-        } else if (type === 'address') {
-            const list = [...AddmoreObj];
-            list.splice(index, 1);
-            setAddmoreObj(list);
-        }
 
-    };
 
     const addInputBox = (obj) => {
-        if (Object.values(obj).every(data => data != '')) {
-            showList.push(obj)
-            setShowList((prevState) => ([
-                ...prevState,
-            ]));
-        }
+
     }
 
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="State Id"
-                        changeData={(data) => Validation(data, "stateId")}
-                        value={profileDetails.stateId.value}
-                        error={profileDetails.stateId.error}
-                        errmsg={profileDetails.stateId.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
+                {stateDetails.map((data) => {
+                    return (
+                        <Grid item xs={12} md={4} sx={12} sm={12}>
+                            <Labelbox show type={data.type}
+                                labelname={data.labelName}
+                                // changeData={(info) => Validation(info, data)}
+                                // value={data.value}
+                                // error={data.error}
+                                // errmsg={data.errmsg}
+                            />
+                        </Grid>
+                    )
+                })}
+
+                {/* <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="State Name"
                         changeData={(data) => Validation(data, "stateName")}
-                        value={profileDetails.stateName.value}
-                        error={profileDetails.stateName.error}
-                        errmsg={profileDetails.stateName.errmsg}
+                        value={stateDetails.stateName.value}
+                        error={stateDetails.stateName.error}
+                        errmsg={stateDetails.stateName.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Country Name"
                         changeData={(data) => Validation(data, "countryName")}
-                        value={profileDetails.countryName.value}
-                        error={profileDetails.countryName.error}
-                        errmsg={profileDetails.countryName.errmsg}
+                        value={stateDetails.countryName.value}
+                        error={stateDetails.countryName.error}
+                        errmsg={stateDetails.countryName.errmsg}
                     />
                 </Grid>
-               
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Active Status"
                         changeData={(data) => Validation(data, "activeStatus")}
-                        value={profileDetails.activeStatus.value}
-                        error={profileDetails.activeStatus.error}
-                        errmsg={profileDetails.activeStatus.errmsg}
+                        value={stateDetails.activeStatus.value}
+                        error={stateDetails.activeStatus.error}
+                        errmsg={stateDetails.activeStatus.errmsg}
                     />
-                </Grid>
+                </Grid> */}
 
             </Grid>
-            <Grid item xs={12} md={4} sx={12} sm={12} direction="row"  container>
+            <Grid item xs={12} md={4} sx={12} sm={12} direction="row" container>
                 <AddFieldsBtn fieldName='Add Additional Field' />
                 {/* AddFieldBtn={() => setFieldModal(true)} */}
             </Grid>
@@ -147,7 +122,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn  saveBtn={'Submit'}/>
+                <FooterBtn saveBtn={'Submit'} />
             </Grid>
         </div>
     );

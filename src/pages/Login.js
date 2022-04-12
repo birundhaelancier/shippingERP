@@ -6,10 +6,23 @@ import CustomButton from "../components/Button";
 import HeaderView from "./Header";
 import { useHistory } from "react-router-dom";
 import logo from '../Images/logologo.png';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const image =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0-UQvi_u2uUPPs0QmfbVKpdr7rIXZJcgw4g&usqp=CAU";
 export default function Login() {
   let history = useHistory();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
   return (
     <div className="log_par_div">
       <div item xs={12} md={7} sx={12} sm={12} className="login_le_pd">
@@ -28,6 +41,8 @@ export default function Login() {
                   Shipping ERP
                 </div> */}
               </div>
+
+
 
               <div className="inner_child">
                 <label>User Name</label>

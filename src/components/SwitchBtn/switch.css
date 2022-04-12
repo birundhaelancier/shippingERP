@@ -1,0 +1,6 @@
+.switchBtn .ant-switch-checked{
+    background-color: #141d56;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -11,13 +11,6 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import logo from "./Images/layout.png";
 import PropTypes from "prop-types";
 import DashboardShow from "./pages/Dashboard";
@@ -57,6 +50,26 @@ import EnquiryDetails from './pages/Enquiry'
 import AddEnquiry from './pages/Enquiry/enquiryadd';
 import JobsDetails from './pages/Jobs'
 import AddJobs from './pages/Jobs/jobadd';
+import LicenseDetails from './pages/License'
+import AddLicense from './pages/License/licenseadd';
+import SchemeDetails from './pages/Scheme'
+import AddScheme from './pages/Scheme/schemeadd';
+import CostDetails from './pages/Cost'
+import AddCost from './pages/Cost/costadd';
+import QuoteDetails from './pages/Quote'
+import AddQuote from './pages/Quote/quoteadd';
+import VehicleDetails from './pages/Vehicle'
+import AddVehicle from './pages/Vehicle/vehicleadd';
+import SalesDetails from './pages/Sales'
+import AddSales from './pages/Sales/salesadd';
+import LeadDetails from './pages/Lead'
+import AddLead from './pages/Lead/leadadd';
+import ShipperDetails from './pages/Shipper'
+import AddShipper from './pages/Shipper/shipperadd';
+import ConsigneeDetails from './pages/Consignee'
+import AddConsignee from './pages/Consignee/consigneeadd';
+import BusinessDetails from './pages/BusinessScope'
+import AddBusiness from './pages/BusinessScope/businessadd';
 
 
 import { Route } from "react-router-dom";
@@ -133,6 +146,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function ResponsiveDrawer(props) {
+
   const { window } = props;
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -144,7 +158,6 @@ export default function ResponsiveDrawer(props) {
   };
 
   const handleDrawerClose = () => {
-    // alert("hj")
     setOpen(!open);
   };
 
@@ -155,6 +168,7 @@ export default function ResponsiveDrawer(props) {
         position="fixed"
         open={open}
         className="custom_appar"
+        style={{zIndex: 120}}
         sx={{
           width: {
             sm: `calc(100% - ${open ? drawerWidth : 67}px)`,
@@ -274,7 +288,7 @@ export default function ResponsiveDrawer(props) {
             </IconButton>
           </div>
         </div>
-        <SiderMenu openMenu={open}/>
+        <SiderMenu openMenu={open} />
       </MuiDrawer>
 
       <Drawer
@@ -361,8 +375,28 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/addCurrency" component={AddCurrency} />
         <Route exact path="/enquiry" component={EnquiryDetails} />
         <Route exact path="/addEnquiry" component={AddEnquiry} />
+        <Route exact path="/license" component={LicenseDetails} />
+        <Route exact path="/addLicense" component={AddLicense} />
         <Route exact path="/jobs" component={JobsDetails} />
         <Route exact path="/addJobs" component={AddJobs} />
+        <Route exact path="/scheme" component={SchemeDetails} />
+        <Route exact path="/addScheme" component={AddScheme} />
+        <Route exact path="/cost" component={CostDetails} />
+        <Route exact path="/addCost" component={AddCost} />
+        <Route exact path="/quote" component={QuoteDetails} />
+        <Route exact path="/addQuote" component={AddQuote} />
+        <Route exact path="/Vehicle" component={VehicleDetails} />
+        <Route exact path="/addVehicle" component={AddVehicle} />
+        <Route exact path="/lead" component={LeadDetails} />
+        <Route exact path="/addLead" component={AddLead} />
+        <Route exact path="/sales" component={SalesDetails} />
+        <Route exact path="/addSales" component={AddSales} />
+        <Route exact path="/shipper" component={ShipperDetails} />
+        <Route exact path="/addShipper" component={AddShipper} />      
+        <Route exact path="/consignee" component={ConsigneeDetails} />
+        <Route exact path="/addConsignee" component={AddConsignee} />
+        <Route exact path="/business" component={BusinessDetails} />
+        <Route exact path="/addBusiness" component={AddBusiness} />
       </Box>
     </Box>
   );

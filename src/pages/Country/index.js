@@ -1,57 +1,81 @@
-import react, { useState } from 'react';
-import Labelbox from '../../helpers/labelbox/labelbox';
-import ValidationLibrary from '../../helpers/validationfunction';
+import react, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import ContentHeader from '../../components/ContentHeader';
-import CustomButton from '../../components/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCountryList } from '../../Redux/Action/countryAction';
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewCountry from './viewcountry';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import CustomSwitch from '../../components/SwitchBtn';
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { DeleteCountryList } from '../../Redux/Action/countryAction';
+
 
 // import './customer.css';
 
 export default function CountryDetails() {
+    let dispatch = useDispatch();
+    let history = useHistory()
+    const [rowData, setRowData] = useState([])
+    const GetCountryList  = useSelector((state) => state.CountryReducer.GetCountryList);
     const [openModal, setOpenModal] = useState(false);
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 100, headerName: 'S.No' },
         { field: 'countryId', width: 150, headerName: 'Country Id' },
         { field: 'countryName', width: 200, headerName: 'Country Name' },
-        { field: 'countryCode', width: 200, headerName: 'Country Code' },
+        { field: 'countryCode', width: 150, headerName: 'Country Code' },
         { field: 'activeStatus', width: 200, headerName: 'Active Status' },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
-            width: 150,
+            width: 200,
             align: 'center',
             headerAlign: 'center',
             disableClickEventBubbling: true,
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                        <div className="eyeSymbol" onClick={() => viewModal(params.row.countryId)}><RemoveRedEye /></div>
+                        <Link to={`/addCountry?user_id=${params.row.countryId}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={()=>deleteCountry(params.row.countryId)}><Delete /></div>
+                        <div><CustomSwitch size='small' /></div>
                     </div>
                 );
             }
         }
     ];
+    useEffect(() => {
+        dispatch(getCountryList())
+    }, [])
 
+    useEffect(()=>{
+        let rows= [];
+        GetCountryList?.map((items,index)=>{
+            rows.push(
+                {
+                    id: index+1,
+                    countryId: items.id,
+                    countryName: items.name,
+                    countryCode: items.code,
+                    activeStatus: items.status,
+                }
+            )
+        })
+        setRowData(rows)
+    },[GetCountryList])
 
-    const rows = [
-        { id: 1, countryCode: '1', countryId: "1", countryName: 'India', activeStatus: "pending" },
-        { id: 2, countryCode: '2', countryId: "2", countryName: 'India', activeStatus: "pending" },
-        { id: 3, countryCode: '3', countryId: "3", countryName: 'India', activeStatus: "pending" },
-        { id: 4, countryCode: '1', countryId: "5", countryName: 'India', activeStatus: "pending" },
-        { id: 5, countryCode: '2', countryId: "4", countryName: 'India', activeStatus: "pending" },
-    ];
-
-    let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
         history.push("/addCountry")
+    }
+    const viewModal = (id) =>{
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteCountry=(id)=>{
+        dispatch(DeleteCountryList(id))
     }
     return (
         <div>
@@ -60,7 +84,7 @@ export default function CountryDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -69,7 +93,7 @@ export default function CountryDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"Country"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewCountry CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewCountry CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />
                         </>
                     }
                 />

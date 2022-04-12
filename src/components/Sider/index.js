@@ -16,17 +16,17 @@ import './siders.css';
 
 
 export default function SiderMenu(props) {
-    const [selectIndex, setSelectIndex]=useState(0)
+    const [selectIndex, setSelectIndex] = useState(0)
     console.log(selectIndex, 'item')
 
     return menu.map((item, key) =>
-        <MenuItem selected={selectIndex == key} key={key} item={item} openMenu={props.openMenu} onClick={()=>setSelectIndex(key)} />
+        <MenuItem selected={selectIndex == key} key={key} item={item} openMenu={props.openMenu} onClick={() => setSelectIndex(key)} />
     );
 }
 
 const MenuItem = ({ item, openMenu }) => {
     const Component = hasChildren(item, openMenu) ? MultiLevel : SingleLevel;
-    return <Component item={item} openMenu={openMenu}/>;
+    return <Component item={item} openMenu={openMenu} />;
 };
 
 const SingleLevel = ({ item, openMenu }) => {
@@ -42,9 +42,16 @@ const SingleLevel = ({ item, openMenu }) => {
 const MultiLevel = ({ item }) => {
     const { items: children } = item;
     const [open, setOpen] = useState(false);
+    const [subOpen, setSubOpen] = useState(false);
+    const [getKey, setGetKey] = useState();
+
 
     const handleClick = () => {
         setOpen((prev) => !prev);
+    };
+    const handleSubClick = (data) => {
+        setSubOpen((prev) => !prev);
+        setGetKey(data)
     };
 
     return (
@@ -57,7 +64,25 @@ const MultiLevel = ({ item }) => {
             <Collapse in={open} style={{ minHeight: "none" }} timeout="auto" className="">
                 <List component="div" disablePadding>
                     {children.map((child, key) => (
-                        <Link to={child.path}><MenuItem key={key} item={child} /></Link>
+                        <>
+                            {child.items != undefined ?
+                                <>
+                                    <ListItem button onClick={()=>handleSubClick(key)}>
+                                        <ListItemIcon>{item.items[key].icon}</ListItemIcon>
+                                        <ListItemText primary={item.items[key].title} />
+                                        {subOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                    </ListItem>
+                                    <Collapse in={key == getKey ? subOpen : false} style={{ minHeight: "none" }} timeout="auto" className="">
+                                        <List component="div" disablePadding>
+                                            {child.items.map((childs, keys) => (
+                                                <Link to={childs.path}><MenuItem key={keys} item={childs} /></Link>
+                                            ))}
+                                        </List>
+                                    </Collapse>
+                                </>
+                                : <Link to={child.path}><MenuItem key={key} item={child} /></Link>}
+                        </>
+
                     ))}
                 </List>
             </Collapse>
