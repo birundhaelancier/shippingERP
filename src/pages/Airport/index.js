@@ -44,7 +44,7 @@ export default function AirportDetails(props) {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <div className="eyeSymbol" onClick={() => viewModal(params.row.portId)}><RemoveRedEye /></div>
+                    {/* <div className="eyeSymbol" onClick={() => viewModal(params.row.portId)}><RemoveRedEye /></div> */}
                     <Link to={`/addAirport/${params.row.portId}`} className="editSymbol" ><Edit /></Link>
                     <div className="deleteSymbol" onClick={()=>deleteSeaPort(params.row.portId)}><Delete /></div>
                 </div>
