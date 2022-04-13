@@ -3,19 +3,23 @@ import Labelbox from '../../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
 import CustomButton from '../../../components/Button';
-import { useHistory } from 'react-router-dom';
+import { useHistory,useParams } from 'react-router-dom';
 import AddFieldsBtn from '../../../components/AddFieldsBtn';
 import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
-
+import { useDispatch,useSelector } from 'react-redux'
+import { AddCargo,EditCargo,ViewCargoDetails } from '../../../Redux/Action/CargoAction'
 
 
 export default function GeneralInfo() {
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
     let history = useHistory()
+    let dispatch=useDispatch()
+    let { id } =useParams()
+    const GetCargoList  = useSelector((state) => state.CargoReducer.GetCargoList);
     const [FieldModal, setFieldModal] = useState(false);
 
     const [CargoInfo, setCargoInfo] = useState({
@@ -32,7 +36,23 @@ export default function GeneralInfo() {
 
     })
 
+ 
+    useEffect(() => {
+        dispatch(ViewCargoDetails(id))
+    }, [id])
+
+    useEffect(() => {
+    if(GetCargoList){
+        CargoInfo.portId.value = GetCargoList[0]?.id || ""
+        CargoInfo.portCode.value = GetCargoList[0]?.code || ""
+        CargoInfo.portName.value = GetCargoList[0]?.name || ""
+        CargoInfo.countryId.value = GetCargoList[0]?.country || ""
+        }
+    }, [GetCargoList])
+   
+
     const Validation = (data, key, list) => {
+     
         var errorcheck = ValidationLibrary.checkValidation(
             data,
             CargoInfo[key].validation
@@ -47,7 +67,45 @@ export default function GeneralInfo() {
         setCargoInfo(prevState => ({
             ...prevState,
             [key]: dynObj,
+        }));
+    }
+    const onSubmit = () => {
+        var mainvalue = {};
+        var targetkeys = Object.keys(CargoInfo);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                CargoInfo[targetkeys[i]].value,
+                CargoInfo[targetkeys[i]].validation
+            );
+            CargoInfo[targetkeys[i]].error = !errorcheck.state;
+            CargoInfo[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = CargoInfo[targetkeys[i]].value;
+        }
+        var filtererr = targetkeys.filter((obj) => CargoInfo[obj].error == true);
 
+        if (filtererr.length > 0) {
+        } else {
+            if (id) {
+                dispatch(EditCargo(CargoInfo, id)).then(()=>{
+                    history.push("/cargo")
+                    HandleCancel()
+                })
+            } else {
+                dispatch(AddCargo(CargoInfo)).then(()=>{
+                    history.push("/cargo")
+                    HandleCancel()
+                })
+            }
+
+        }
+    }
+    const HandleCancel = () => {
+        let SalesKey =Object.keys(CargoInfo)
+        SalesKey.map((data) => {
+            CargoInfo[data].value = ""
+        })
+        setCargoInfo(prevState => ({
+            ...prevState,
         }));
     }
 
@@ -103,7 +161,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container >
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'}  onSaveBtn={onSubmit} onSubmit={HandleCancel}/>
             </Grid>
         </div>
     );

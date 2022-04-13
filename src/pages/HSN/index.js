@@ -31,7 +31,7 @@ export default function CurrencyDetails() {
         renderCell: (params) => {
             return (
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <CustomSwitch  size='small'  onSwitchChange={()=>OnChangeStatus(params.row.sec_Id,params.row.status===1?0:1)} checked={params.row.activeStatus===1?true:false} /> 
+                    <CustomSwitch  size='small'  onSwitchChange={()=>OnChangeStatus(params.row.sec_Id,params.row.status===1?0:1)} checked={params.row.status===1?true:false} /> 
                 </div>
             );
         } 

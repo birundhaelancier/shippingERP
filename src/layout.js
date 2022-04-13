@@ -363,7 +363,7 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/addSeaport/:id?" component={AddSeaport} />
         <Route exact path="/addAirport/:id?" component={AddAirport} />
         <Route exact path="/addShipment" component={AddShipment} />
-        <Route exact path="/addCargo" component={AddCargo} />
+        <Route exact path="/addCargo/:id?" component={AddCargo} />
         <Route exact path="/addDimension" component={AddDimension} />
         <Route exact path="/addReason" component={AddReason} />
         <Route exact path="/addExchangerate" component={AddExchangeRate} />
