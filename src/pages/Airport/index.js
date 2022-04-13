@@ -29,7 +29,7 @@ export default function AirportDetails(props) {
         renderCell: (params) => {
             return (
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <CustomSwitch onSwitchChange={()=>OnChangeStatus(params.row.portId,params.row.activeStatus===1?0:1)} checked={params.row.activeStatus===1?true:false} /> 
+                    <CustomSwitch  size='small'  onSwitchChange={()=>OnChangeStatus(params.row.portId,params.row.activeStatus===1?0:1)} checked={params.row.activeStatus===1?true:false} /> 
                 </div>
             );
         }
