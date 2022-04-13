@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { GET_COUNTRY_LIST, VIEW_COUNTRY_LIST } from '../Utils/constant';
+import { GET_COUNTRY_LIST, VIEW_COUNTRY_LIST } from '../../Utils/constant';
 const initalState = {
     GetCountryList: [],
     ViewCountryDetails: [],

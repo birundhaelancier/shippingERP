@@ -3,16 +3,16 @@ import axios from 'axios';
 import { notification } from 'antd';
 import { GET_STATE_LIST, VIEW_STATE_LIST } from '../Utils/constant';
 
-export const AddContry = (data) => async dispatch => {
+export const AddState = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
             url: apiurl + 'add_state',
             headers: REQUEST_HEADERS().HEADER,
-            body: {
+            data: {
                 "state_name": data.stateName.value,
-                "country": data.stateCode.value,
-                "user_id": JSON.parse(localStorage.getItem("role_id"))
+                "country": data.countryName.value,
+                "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
             .then((response) => {
@@ -23,17 +23,18 @@ export const AddContry = (data) => async dispatch => {
     } catch (err) { }
 }
 
-export const EditContry = (data) => async dispatch => {
+export const EditState = (data) => async dispatch => {
+    console.log(data, 'data')
     try {
         axios({
             method: 'POST',
             url: apiurl + 'edit_state',
             headers: REQUEST_HEADERS().HEADER,
-            body: {
+            data: {
                 "state_name": data.stateName.value,
-                "country": data.stateCode.value,
-                "user_id": JSON.parse(localStorage.getItem("role_id")),
-                "state_id": "1"
+                "country": data.countryId.value,
+                "user_id": JSON.parse(localStorage.getItem("user_id")),
+                "state_id": data.stateId.value
             }
         })
             .then((response) => {
@@ -50,8 +51,8 @@ export const getStateList = () => async dispatch => {
             method: 'POST',
             url: apiurl + 'state_list',
             headers: REQUEST_HEADERS().HEADER,
-            body: {
-                "user_id": JSON.parse(localStorage.getItem("role_id")),
+            data: {
+                "user_id": JSON.parse(localStorage.getItem("user_id")),
             }
         })
             .then((response) => {
@@ -63,14 +64,15 @@ export const getStateList = () => async dispatch => {
     } catch (err) { }
 }
 
-export const ViewStateDetails = () => async dispatch => {
+export const ViewStateDetails = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
             url: apiurl + 'view_state',
             headers: REQUEST_HEADERS().HEADER,
-            body: {
-                "user_id": JSON.parse(localStorage.getItem("role_id")),
+            data: {
+                "user_id": JSON.parse(localStorage.getItem("user_id")),
+                "state_id": data,
             }
         })
             .then((response) => {
@@ -88,8 +90,8 @@ export const StateStatus = () => async dispatch => {
             method: 'POST',
             url: apiurl + 'status_state',
             headers: REQUEST_HEADERS().HEADER,
-            body: {
-                "user_id": JSON.parse(localStorage.getItem("role_id")),
+            data: {
+                "user_id": JSON.parse(localStorage.getItem("user_id")),
             }
         })
             .then((response) => {
@@ -98,20 +100,23 @@ export const StateStatus = () => async dispatch => {
     } catch (err) { }
 }
 
-export const DeleteStateList = () => async dispatch => {
+export const DeleteStateList = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
             url: apiurl + 'delete_state',
             headers: REQUEST_HEADERS().HEADER,
-            body: {
-                "user_id": JSON.parse(localStorage.getItem("role_id")),
+            data: {
+                "user_id": JSON.parse(localStorage.getItem("user_id")),
+                "state_id": data,
+
             }
         })
             .then((response) => {
                 notification.success({
                     message: response.data.Message
                 });
+                dispatch(getStateList())
             })
     } catch (err) { }
 }

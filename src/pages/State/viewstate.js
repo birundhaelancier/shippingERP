@@ -1,45 +1,41 @@
-import react from 'react'
+import react, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Grid';
 import CustomButton from '../../components/Button';
+import { ViewStateDetails } from '../../Redux/Action/stateAction';
+import { useDispatch, useSelector } from 'react-redux'
+
 // import './customer.css';
 
-const ViewState = () => {
+const ViewStates = ({ GetId }) => {
+    let dispatch = useDispatch();
+    const ViewState = useSelector((state) => state.StateReducer.ViewStateDetails);
 
+    useEffect(() => {
+        dispatch(ViewStateDetails(GetId))
+    }, [])
     return (
         <>
             <Grid item xs={12} spacing={2} direction="row" container>
                 <Grid item xs={12} md={3} sx={12} sm={12}>
-                    <label className="labeltxt">Currency Id</label>
-                    <div>6</div>
+                    <label className="labeltxt">State ID</label>
+                    <div>{ViewState && ViewState[0]?.id}</div>
                 </Grid>
                 <Grid item xs={12} md={3} sx={12} sm={12}>
-                    <label className="labeltxt">Currency Name</label>
-                    <div>Rupees</div>
-                </Grid>
-                <Grid item xs={12} md={3} sx={12} sm={12}>
-                    <label className="labeltxt">Country Id</label>
-                    <div>2</div>
+                    <label className="labeltxt">State Name</label>
+                    <div>{ViewState && ViewState[0]?.name}</div>
                 </Grid>
                 <Grid item xs={12} md={3} sx={12} sm={12}>
                     <label className="labeltxt">Country Name</label>
-                    <div>India</div>
+                    <div>{ViewState && ViewState[0]?.country_name}</div>
                 </Grid>
-                <Grid item xs={12} md={3} sx={12} sm={12}>
-                    <label className="labeltxt">Default</label>
-                    <div>10</div>
-                </Grid>
+
                 <Grid item xs={12} md={3} sx={12} sm={12}>
                     <label className="labeltxt">Active Status</label>
-                    <div>Completed</div>
+                    <div>{ViewState && ViewState[0]?.status === 1 ? "Active" : "In-Active"}</div>
                 </Grid>
             </Grid>
-            {/* <Grid item xs={12} spacing={2} direction="row" justifyContent="end" container>
-                <Grid item xs={6} md={2} sx={6} sm={6}>
-                    <CustomButton btnName="Cancel" custombtnCSS="Cancel" />
-                </Grid>
-            </Grid> */}
         </>
     )
 }
 
-export default ViewState;
+export default ViewStates;

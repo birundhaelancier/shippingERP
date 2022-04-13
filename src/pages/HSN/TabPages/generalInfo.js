@@ -114,23 +114,31 @@ export default function GeneralInfo() {
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="select"
-                        labelname="Transaction Type"
-                        dropdown={
-                            [
-                                { id: 1, value: 'Import' },
-                                { id: 2, value: 'Export' }
-                            ]
-                        }
-                        changeData={(data) => Validation(data, "transaction")}
-                        value={profileDetails.transaction.value}
-                        error={profileDetails.transaction.error}
-                        errmsg={profileDetails.transaction.errmsg}
+                <Labelbox show type="number"
+                        labelname="HSN Code ID"
+                        changeData={(data) => Validation(data, "sectionName")}
+                       
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                <Labelbox show type="select"
+                        labelname="Business Type"
+                        changeData={(data) => Validation(data, "sectionName")}
+                       
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Section Name"
+                        changeData={(data) => Validation(data, "sectionName")}
+                        value={profileDetails.sectionName.value}
+                        error={profileDetails.sectionName.error}
+                        errmsg={profileDetails.sectionName.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Section Description"
                         changeData={(data) => Validation(data, "sectionName")}
                         value={profileDetails.sectionName.value}
                         error={profileDetails.sectionName.error}
@@ -148,6 +156,15 @@ export default function GeneralInfo() {
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
+                        labelname="Chapter Decription"
+                        changeData={(data) => Validation(data, "chapterName")}
+                        value={profileDetails.chapterName.value}
+                        error={profileDetails.chapterName.error}
+                        errmsg={profileDetails.chapterName.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
                         labelname="HSN Code"
                         changeData={(data) => Validation(data, "hsnCode")}
                         value={profileDetails.hsnCode.value}
@@ -157,7 +174,7 @@ export default function GeneralInfo() {
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Description"
+                        labelname="HSN Code Description"
                         changeData={(data) => Validation(data, "description")}
                         value={profileDetails.description.value}
                         error={profileDetails.description.error}

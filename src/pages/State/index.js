@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,12 +8,19 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewState from './viewstate';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import CustomSwitch from '../../components/SwitchBtn';
+import { DeleteStateList, getStateList } from '../../Redux/Action/stateAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 // import './customer.css';
 
 export default function StateDetails() {
+    let dispatch = useDispatch();
+    const [rowData, setRowData] = useState([])
+    const GetStateList  = useSelector((state) => state.StateReducer.GetStateList);
     const [openModal, setOpenModal] = useState(false);
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
         { field: 'stateId', width: 170, headerName: 'State Id' },
@@ -30,28 +37,48 @@ export default function StateDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                        <div className="eyeSymbol" onClick={() => viewModal(params.row.stateId)}><RemoveRedEye /></div>
+                        <Link to={`/addState?user_id=${params.row.stateId}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={()=>deleteCountry(params.row.stateId)}><Delete /></div>
+                        <div><CustomSwitch size='small' /></div>
                     </div>
                 );
             }
         }
     ];
 
+    useEffect(() => {
+        dispatch(getStateList())
+    }, [])
 
-    const rows = [
-        { id: 1, stateName: 'Birundha', stateId: '1', countryId: "1", countryName: 'India', activeStatus: "pending" },
-        { id: 2, stateName: 'Divya', stateId: '2', countryId: "2", countryName: 'India', activeStatus: "pending" },
-        { id: 3, stateName: 'Lakshmi', stateId: '3', countryId: "3", countryName: 'India', activeStatus: "pending" },
-        { id: 4, stateName: 'Vicky', stateId: '1', countryId: "5", countryName: 'India', activeStatus: "pending" },
-        { id: 5, stateName: 'Priya', stateId: '2', countryId: "4", countryName: 'India', activeStatus: "pending" },
-    ];
+    useEffect(()=>{
+        let rows= [];
+        GetStateList?.map((items,index)=>{
+            rows.push(
+                {
+                    id: index+1,
+                    stateId: items.id,
+                    stateName: items.name,
+                    countryName: items.country_name,
+                    activeStatus: items.status  === 1 ? "Active" : "In-Active",
+                }
+            )
+        })
+        setRowData(rows)
+    },[GetStateList])
+    console.log(GetStateList, 'GetStateList');
 
     let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
         history.push("/addState")
+    }
+    const viewModal = (id) =>{
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteCountry=(id)=>{
+        dispatch(DeleteStateList(id))
     }
     return (
         <div>
@@ -60,7 +87,7 @@ export default function StateDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -69,7 +96,7 @@ export default function StateDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"State"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewState CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewState CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />
                         </>
                     }
                 />

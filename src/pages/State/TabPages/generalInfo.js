@@ -9,78 +9,126 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
+import { useDispatch, useSelector } from 'react-redux'
+import { AddState, ViewStateDetails, EditState } from '../../../Redux/Action/stateAction';
+import { getCountryList } from '../../../Redux/Action/countryAction';
 
 
 
-export default function GeneralInfo() {
-    let history = useHistory()
+export default function GeneralInfo({ stateId }) {
+    let history = useHistory();
+    let dispatch = useDispatch();
+    const ViewState = useSelector((state) => state.StateReducer.ViewStateDetails);
+    const [Refresh, setRefresh] = useState(false);
     const [FieldModal, setFieldModal] = useState(false);
-
+    const GetCountry = useSelector((state) => state.CountryReducer.GetCountryList);
+    const [CountryList, setCountryList] = useState([])
 
     const [stateDetails, setstateDetails] = useState(
-        [
-            {
-                type: "text", key: 'stateId', labelName: "State Id", value: "", validation: [{ name: "required" }], error: null, errmsg: null
+        {
+            countryName: {
+                value: "", validation: [{ name: "required" }], error: null, errmsg: null,
             },
-            {
-                type: "text", key: 'countryName', labelName: "Country Name", value: "", validation: [{ name: "required" }], error: null, errmsg: null
+            stateName: {
+                value: "", validation: [{ name: "required" }], error: null, errmsg: null,
             },
-            {
-                type: "text", key: 'stateName', labelName: "State Name", value: "", validation: [{ name: "required" }], error: null, errmsg: null
+            countryId: {
+                value: "", validation: [{ name: "required" }], error: null, errmsg: null,
             },
-            {
-                type: "text", key: 'activeStatus', labelName: "Active Status", value: "", validation: [{ name: "required" }], error: null, errmsg: null
+            stateId: {
+                value: "", validation: [{ name: "required" }], error: null, errmsg: null,
             },
-        ]
+        }
     )
 
-    const Validation = (data, row, list) => {
+    useEffect(() => {
+        dispatch(ViewStateDetails(stateId))
+        dispatch(getCountryList("All"))
+    }, [])
+
+    useEffect(() => {
+        let countryLists = []
+        GetCountry?.map((data)=>{
+            countryLists.push(
+                {id: data.id, value: data.name}
+            )
+        })
+        setCountryList(countryLists)
+    }, [GetCountry])
+
+    useEffect(() => {
+        if (ViewState) {
+            stateDetails.countryName.value = ViewState[0]?.country
+            stateDetails.stateName.value = ViewState[0]?.name
+            stateDetails.stateId.value = ViewState[0]?.id
+            stateDetails.countryId.value = ViewState[0]?.country
+        }
+    }, [ViewState])
+
+
+
+    const Validation = (data, key, list) => {
 
         var errorcheck = ValidationLibrary.checkValidation(
             data,
-            row.validation
+            stateDetails[key].validation
         );
         let dynObj = {
             value: data,
             error: !errorcheck.state,
             errmsg: errorcheck.msg,
-            validation: row.validation,
+            validation: stateDetails[key].validation,
         };
 
         setstateDetails(prevState => ({
             ...prevState,
-            dynObj,
-
+            [key]: dynObj,
         }));
     }
 
     const onSubmit = () => {
-        history.push("/customer");
+        var mainvalue = {};
+        var targetkeys = Object.keys(stateDetails);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                stateDetails[targetkeys[i]].value,
+                stateDetails[targetkeys[i]].validation
+            );
+            stateDetails[targetkeys[i]].error = !errorcheck.state;
+            stateDetails[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = stateDetails[targetkeys[i]].value;
+        }
+        var filtererr = targetkeys.filter((obj) => stateDetails[obj].error == true);
+
+        if (filtererr.length > 0) {
+            setRefresh(!Refresh)
+        } else {
+            if (stateId) {
+                dispatch(EditState(stateDetails))
+            } else {
+                dispatch(AddState(stateDetails))
+                HandleCancel()
+            }
+        }
     }
 
-
-    const addInputBox = (obj) => {
-
+    const HandleCancel = () => {
+        let SalesKey = ["countryName", "stateName"]
+        SalesKey.map((data) => {
+            stateDetails[data].value = ""
+        })
+        setstateDetails(prevState => ({
+            ...prevState,
+        }));
     }
+
+    const addInputBox = (obj) => { }
 
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                {stateDetails.map((data) => {
-                    return (
-                        <Grid item xs={12} md={4} sx={12} sm={12}>
-                            <Labelbox show type={data.type}
-                                labelname={data.labelName}
-                                // changeData={(info) => Validation(info, data)}
-                                // value={data.value}
-                                // error={data.error}
-                                // errmsg={data.errmsg}
-                            />
-                        </Grid>
-                    )
-                })}
 
-                {/* <Grid item xs={12} md={4} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="State Name"
                         changeData={(data) => Validation(data, "stateName")}
@@ -90,24 +138,15 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="select"
                         labelname="Country Name"
+                        dropdown={CountryList}
                         changeData={(data) => Validation(data, "countryName")}
                         value={stateDetails.countryName.value}
                         error={stateDetails.countryName.error}
                         errmsg={stateDetails.countryName.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeStatus")}
-                        value={stateDetails.activeStatus.value}
-                        error={stateDetails.activeStatus.error}
-                        errmsg={stateDetails.activeStatus.errmsg}
-                    />
-                </Grid> */}
-
             </Grid>
             <Grid item xs={12} md={4} sx={12} sm={12} direction="row" container>
                 <AddFieldsBtn fieldName='Add Additional Field' />
@@ -122,7 +161,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} />
             </Grid>
         </div>
     );

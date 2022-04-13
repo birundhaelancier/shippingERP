@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,12 +8,19 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewCountry from './viewcity';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import CustomSwitch from '../../components/SwitchBtn';
+import { DeleteCityList, getCityList } from '../../Redux/Action/cityAction';
+import { useDispatch, useSelector } from 'react-redux';
 // import './customer.css';
 
 export default function CityDetails() {
+    let dispatch = useDispatch();
+    const [rowData, setRowData] = useState([])
+    const GetCityList  = useSelector((state) => state.CityReducer.GetCityList);
+    console.log(GetCityList)
     const [openModal, setOpenModal] = useState(false);
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 100, headerName: 'S.No' },
         { field: 'cityId', width: 150, headerName: 'City Id' },
@@ -31,28 +38,50 @@ export default function CityDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                         <div className="eyeSymbol" onClick={() => viewModal(params.row.cityId)}><RemoveRedEye /></div>
+                        <Link to={`/addCity?user_id=${params.row.cityId}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={()=>deleteCountry(params.row.cityId)}><Delete /></div>
+                        <div><CustomSwitch size='small' /></div>
                     </div>
                 );
             }
         }
     ];
 
+    useEffect(() => {
+        dispatch(getCityList())
+    }, [])
 
-    const rows = [
-        { id: 1, cityId: "1", cityName: 'chennai', stateName: 'TamilNadu', countryName: 'India', activeStatus: "pending" },
-        { id: 2, cityId: "2", cityName: 'chennai', stateName: 'TamilNadu', countryName: 'India', activeStatus: "pending" },
-        { id: 3, cityId: "3", cityName: 'chennai', stateName: 'TamilNadu', countryName: 'India', activeStatus: "pending" },
-        { id: 4, cityId: "5", cityName: 'chennai', stateName: 'TamilNadu', countryName: 'India', activeStatus: "pending" },
-        { id: 5, cityId: "4", cityName: 'chennai', stateName: 'TamilNadu', countryName: 'India', activeStatus: "pending" },
-    ];
+    useEffect(()=>{
+        let rows= [];
+        GetCityList?.map((items,index)=>{
+            rows.push(
+                {
+                    id: index+1,
+                    cityId: items.id,
+                    cityName: items.name,
+                    stateName: items.state_name,
+                    countryName: items.country_name,
+                    activeStatus: items.status  === 1 ? "Active" : "In-Active",
+                }
+            )
+        })
+    console.log(rows,GetCityList, 'GetCityList');
+
+        setRowData(rows)
+    },[GetCityList])
 
     let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
         history.push("/addCity")
+    }
+    const viewModal = (id) =>{
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteCountry=(id)=>{
+        dispatch(DeleteCityList(id))
     }
     return (
         <div>
@@ -61,7 +90,7 @@ export default function CityDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -70,7 +99,7 @@ export default function CityDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"City"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewCountry CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewCountry CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />
                         </>
                     }
                 />

@@ -47,7 +47,7 @@ export default function CountryDetails() {
         }
     ];
     useEffect(() => {
-        dispatch(getCountryList())
+        dispatch(getCountryList(1))
     }, [])
 
     useEffect(()=>{
@@ -59,7 +59,7 @@ export default function CountryDetails() {
                     countryId: items.id,
                     countryName: items.name,
                     countryCode: items.code,
-                    activeStatus: items.status,
+                    activeStatus: items.status === 1 ? "Active" : "In-Active",
                 }
             )
         })

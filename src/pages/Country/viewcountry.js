@@ -8,18 +8,12 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const ViewCountry = ({ GetId }) => {
     let dispatch = useDispatch();
-    const [countryDetails, setCountryDetails] = useState([])
     const ViewCountry = useSelector((state) => state.CountryReducer.ViewCountryDetails);
 
     useEffect(() => {
         dispatch(ViewCountryDetails(GetId))
     }, [])
 
-    useEffect(() => {
-        if (ViewCountry) {
-            setCountryDetails(ViewCountry)
-        }
-    }, [ViewCountry])
     return (
         <>
             <Grid item xs={12} spacing={2} direction="row" container>
@@ -38,7 +32,7 @@ const ViewCountry = ({ GetId }) => {
 
                 <Grid item xs={12} md={3} sx={12} sm={12}>
                     <label className="labeltxt">Active Status</label>
-                    <div>{ViewCountry[0]?.status}</div>
+                    <div>{ViewCountry[0]?.status === 1 ? "Active" : "In-Active"}</div>
                 </Grid>
             </Grid>
         </>

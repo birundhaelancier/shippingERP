@@ -10,31 +10,68 @@ import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
 
+import { useDispatch, useSelector } from 'react-redux'
+import { getStateList } from '../../../Redux/Action/stateAction';
+import { getCountryList } from '../../../Redux/Action/countryAction';
+import { AddCity, ViewCityDetails, EditCity } from '../../../Redux/Action/cityAction';
 
 
-export default function GeneralInfo() {
-    const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
-    const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
+
+export default function GeneralInfo({cityId}) {
+    let dispatch = useDispatch();
     let history = useHistory()
     const [FieldModal, setFieldModal] = useState(false);
+    const GetCountry = useSelector((state) => state.CountryReducer.GetCountryList);
+    const GetState = useSelector((state) => state.StateReducer.GetStateList);
+    const ViewCity = useSelector((state) => state.CityReducer.ViewCityDetails);
+    const [CountryList, setCountryList] = useState([])
+    const [StateList, setStateList] = useState([])
+    const [Refresh, setRefresh] = useState(false);
     const [profileDetails, setprofileDetails] = useState({
-        cityId: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
         cityName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
         countryName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },      
+        },
         stateName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-     
-        activeStatus: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
     })
+
+    useEffect(() => {
+        dispatch(ViewCityDetails(cityId))
+        dispatch(getCountryList("All"))
+        dispatch(getStateList())
+    }, [])
+
+    useEffect(() => {
+        let countryLists = []
+        GetCountry?.map((data) => {
+            countryLists.push(
+                { id: data.id, value: data.name }
+            )
+        })
+        setCountryList(countryLists)
+        let stateLists = []
+        GetState?.map((data) => {
+            stateLists.push(
+                { id: data.id, value: data.name }
+            )
+        })
+        setStateList(stateLists)
+    }, [GetCountry, GetState])
+
+    
+    useEffect(() => {
+        console.log(ViewCity, 'ViewCity')
+        if (ViewCity) {
+            profileDetails.cityName.value = ViewCity[0]?.name
+            // profileDetails.cityId.value = ViewCity[0]?.id
+            profileDetails.countryName.value = ViewCity[0]?.country
+            profileDetails.stateName.value = ViewCity[0]?.state 
+        }
+    }, [ViewCity])
 
     const [showList, setShowList] = useState(
         [
@@ -64,27 +101,40 @@ export default function GeneralInfo() {
     }
 
     const onSubmit = () => {
-        history.push("/customer");
-    }
-    const handleAddClick = (type) => {
-        if (type === 'general') {
-            setCustomerObj([...CustomerObj, { description: "", state: "", city: "" }])
-        } else if (type === 'address') {
-            setAddmoreObj([...AddmoreObj, { address: "", gst: "", state: "", city: "", country: "" }]);
+        var mainvalue = {};
+        var targetkeys = Object.keys(profileDetails);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                profileDetails[targetkeys[i]].value,
+                profileDetails[targetkeys[i]].validation
+            );
+            profileDetails[targetkeys[i]].error = !errorcheck.state;
+            profileDetails[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = profileDetails[targetkeys[i]].value;
         }
-    };
-    const handleRemoveClick = (type, index) => {
-        if (type === 'general') {
-            const list = [...CustomerObj];
-            list.splice(index, 1);
-            setCustomerObj(list);
-        } else if (type === 'address') {
-            const list = [...AddmoreObj];
-            list.splice(index, 1);
-            setAddmoreObj(list);
-        }
+        var filtererr = targetkeys.filter((obj) => profileDetails[obj].error == true);
 
-    };
+        if (filtererr.length > 0) {
+            setRefresh(!Refresh)
+        } else {
+            if (cityId) {
+                dispatch(EditCity(profileDetails, ViewCity))
+            } else {
+                dispatch(AddCity(profileDetails))
+                HandleCancel()
+            }
+        }
+    }
+
+    const HandleCancel = () => {
+        let SalesKey = ["countryName", "stateName", "cityName"]
+        SalesKey.map((data) => {
+            profileDetails[data].value = ""
+        })
+        setprofileDetails(prevState => ({
+            ...prevState,
+        }));
+    }
 
     const addInputBox = (obj) => {
         if (Object.values(obj).every(data => data != '')) {
@@ -97,15 +147,7 @@ export default function GeneralInfo() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="City Id"
-                        changeData={(data) => Validation(data, "cityId")}
-                        value={profileDetails.cityId.value}
-                        error={profileDetails.cityId.error}
-                        errmsg={profileDetails.cityId.errmsg}
-                    />
-                </Grid>
+
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="City Name"
@@ -116,8 +158,9 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="select"
                         labelname="State Name"
+                        dropdown={StateList}
                         changeData={(data) => Validation(data, "stateName")}
                         value={profileDetails.stateName.value}
                         error={profileDetails.stateName.error}
@@ -125,22 +168,13 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="select"
                         labelname="Country Name"
+                        dropdown={CountryList}
                         changeData={(data) => Validation(data, "countryName")}
                         value={profileDetails.countryName.value}
                         error={profileDetails.countryName.error}
                         errmsg={profileDetails.countryName.errmsg}
-                    />
-                </Grid>
-               
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeStatus")}
-                        value={profileDetails.activeStatus.value}
-                        error={profileDetails.activeStatus.error}
-                        errmsg={profileDetails.activeStatus.errmsg}
                     />
                 </Grid>
 
@@ -158,7 +192,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} />
             </Grid>
         </div>
     );
