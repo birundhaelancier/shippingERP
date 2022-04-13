@@ -305,7 +305,7 @@ export default class Labelbox extends Component {
 									return (<Option key={index} disabled={item.disable} value={item.value}>{item.value}</Option>)
 								}
 								else {
-									return (<Option key={index} disabled={item.disable} value={item.value}>{item.value}</Option>)
+									return (<Option key={index} disabled={item.disable} value={item.id}>{item.value}</Option>)
 								}
 							}
 						})

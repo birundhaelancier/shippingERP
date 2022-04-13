@@ -9,16 +9,25 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
-
+import { useDispatch, useSelector } from 'react-redux'
+import { EditAirPort,AddAirPort,ViewAirPortDetails } from '../../../Redux/Action/AirPortAction'
+import { getCountryList } from '../../../Redux/Action/countryAction';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 export default function GeneralInfo() {
+    let history = useHistory()
+    let dispatch=useDispatch()
+    let { id } =useParams()
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
-    let history = useHistory()
+    
     const [FieldModal, setFieldModal] = useState(false);
+    const ViewAirList = useSelector((state) => state.AirPortReducer.ViewAirPortDetails);
+    const GetCountryList  = useSelector((state) => state.CountryReducer.GetCountryList);
+    const [CountryList,setCountryList]=useState([])
+    const [Refresh,setRefresh]=useState(false)
     const [AirportInfo, setAirportInfo] = useState({
-
         portId: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
@@ -30,20 +39,32 @@ export default function GeneralInfo() {
         },
         countryId: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        countryName: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        default: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        activeSts: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-
+        },      
     })
 
+    useEffect(() => {
+        dispatch(ViewAirPortDetails(id))
+        dispatch(getCountryList())
+    }, [id])
+
+    useEffect(() => {
+    if(ViewAirList){
+        AirportInfo.portId.value = ViewAirList[0]?.id || ""
+        AirportInfo.portCode.value = ViewAirList[0]?.code || ""
+        AirportInfo.portName.value = ViewAirList[0]?.name || ""
+        AirportInfo.countryId.value = ViewAirList[0]?.country || ""
+        }
+    }, [ViewAirList])
+    useEffect(()=>{
+        let country=[]
+        GetCountryList.map((data)=>{
+            country.push({id:data.id,value:data.name})
+        }) 
+        setCountryList(country)
+    },[GetCountryList])
+
     const Validation = (data, key, list) => {
+     
         var errorcheck = ValidationLibrary.checkValidation(
             data,
             AirportInfo[key].validation
@@ -58,27 +79,55 @@ export default function GeneralInfo() {
         setAirportInfo(prevState => ({
             ...prevState,
             [key]: dynObj,
+        }));
+    }
+    const onSubmit = () => {
+        var mainvalue = {};
+        var targetkeys = Object.keys(AirportInfo);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                AirportInfo[targetkeys[i]].value,
+                AirportInfo[targetkeys[i]].validation
+            );
+            AirportInfo[targetkeys[i]].error = !errorcheck.state;
+            AirportInfo[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = AirportInfo[targetkeys[i]].value;
+        }
+        var filtererr = targetkeys.filter((obj) => AirportInfo[obj].error == true);
 
+        if (filtererr.length > 0) {
+            setRefresh(!Refresh)
+        } else {
+            if (id) {
+                dispatch(EditAirPort(AirportInfo, id)).then(()=>{
+                    history.push("/airport")
+                    HandleCancel()
+                })
+            } else {
+                dispatch(AddAirPort(AirportInfo)).then(()=>{
+                    history.push("/airport")
+                    HandleCancel()
+                })
+            }
+
+        }
+    }
+    const HandleCancel = () => {
+        let SalesKey =Object.keys(AirportInfo)
+        SalesKey.map((data) => {
+            AirportInfo[data].value = ""
+        })
+        setAirportInfo(prevState => ({
+            ...prevState,
         }));
     }
 
-    const onSubmit = () => {
-        history.push("/seaport");
-    }
-    const [showList, setShowList] = useState(
-        [
-            { type: "text", labelName: "Designation", validation: ["required"], arrVal: [] },
-            { type: "text", labelName: "Department", validation: ["required"], arrVal: [] },
-            { type: "text", labelName: "Skype Id", validation: ["required"], arrVal: [] },
-        ]
-    )
-
     const addInputBox = (obj) => {
         if (Object.values(obj).every(data => data != '')) {
-            showList.push(obj)
-            setShowList((prevState) => ([
-                ...prevState,
-            ]));
+            // showList.push(obj)
+            // setShowList((prevState) => ([
+            //     ...prevState,
+            // ]));
         }
     }
     return (
@@ -112,12 +161,13 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Country Id"
+                    <Labelbox show type="select"
+                        labelname="Country Name"
                         changeData={(data) => Validation(data, "countryId")}
                         value={AirportInfo.countryId.value}
                         error={AirportInfo.countryId.error}
                         errmsg={AirportInfo.countryId.errmsg}
+                        dropdown={CountryList}
                     />
                 </Grid>
             </Grid>
@@ -134,7 +184,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onSubmit={HandleCancel}/>
             </Grid>
         </div>
     );

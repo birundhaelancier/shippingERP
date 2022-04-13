@@ -9,15 +9,19 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
-
-
+import { useDispatch,useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { ViewLicenseDetails,AddLicense,EditLicense } from '../../../Redux/Action/LicenceAction'
 
 export default function GeneralInfo() {
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
     let history = useHistory()
+    const ViewLicenseList = useSelector((state) => state.LicenseReducer.ViewLicenseDetails);
+    let dispatch=useDispatch()
+    let { id } =useParams()
     const [FieldModal, setFieldModal] = useState(false);
-    const [profileDetails, setprofileDetails] = useState({
+    const [LicenseDetails, setLicenseDetails] = useState({
         countryId: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
@@ -35,7 +39,7 @@ export default function GeneralInfo() {
 
     const [showList, setShowList] = useState(
         [
-            { type: 'text', label: 'License Id', validation: ["required"], arrVal: [] },
+            { type: 'text', label: 'License Id',licenceId:{value:"", validation: ["required"], arrVal: [] }},
             { type: 'text', label: 'Registration No', validation: ["required"], arrVal: [] },
             { type: 'text', label: 'Registration Date', validation: ["required"], arrVal: [] },
             { type: 'text', label: 'License Type', validation: ["required"], arrVal: [] },
@@ -56,29 +60,84 @@ export default function GeneralInfo() {
 
         ]
     )
+    const [List,setList]=useState()
+    useEffect(() => {
+        dispatch(ViewLicenseDetails(id))
+    }, [id])
+
+    // useEffect(() => {
+    // if(ViewLicenseList){
+    //     LicenseDetails.description.value = ViewLicenseList[0]?.description || ""
+    //     LicenseDetails.hsnCode.value = ViewLicenseList[0]?.hsn_code || ""
+    //     LicenseDetails.rateStandard.value = ViewLicenseList[0]?.rate_standard || ""
+    //     LicenseDetails.chapterName.value = ViewLicenseList[0]?.chapter_name || ""
+    //     LicenseDetails.sectionName.value = ViewLicenseList[0]?.section_name || ""
+    //     LicenseDetails.unit.value = ViewLicenseList[0]?.unit || ""
+    //     LicenseDetails.transaction.value = ViewLicenseList[0]?.type==="Import"?1:2 ||""
+    //     LicenseDetails.ratePre.value = ViewLicenseList[0]?.rate_preferential || ""
+    //     }
+    // }, [ViewLicenseList])
+  
 
     const Validation = (data, key, list) => {
+     
         var errorcheck = ValidationLibrary.checkValidation(
             data,
-            profileDetails[key].validation
+            LicenseDetails[key].validation
         );
         let dynObj = {
             value: data,
             error: !errorcheck.state,
             errmsg: errorcheck.msg,
-            validation: profileDetails[key].validation,
+            validation: LicenseDetails[key].validation,
         };
 
-        setprofileDetails(prevState => ({
+        setLicenseDetails(prevState => ({
             ...prevState,
             [key]: dynObj,
-
         }));
     }
-
     const onSubmit = () => {
-        history.push("/customer");
+        var mainvalue = {};
+        var targetkeys = Object.keys(LicenseDetails);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                LicenseDetails[targetkeys[i]].value,
+                LicenseDetails[targetkeys[i]].validation
+            );
+            LicenseDetails[targetkeys[i]].error = !errorcheck.state;
+            LicenseDetails[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = LicenseDetails[targetkeys[i]].value;
+        }
+        var filtererr = targetkeys.filter((obj) => LicenseDetails[obj].error == true);
+
+        if (filtererr.length > 0) {
+        } else {
+            if (id) {
+                dispatch(EditLicense(LicenseDetails,id)).then(()=>{
+                    history.push("/hsn")
+                    HandleCancel()
+                })
+            } else {
+                dispatch(AddLicense(LicenseDetails)).then(()=>{
+                    history.push("/hsn")
+                    HandleCancel()
+                })
+            }
+
+        }
     }
+    const HandleCancel = () => {
+        let SalesKey =Object.keys(LicenseDetails)
+        SalesKey.map((data) => {
+            LicenseDetails[data].value = ""
+        })
+        setLicenseDetails(prevState => ({
+            ...prevState,
+        }));
+    }
+   
+
     const handleAddClick = (type) => {
         if (type === 'general') {
             setCustomerObj([...CustomerObj, { description: "", state: "", city: "" }])

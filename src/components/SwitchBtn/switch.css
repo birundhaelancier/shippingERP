@@ -1,6 +1,18 @@
 .switchBtn .ant-switch-checked{
     background-color: #141d56;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
+/* .switchBtn .ant-switch{
+    width:45px;
+} */
+.labeltxt_togg{
+    color: var(--main-theme-color);
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+/* .switchBtn{
+    align-items: center;
+    display: grid;
+    grid-template-columns: 10rem auto;
+} */
