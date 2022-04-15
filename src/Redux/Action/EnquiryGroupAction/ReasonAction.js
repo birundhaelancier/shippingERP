@@ -1,16 +1,16 @@
 import { apiurl, REQUEST_HEADERS } from '../../Utils/baseurl';
 import axios from 'axios';
 import { notification } from 'antd';
-import { GET_CARGO_LIST, VIEW_CARGO_LIST } from '../../Utils/constant';
+import { GET_REASON_LIST } from '../../Utils/constant';
 
-export const AddCargo = (data) => async dispatch => {
+export const AddReason = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'add_cargo',
+            url: apiurl + 'add_reason',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "cargo_name": data.CargoName.value,
+                "reason_name": data.ReasonName.value,
                 "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
@@ -18,19 +18,19 @@ export const AddCargo = (data) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(CargoList())
+                dispatch(ReasonList())
             })
     } catch (err) { }
 }
-export const EditCargo = (data, id) => async dispatch => {
+export const EditReason = (data, id) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'edit_cargo',
+            url: apiurl + 'edit_reason',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "cargo_id": id,
-                "cargo_name": data.CargoName.value,
+                "reason_id": id,
+                "reason_name": data.ReasonName.value,
                 "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
@@ -38,61 +38,41 @@ export const EditCargo = (data, id) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(CargoList())
+                dispatch(ReasonList())
             })
     } catch (err) { }
 }
 
-export const CargoList = () => async dispatch => {
+export const ReasonList = () => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'cargo_list',
+            url: apiurl + 'reason_list',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "cargo_id": "All",
+                "reason_id": "All",
             }
         })
             .then((response) => {
                 dispatch({
-                    type: GET_CARGO_LIST,
+                    type: GET_REASON_LIST,
                     payload: response.data.Response
                 })
             })
     } catch (err) { }
 }
 
-export const ViewCargoDetails = (data) => async dispatch => {
-    try {
-        axios({
-            method: 'POST',
-            url: apiurl + 'view_cargo',
-            headers: REQUEST_HEADERS().HEADER,
-            data: {
-                "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "cargo_id": data || 0,
-            }
-        })
-            .then((response) => {
-                dispatch({
-                    type: VIEW_CARGO_LIST,
-                    payload: response.data.Response
-                })
-            })
-    } catch (err) { }
-}
-
-export const CargoStatus = (portId, status) => async dispatch => {
+export const ReasonStatus = (portId, status) => async dispatch => {
 
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'status_cargo',
+            url: apiurl + 'status_reason',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "cargo_id": portId || 0,
+                "reason_id": portId || 0,
                 "status": status || 0
             }
         })
@@ -100,27 +80,27 @@ export const CargoStatus = (portId, status) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(CargoList())
+                dispatch(ReasonList())
             })
     } catch (err) { }
 }
 
-export const DeleteCargoList = (data) => async dispatch => {
+export const DeleteReasonList = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'delete_cargo',
+            url: apiurl + 'delete_reason',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "cargo_id": data
+                "reason_id": data
             }
         })
             .then((response) => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(CargoList())
+                dispatch(ReasonList())
             })
     } catch (err) { }
 }

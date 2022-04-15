@@ -9,28 +9,28 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
+import { useDispatch } from 'react-redux';
+import { AddReason, EditReason } from '../../../Redux/Action/EnquiryGroupAction/ReasonAction';
 
-
-
-export default function GeneralInfo() {
-    const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
-    const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
+export default function GeneralInfo({reasonId, reasonName}) {
     let history = useHistory()
     const [FieldModal, setFieldModal] = useState(false);
-
+    let dispatch = useDispatch();
+    const [Refresh, setRefresh] = useState(false);
     const [ReasonInfo, setReasonInfo] = useState({
-
-        ReasonId: {
+        ReasonName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-        ReasonType: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        activeSts: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-
     })
+    
+    useEffect(() => {
+        if (reasonName) {
+            ReasonInfo.ReasonName.value = reasonName
+        }        
+        setReasonInfo(prevState => ({
+            ...prevState,
+        }));
+    }, [reasonName])
 
     const Validation = (data, key, list) => {
         var errorcheck = ValidationLibrary.checkValidation(
@@ -59,6 +59,43 @@ export default function GeneralInfo() {
         ]
     )
 
+    const onSubmit = () => {
+        var mainvalue = {};
+        var targetkeys = Object.keys(ReasonInfo);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                ReasonInfo[targetkeys[i]].value,
+                ReasonInfo[targetkeys[i]].validation
+            );
+            ReasonInfo[targetkeys[i]].error = !errorcheck.state;
+            ReasonInfo[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = ReasonInfo[targetkeys[i]].value;
+        }
+        var filtererr = targetkeys.filter((obj) => ReasonInfo[obj].error == true);
+
+        if (filtererr.length > 0) {
+            setRefresh(!Refresh)
+        } else {
+            if (reasonId) {
+                dispatch(EditReason(ReasonInfo, reasonId))
+                HandleCancel()
+            } else {
+                dispatch(AddReason(ReasonInfo))
+                HandleCancel()
+            }
+        }
+    }
+
+    const HandleCancel = () => {
+        let SalesKey = ["ReasonName"]
+        SalesKey.map((data) => {
+            ReasonInfo[data].value = ""
+        })
+        setReasonInfo(prevState => ({
+            ...prevState,
+        }));
+        history.push('/reason')
+    }
 
     const addInputBox = (obj) => {
         if (Object.values(obj).every(data => data != '')) {
@@ -70,35 +107,16 @@ export default function GeneralInfo() {
     }
     return (
         <div>
-            <Grid item xs={12} spacing={2} direction="row" justifyContent={'center'} container>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Reason Id"
-                        changeData={(data) => Validation(data, "ReasonId")}
-                        value={ReasonInfo.ReasonId.value}
-                        error={ReasonInfo.ReasonId.error}
-                        errmsg={ReasonInfo.ReasonId.errmsg}
-                    />
-                </Grid>
+            <Grid item xs={12} spacing={2} direction="row" container>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Reason Type"
-                        changeData={(data) => Validation(data, "ReasonType")}
-                        value={ReasonInfo.ReasonType.value}
-                        error={ReasonInfo.ReasonType.error}
-                        errmsg={ReasonInfo.ReasonType.errmsg}
+                        labelname="Reason Name"
+                        changeData={(data) => Validation(data, "ReasonName")}
+                        value={ReasonInfo.ReasonName.value}
+                        error={ReasonInfo.ReasonName.error}
+                        errmsg={ReasonInfo.ReasonName.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeSts")}
-                        value={ReasonInfo.activeSts.value}
-                        error={ReasonInfo.activeSts.error}
-                        errmsg={ReasonInfo.activeSts.errmsg}
-                    />
-                </Grid>
-
             </Grid>
             <Grid item xs={12} md={4} sx={12} sm={12} direction="row" container >
                 <AddFieldsBtn fieldName='Add Additional Field' />
@@ -113,7 +131,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'}/>
+                <FooterBtn saveBtn={'Submit'}  onSaveBtn={onSubmit} onCancel={HandleCancel} />
             </Grid>
         </div>
     );

@@ -105,6 +105,7 @@ export default function GeneralInfo({ stateId }) {
         } else {
             if (stateId) {
                 dispatch(EditState(stateDetails))
+                HandleCancel()
             } else {
                 dispatch(AddState(stateDetails))
                 HandleCancel()
@@ -120,6 +121,7 @@ export default function GeneralInfo({ stateId }) {
         setstateDetails(prevState => ({
             ...prevState,
         }));
+        history.push('/state')
     }
 
     const addInputBox = (obj) => { }
@@ -161,7 +163,7 @@ export default function GeneralInfo({ stateId }) {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onCancel={HandleCancel} />
             </Grid>
         </div>
     );

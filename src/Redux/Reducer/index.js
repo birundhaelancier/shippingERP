@@ -8,6 +8,10 @@ import CityReducer from './GenaralGroupReducer/cityReducer';
 import HsnReducer from "./EnquiryGroupReducer/HsnReducer";
 import LicenseReducer from "./EnquiryGroupReducer/LicenseReducer";
 import CargoReducer from './EnquiryGroupReducer/CargoReducer'
+import DimensionReducer from './EnquiryGroupReducer/DimensionReducer';
+import ShipmentReducer from './EnquiryGroupReducer/ShipmentReducer';
+import ReasonReducer from './EnquiryGroupReducer/ReasonReducer';
+
 export default combineReducers({
     CountryReducer,
     StateReducer,
@@ -16,7 +20,8 @@ export default combineReducers({
     AirPortReducer,
     HsnReducer,
     LicenseReducer,
-    CargoReducer
-    // AllReducer,
-
+    CargoReducer,
+    DimensionReducer,
+    ShipmentReducer,
+    ReasonReducer,
 })

@@ -9,28 +9,30 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddDimension, EditDimension } from '../../../Redux/Action/EnquiryGroupAction/DimensionAction';
 
 
-
-export default function GeneralInfo() {
-    const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
-    const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
+export default function GeneralInfo({ dimensionId, dimensionName }) {
     let history = useHistory()
+    let dispatch = useDispatch();
+    const [Refresh, setRefresh] = useState(false);
     const [FieldModal, setFieldModal] = useState(false);
 
     const [DimensionInfo, setDimensionInfo] = useState({
-
-        DimensionId: {
+        dimensionName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-        DimensionType: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        activeSts: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-
     })
+
+    useEffect(() => {
+        if (dimensionName) {
+            DimensionInfo.dimensionName.value = dimensionName
+        }        
+        setDimensionInfo(prevState => ({
+            ...prevState,
+        }));
+    }, [dimensionName])
 
     const Validation = (data, key, list) => {
         var errorcheck = ValidationLibrary.checkValidation(
@@ -59,6 +61,44 @@ export default function GeneralInfo() {
         ]
     )
 
+    const onSubmit = () => {
+        var mainvalue = {};
+        var targetkeys = Object.keys(DimensionInfo);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                DimensionInfo[targetkeys[i]].value,
+                DimensionInfo[targetkeys[i]].validation
+            );
+            DimensionInfo[targetkeys[i]].error = !errorcheck.state;
+            DimensionInfo[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = DimensionInfo[targetkeys[i]].value;
+        }
+        var filtererr = targetkeys.filter((obj) => DimensionInfo[obj].error == true);
+
+        if (filtererr.length > 0) {
+            setRefresh(!Refresh)
+        } else {
+            if (dimensionId) {
+                dispatch(EditDimension(DimensionInfo, dimensionId))
+                HandleCancel()
+            } else {
+                dispatch(AddDimension(DimensionInfo))
+                HandleCancel()
+            }
+        }
+    }
+
+    const HandleCancel = () => {
+        let SalesKey = ["dimensionName"]
+        SalesKey.map((data) => {
+            DimensionInfo[data].value = ""
+        })
+        setDimensionInfo(prevState => ({
+            ...prevState,
+        }));
+        history.push('/dimension')
+    }
+
 
     const addInputBox = (obj) => {
         if (Object.values(obj).every(data => data != '')) {
@@ -70,35 +110,16 @@ export default function GeneralInfo() {
     }
     return (
         <div>
-            <Grid item xs={12} spacing={2} direction="row" justifyContent={'center'} container>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Dimension Id"
-                        changeData={(data) => Validation(data, "DimensionId")}
-                        value={DimensionInfo.DimensionId.value}
-                        error={DimensionInfo.DimensionId.error}
-                        errmsg={DimensionInfo.DimensionId.errmsg}
-                    />
-                </Grid>
+            <Grid item xs={12} spacing={2} direction="row" container>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Dimension Type"
-                        changeData={(data) => Validation(data, "DimensionType")}
-                        value={DimensionInfo.DimensionType.value}
-                        error={DimensionInfo.DimensionType.error}
-                        errmsg={DimensionInfo.DimensionType.errmsg}
+                        labelname="Dimension Name"
+                        changeData={(data) => Validation(data, "dimensionName")}
+                        value={DimensionInfo.dimensionName.value}
+                        error={DimensionInfo.dimensionName.error}
+                        errmsg={DimensionInfo.dimensionName.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeSts")}
-                        value={DimensionInfo.activeSts.value}
-                        error={DimensionInfo.activeSts.error}
-                        errmsg={DimensionInfo.activeSts.errmsg}
-                    />
-                </Grid>
-
             </Grid>
             <Grid item xs={12} md={4} sx={12} sm={12} direction="row" container >
                 <AddFieldsBtn fieldName='Add Additional Field' />
@@ -113,7 +134,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" >
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onCancel={HandleCancel} />
             </Grid>
         </div>
     );

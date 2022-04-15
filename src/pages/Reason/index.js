@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,17 +8,31 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewReason from './viewreason';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import CustomSwitch from '../../components/SwitchBtn';
+import { useDispatch, useSelector } from 'react-redux'
+import { ReasonList, ReasonStatus, DeleteReasonList } from '../../Redux/Action/EnquiryGroupAction/ReasonAction';
 // import './customer.css';
 
 export default function ReasonDetails() {
+    let dispatch = useDispatch()
     const [openModal, setOpenModal] = useState(false);
+    const GetReasonList = useSelector((state) => state.ReasonReducer.GetReasonList);
+    const [rowData, setRowData] = useState([])
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 130, headerName: 'S.No' },
         { field: 'reasonId', width: 230, headerName: 'Reason Id' },
         { field: 'reasonName', width: 230, headerName: 'Reason Type' },
-        { field: 'activeStatus', width: 230, headerName: 'Active Status' },
+        { field: 'activeStatus', width: 230, headerName: 'Active Status',
+        renderCell: (params) => {
+            return (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CustomSwitch size='small' onSwitchChange={() => OnChangeStatus(params.row.reasonId, params.row.activeStatus === 1 ? 0 : 1)} checked={params.row.activeStatus === 1 ? true : false} />
+                </div>
+            );
+        }
+    },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -29,26 +43,49 @@ export default function ReasonDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                    {/* <div className="eyeSymbol" onClick={() => viewModal(params.row.portId)}><RemoveRedEye /></div> */}
+                    <Link to={`/addReason?user_id=${params.row.reasonId}&&reasonName=${params.row.reasonName}`} className="editSymbol" ><Edit /></Link>
+                    <div className="deleteSymbol" onClick={() => deleteSeaPort(params.row.reasonId)}><Delete /></div>
                     </div>
                 );
             }
         }
-    ];
-    const rows = [
-        { id: 1, reasonName: 'Birundha', reasonId: '1', activeStatus: "pending" },
-        { id: 2, reasonName: 'Divya', reasonId: '2', activeStatus: "pending" },
-        { id: 3, reasonName: 'Lakshmi', reasonId: '3', activeStatus: "pending" },
-        { id: 4, reasonName: 'Vicky', reasonId: '1', activeStatus: "pending" },
-        { id: 5, reasonName: 'Priya', reasonId: '2', activeStatus: "pending" },
     ];
 
     let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
         history.push("/addReason")
+    }
+    useEffect(() => {
+        dispatch(ReasonList())
+    }, [])
+
+    useEffect(() => {
+        let rows = [];
+        GetReasonList?.map((items, index) => {
+            rows.push(
+                {
+                    id: index + 1,
+                    reasonId: items.id,
+                    reasonName: items.name,
+                    activeStatus: items.status,
+                }
+            )
+        })
+        setRowData(rows)    
+    }, [GetReasonList])
+
+
+    const viewModal = (id) => {
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteSeaPort = (id) => {
+        dispatch(DeleteReasonList(id)) 
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(ReasonStatus(id, status))
     }
     return (
         <div>
@@ -57,7 +94,7 @@ export default function ReasonDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}

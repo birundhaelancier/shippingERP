@@ -71,6 +71,7 @@ export default function GeneralInfo({ countryId }) {
         } else {
             if (countryId) {
                 dispatch(EditContry(countryDetails, countryId))
+                HandleCancel()
             } else {
                 dispatch(AddContry(countryDetails))
                 HandleCancel()
@@ -86,6 +87,7 @@ export default function GeneralInfo({ countryId }) {
         setcountryDetails(prevState => ({
             ...prevState,
         }));
+        history.push('/country')
     }
     return (
         <div>

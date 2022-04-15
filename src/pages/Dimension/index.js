@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,17 +8,33 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewDimension from './viewdimension';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import CustomSwitch from '../../components/SwitchBtn';
+import { useDispatch, useSelector } from 'react-redux'
+import { DimensionList, DimensionStatus, DeleteDimensionList } from '../../Redux/Action/EnquiryGroupAction/DimensionAction';
+
 
 // import './customer.css';
 
 export default function DimensionDetails() {
+    let dispatch = useDispatch()
     const [openModal, setOpenModal] = useState(false);
+    const GetDimensionList = useSelector((state) => state.DimensionReducer.GetDimensionList);
+    const [rowData, setRowData] = useState([])
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 130, headerName: 'S.No' },
         { field: 'dimensionId', width: 230, headerName: 'Dimension Id' },
         { field: 'dimensionName', width: 230, headerName: 'Dimension Type' },
-        { field: 'activeStatus', width: 230, headerName: 'Active Status' },
+        { field: 'activeStatus', width: 230, headerName: 'Active Status',
+        renderCell: (params) => {
+            return (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CustomSwitch size='small' onSwitchChange={() => OnChangeStatus(params.row.dimensionId, params.row.activeStatus === 1 ? 0 : 1)} checked={params.row.activeStatus === 1 ? true : false} />
+                </div>
+            );
+        }
+    },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -29,26 +45,50 @@ export default function DimensionDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                        {/* <div className="eyeSymbol" onClick={() => viewModal(params.row.portId)}><RemoveRedEye /></div> */}
+                        <Link to={`/addDimension?user_id=${params.row.dimensionId}&&dimensionName=${params.row.dimensionName}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={() => deleteSeaPort(params.row.dimensionId)}><Delete /></div>
                     </div>
                 );
             }
         }
     ];
-    const rows = [
-        { id: 1, dimensionName: 'Birundha', dimensionId: '1', activeStatus: "pending" },
-        { id: 2, dimensionName: 'Divya', dimensionId: '2', activeStatus: "pending" },
-        { id: 3, dimensionName: 'Lakshmi', dimensionId: '3', activeStatus: "pending" },
-        { id: 4, dimensionName: 'Vicky', dimensionId: '1', activeStatus: "pending" },
-        { id: 5, dimensionName: 'Priya', dimensionId: '2', activeStatus: "pending" },
-    ];
+
 
     let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
         history.push("/addDimension")
+    }
+    useEffect(() => {
+        dispatch(DimensionList())
+    }, [])
+
+    useEffect(() => {
+        let rows = [];
+        GetDimensionList?.map((items, index) => {
+            rows.push(
+                {
+                    id: index + 1,
+                    dimensionId: items.id,
+                    dimensionName: items.name,
+                    activeStatus: items.status,
+                }
+            )
+        })
+        setRowData(rows)    
+    }, [GetDimensionList])
+
+
+    const viewModal = (id) => {
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteSeaPort = (id) => {
+        dispatch(DeleteDimensionList(id)) 
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(DimensionStatus(id, status))
     }
     return (
         <div>
@@ -57,7 +97,7 @@ export default function DimensionDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -66,7 +106,7 @@ export default function DimensionDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"Dimension"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewDimension CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewDimension CloseModal={(bln) => setOpenModal(bln)}  GetId={GetId} />
                         </>
                     }
                 />

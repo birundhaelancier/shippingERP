@@ -9,28 +9,28 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
+import { useDispatch } from 'react-redux';
+import { AddShipment, EditShipment } from '../../../Redux/Action/EnquiryGroupAction/ShipmentAction';
 
-
-
-export default function GeneralInfo() {
-    const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
-    const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
+export default function GeneralInfo({ shipmentId, shipmentName}) {
     let history = useHistory()
     const [FieldModal, setFieldModal] = useState(false);
-
+    let dispatch = useDispatch();
+    const [Refresh, setRefresh] = useState(false);
     const [shipmentInfo, setshipmentInfo] = useState({
-
-        shipmentId: {
+        shipmentName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-        shipmentType: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        activeSts: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-
     })
+    
+    useEffect(() => {
+        if (shipmentName) {
+            shipmentInfo.shipmentName.value = shipmentName
+        }        
+        setshipmentInfo(prevState => ({
+            ...prevState,
+        }));
+    }, [shipmentName])
 
     const Validation = (data, key, list) => {
         var errorcheck = ValidationLibrary.checkValidation(
@@ -59,6 +59,43 @@ export default function GeneralInfo() {
         ]
     )
 
+    const onSubmit = () => {
+        var mainvalue = {};
+        var targetkeys = Object.keys(shipmentInfo);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                shipmentInfo[targetkeys[i]].value,
+                shipmentInfo[targetkeys[i]].validation
+            );
+            shipmentInfo[targetkeys[i]].error = !errorcheck.state;
+            shipmentInfo[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = shipmentInfo[targetkeys[i]].value;
+        }
+        var filtererr = targetkeys.filter((obj) => shipmentInfo[obj].error == true);
+
+        if (filtererr.length > 0) {
+            setRefresh(!Refresh)
+        } else {
+            if (shipmentId) {
+                dispatch(EditShipment(shipmentInfo, shipmentId))
+                HandleCancel()
+            } else {
+                dispatch(AddShipment(shipmentInfo))
+                HandleCancel()
+            }
+        }
+    }
+
+    const HandleCancel = () => {
+        let SalesKey = ["shipmentName"]
+        SalesKey.map((data) => {
+            shipmentInfo[data].value = ""
+        })
+        setshipmentInfo(prevState => ({
+            ...prevState,
+        }));
+        history.push('/shipment')
+    }
 
     const addInputBox = (obj) => {
         if (Object.values(obj).every(data => data != '')) {
@@ -70,35 +107,17 @@ export default function GeneralInfo() {
     }
     return (
         <div>
-            <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Shipment Id"
-                        changeData={(data) => Validation(data, "shipmentId")}
-                        value={shipmentInfo.shipmentId.value}
-                        error={shipmentInfo.shipmentId.error}
-                        errmsg={shipmentInfo.shipmentId.errmsg}
-                    />
-                </Grid>
+            <Grid item xs={8} spacing={2} direction="row" container>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Shipment Type"
-                        changeData={(data) => Validation(data, "shipmentType")}
-                        value={shipmentInfo.shipmentType.value}
-                        error={shipmentInfo.shipmentType.error}
-                        errmsg={shipmentInfo.shipmentType.errmsg}
+                        labelname="Shipment Name"
+                        changeData={(data) => Validation(data, "shipmentName")}
+                        value={shipmentInfo.shipmentName.value}
+                        error={shipmentInfo.shipmentName.error}
+                        errmsg={shipmentInfo.shipmentName.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeSts")}
-                        value={shipmentInfo.activeSts.value}
-                        error={shipmentInfo.activeSts.error}
-                        errmsg={shipmentInfo.activeSts.errmsg}
-                    />
-                </Grid>
-
+               
             </Grid>
             <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container style={{ position: 'relative', bottom: '50px' }}>
                 <AddFieldsBtn fieldName='Add Additional Field' />
@@ -113,7 +132,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onCancel={HandleCancel} />
             </Grid>
         </div>
     );

@@ -11,7 +11,7 @@ import CustomTable from '../../components/CustomTable';
 import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { CargoList, CargoStatus, DeleteCargoList } from '../../Redux/Action/EnquiryGroupAction/CargoAction'
 import { useDispatch, useSelector } from 'react-redux'
-import CustomSwitch from '../../components/SwitchBtn'
+import CustomSwitch from '../../components/SwitchBtn';
 // import './customer.css';
 
 export default function CargoDetails() {

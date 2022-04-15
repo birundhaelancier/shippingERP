@@ -12,10 +12,10 @@ import GeneralInfo from './TabPages/generalInfo';
 
 
 
-export default function AddDimension() {
-
+export default function AddDimension(props) {
+    const params = new URLSearchParams(props.location.search);
     const tabArray = [
-        { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo /> },
+        { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo  dimensionId={params.get("user_id")} dimensionName={params.get("dimensionName")}  /> },
         { icon: '', title: '', description: '' },
         { icon: '', title: '', description: '' },
         { icon: '', title: '', description: '' },
