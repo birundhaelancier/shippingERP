@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,17 +8,32 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewCargo from './viewcargo';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { CargoList, CargoStatus, DeleteCargoList } from '../../Redux/Action/EnquiryGroupAction/CargoAction'
+import { useDispatch, useSelector } from 'react-redux'
+import CustomSwitch from '../../components/SwitchBtn'
 // import './customer.css';
 
 export default function CargoDetails() {
     const [openModal, setOpenModal] = useState(false);
+    let dispatch = useDispatch()
+    const GetCargoList = useSelector((state) => state.CargoReducer.GetCargoList);
+    const [rowData, setRowData] = useState([])
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 130, headerName: 'S.No' },
         { field: 'cargoId', width: 230, headerName: 'Cargo Id' },
         { field: 'cargoName', width: 230, headerName: 'Cargo Type' },
-        { field: 'activeStatus', width: 230, headerName: 'Active Status' },
+        {
+            field: 'activeStatus', width: 230, headerName: 'Active Status',
+            renderCell: (params) => {
+                return (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <CustomSwitch size='small' onSwitchChange={() => OnChangeStatus(params.row.cargoId, params.row.activeStatus === 1 ? 0 : 1)} checked={params.row.activeStatus === 1 ? true : false} />
+                    </div>
+                );
+            }
+        },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -29,26 +44,51 @@ export default function CargoDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                        {/* <div className="eyeSymbol" onClick={() => viewModal(params.row.portId)}><RemoveRedEye /></div> */}
+                        <Link to={`/addcargo/${params.row.cargoId}/${params.row.cargoName}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={() => deleteSeaPort(params.row.cargoId)}><Delete /></div>
                     </div>
                 );
             }
         }
     ];
-    const rows = [
-        { id: 1, cargoName: 'Birundha', cargoId: '1', activeStatus: "pending" },
-        { id: 2, cargoName: 'Divya', cargoId: '2', activeStatus: "pending" },
-        { id: 3, cargoName: 'Lakshmi', cargoId: '3', activeStatus: "pending" },
-        { id: 4, cargoName: 'Vicky', cargoId: '1', activeStatus: "pending" },
-        { id: 5, cargoName: 'Priya', cargoId: '2', activeStatus: "pending" },
-    ];
+
 
     let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
         history.push("/addCargo")
+    }
+
+    useEffect(() => {
+        dispatch(CargoList())
+    }, [])
+
+    useEffect(() => {
+        let rows = [];
+        GetCargoList?.map((items, index) => {
+            rows.push(
+                {
+                    id: index + 1,
+                    cargoId: items.id,
+                    cargoName: items.name,
+                    activeStatus: items.status,
+                }
+            )
+        })
+        setRowData(rows)
+    }, [GetCargoList])
+
+
+    const viewModal = (id) => {
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteSeaPort = (id) => {
+        dispatch(DeleteCargoList(id))
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(CargoStatus(id, status))
     }
     return (
         <div>
@@ -57,7 +97,7 @@ export default function CargoDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}

@@ -2,14 +2,14 @@ import react, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import ContentHeader from '../../components/ContentHeader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCountryList } from '../../Redux/Action/countryAction';
+import { getCountryList } from '../../Redux/Action/GeneralGroupAction/countryAction';
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewCountry from './viewcountry';
 import CustomTable from '../../components/CustomTable';
 import CustomSwitch from '../../components/SwitchBtn';
 import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
-import { DeleteCountryList } from '../../Redux/Action/countryAction';
+import { DeleteCountryList, CountryStatus } from '../../Redux/Action/GeneralGroupAction/countryAction';
 
 
 // import './customer.css';
@@ -26,7 +26,15 @@ export default function CountryDetails() {
         { field: 'countryId', width: 150, headerName: 'Country Id' },
         { field: 'countryName', width: 200, headerName: 'Country Name' },
         { field: 'countryCode', width: 150, headerName: 'Country Code' },
-        { field: 'activeStatus', width: 200, headerName: 'Active Status' },
+        { field: 'activeStatus', width: 200, headerName: 'Active Status',
+          renderCell: (params) => {
+            return (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CustomSwitch size='small' onSwitchChange={() => OnChangeStatus(params.row.countryId, params.row.activeStatus === 1 ? 0 : 1)} checked={params.row.activeStatus === 1 ? true : false} />
+                </div>
+            );
+        }
+    },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -40,7 +48,6 @@ export default function CountryDetails() {
                         <div className="eyeSymbol" onClick={() => viewModal(params.row.countryId)}><RemoveRedEye /></div>
                         <Link to={`/addCountry?user_id=${params.row.countryId}`} className="editSymbol" ><Edit /></Link>
                         <div className="deleteSymbol" onClick={()=>deleteCountry(params.row.countryId)}><Delete /></div>
-                        <div><CustomSwitch size='small' /></div>
                     </div>
                 );
             }
@@ -59,7 +66,7 @@ export default function CountryDetails() {
                     countryId: items.id,
                     countryName: items.name,
                     countryCode: items.code,
-                    activeStatus: items.status === 1 ? "Active" : "In-Active",
+                    activeStatus: items.status,
                 }
             )
         })
@@ -76,6 +83,9 @@ export default function CountryDetails() {
     }
     const deleteCountry=(id)=>{
         dispatch(DeleteCountryList(id))
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(CountryStatus(id, status))
     }
     return (
         <div>

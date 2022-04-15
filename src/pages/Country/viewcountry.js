@@ -1,7 +1,7 @@
 import react, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Grid';
 import CustomButton from '../../components/Button';
-import { ViewCountryDetails } from '../../Redux/Action/countryAction';
+import { ViewCountryDetails } from '../../Redux/Action/GeneralGroupAction/countryAction';
 import { useDispatch, useSelector } from 'react-redux'
 
 // import './customer.css';

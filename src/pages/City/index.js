@@ -10,7 +10,7 @@ import ViewCountry from './viewcity';
 import CustomTable from '../../components/CustomTable';
 import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
 import CustomSwitch from '../../components/SwitchBtn';
-import { DeleteCityList, getCityList } from '../../Redux/Action/cityAction';
+import { DeleteCityList, getCityList, CityStatus } from '../../Redux/Action/GeneralGroupAction/cityAction';
 import { useDispatch, useSelector } from 'react-redux';
 // import './customer.css';
 
@@ -27,7 +27,14 @@ export default function CityDetails() {
         { field: 'cityName', width: 160, headerName: 'City Name' },
         { field: 'stateName', width: 160, headerName: 'State Name' },
         { field: 'countryName', width: 160, headerName: 'Country Name' },
-        { field: 'activeStatus', width: 160, headerName: 'Active Status' },
+        { field: 'activeStatus', width: 160, headerName: 'Active Status',
+        renderCell: (params) => {
+            return (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CustomSwitch size='small' onSwitchChange={() => OnChangeStatus(params.row.cityId, params.row.activeStatus === 1 ? 0 : 1)} checked={params.row.activeStatus === 1 ? true : false} />
+                </div>
+            ); },
+        },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -41,7 +48,7 @@ export default function CityDetails() {
                          <div className="eyeSymbol" onClick={() => viewModal(params.row.cityId)}><RemoveRedEye /></div>
                         <Link to={`/addCity?user_id=${params.row.cityId}`} className="editSymbol" ><Edit /></Link>
                         <div className="deleteSymbol" onClick={()=>deleteCountry(params.row.cityId)}><Delete /></div>
-                        <div><CustomSwitch size='small' /></div>
+                     
                     </div>
                 );
             }
@@ -62,12 +69,10 @@ export default function CityDetails() {
                     cityName: items.name,
                     stateName: items.state_name,
                     countryName: items.country_name,
-                    activeStatus: items.status  === 1 ? "Active" : "In-Active",
+                    activeStatus: items.status,
                 }
             )
         })
-    console.log(rows,GetCityList, 'GetCityList');
-
         setRowData(rows)
     },[GetCityList])
 
@@ -82,6 +87,9 @@ export default function CityDetails() {
     }
     const deleteCountry=(id)=>{
         dispatch(DeleteCityList(id))
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(CityStatus(id, status))
     }
     return (
         <div>

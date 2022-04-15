@@ -9,15 +9,20 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
-
+import { useDispatch,useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { ViewHsnDetails,AddHsn,EditHsn } from '../../../Redux/Action/EnquiryGroupAction/HsnAction'
 
 
 export default function GeneralInfo() {
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
+    const ViewHsnList = useSelector((state) => state.HsnReducer.ViewHsnDetails);
     let history = useHistory()
+    let dispatch=useDispatch()
+    let { id } =useParams()
     const [FieldModal, setFieldModal] = useState(false);
-    const [profileDetails, setprofileDetails] = useState({
+    const [HsnDetails, setHsnDetails] = useState({
         sectionName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
@@ -39,14 +44,7 @@ export default function GeneralInfo() {
         ratePre: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-
-        activeStatus: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        country: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-
+      
         transaction: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
@@ -59,28 +57,80 @@ export default function GeneralInfo() {
             { type: "text", labelName: "Skype Id", validation: ["required"], arrVal: [] },
         ]
     )
+    useEffect(() => {
+        dispatch(ViewHsnDetails(id))
+    }, [id])
+
+    useEffect(() => {
+    if(ViewHsnList){
+        HsnDetails.description.value = ViewHsnList[0]?.description || ""
+        HsnDetails.hsnCode.value = ViewHsnList[0]?.hsn_code || ""
+        HsnDetails.rateStandard.value = ViewHsnList[0]?.rate_standard || ""
+        HsnDetails.chapterName.value = ViewHsnList[0]?.chapter_name || ""
+        HsnDetails.sectionName.value = ViewHsnList[0]?.section_name || ""
+        HsnDetails.unit.value = ViewHsnList[0]?.unit || ""
+        HsnDetails.transaction.value = ViewHsnList[0]?.type==="Import"?1:2 ||""
+        HsnDetails.ratePre.value = ViewHsnList[0]?.rate_preferential || ""
+        }
+    }, [ViewHsnList])
+  
 
     const Validation = (data, key, list) => {
+     
         var errorcheck = ValidationLibrary.checkValidation(
             data,
-            profileDetails[key].validation
+            HsnDetails[key].validation
         );
         let dynObj = {
             value: data,
             error: !errorcheck.state,
             errmsg: errorcheck.msg,
-            validation: profileDetails[key].validation,
+            validation: HsnDetails[key].validation,
         };
 
-        setprofileDetails(prevState => ({
+        setHsnDetails(prevState => ({
             ...prevState,
             [key]: dynObj,
-
         }));
     }
-
     const onSubmit = () => {
-        history.push("/customer");
+        var mainvalue = {};
+        var targetkeys = Object.keys(HsnDetails);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                HsnDetails[targetkeys[i]].value,
+                HsnDetails[targetkeys[i]].validation
+            );
+            HsnDetails[targetkeys[i]].error = !errorcheck.state;
+            HsnDetails[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = HsnDetails[targetkeys[i]].value;
+        }
+        var filtererr = targetkeys.filter((obj) => HsnDetails[obj].error == true);
+
+        if (filtererr.length > 0) {
+        } else {
+            if (id) {
+                dispatch(EditHsn(HsnDetails,id)).then(()=>{
+                    history.push("/hsn")
+                    HandleCancel()
+                })
+            } else {
+                dispatch(AddHsn(HsnDetails)).then(()=>{
+                    history.push("/hsn")
+                    HandleCancel()
+                })
+            }
+
+        }
+    }
+    const HandleCancel = () => {
+        let SalesKey =Object.keys(HsnDetails)
+        SalesKey.map((data) => {
+            HsnDetails[data].value = ""
+        })
+        setHsnDetails(prevState => ({
+            ...prevState,
+        }));
     }
     const handleAddClick = (type) => {
         if (type === 'general') {
@@ -114,110 +164,93 @@ export default function GeneralInfo() {
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                <Labelbox show type="number"
-                        labelname="HSN Code ID"
-                        changeData={(data) => Validation(data, "sectionName")}
-                       
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                <Labelbox show type="select"
-                        labelname="Business Type"
-                        changeData={(data) => Validation(data, "sectionName")}
-                       
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Section Name"
-                        changeData={(data) => Validation(data, "sectionName")}
-                        value={profileDetails.sectionName.value}
-                        error={profileDetails.sectionName.error}
-                        errmsg={profileDetails.sectionName.errmsg}
+                    <Labelbox show type="select"
+                        labelname="Transaction Type"
+                        dropdown={
+                            [
+                                { id: 1, value: 'Import' },
+                                { id: 2, value: 'Export' }
+                            ]
+                        }
+                        changeData={(data) => Validation(data, "transaction")}
+                        value={HsnDetails.transaction.value}
+                        error={HsnDetails.transaction.error}
+                        errmsg={HsnDetails.transaction.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Section Description"
+                        labelname="Section Name"
                         changeData={(data) => Validation(data, "sectionName")}
-                        value={profileDetails.sectionName.value}
-                        error={profileDetails.sectionName.error}
-                        errmsg={profileDetails.sectionName.errmsg}
+                        value={HsnDetails.sectionName.value}
+                        error={HsnDetails.sectionName.error}
+                        errmsg={HsnDetails.sectionName.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Chapter Name"
                         changeData={(data) => Validation(data, "chapterName")}
-                        value={profileDetails.chapterName.value}
-                        error={profileDetails.chapterName.error}
-                        errmsg={profileDetails.chapterName.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Chapter Decription"
-                        changeData={(data) => Validation(data, "chapterName")}
-                        value={profileDetails.chapterName.value}
-                        error={profileDetails.chapterName.error}
-                        errmsg={profileDetails.chapterName.errmsg}
+                        value={HsnDetails.chapterName.value}
+                        error={HsnDetails.chapterName.error}
+                        errmsg={HsnDetails.chapterName.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="HSN Code"
                         changeData={(data) => Validation(data, "hsnCode")}
-                        value={profileDetails.hsnCode.value}
-                        error={profileDetails.hsnCode.error}
-                        errmsg={profileDetails.hsnCode.errmsg}
+                        value={HsnDetails.hsnCode.value}
+                        error={HsnDetails.hsnCode.error}
+                        errmsg={HsnDetails.hsnCode.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="HSN Code Description"
+                        labelname="Description"
                         changeData={(data) => Validation(data, "description")}
-                        value={profileDetails.description.value}
-                        error={profileDetails.description.error}
-                        errmsg={profileDetails.description.errmsg}
+                        value={HsnDetails.description.value}
+                        error={HsnDetails.description.error}
+                        errmsg={HsnDetails.description.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Unit"
                         changeData={(data) => Validation(data, "unit")}
-                        value={profileDetails.unit.value}
-                        error={profileDetails.unit.error}
-                        errmsg={profileDetails.unit.errmsg}
+                        value={HsnDetails.unit.value}
+                        error={HsnDetails.unit.error}
+                        errmsg={HsnDetails.unit.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Rate of Duty Standard"
                         changeData={(data) => Validation(data, "rateStandard")}
-                        value={profileDetails.rateStandard.value}
-                        error={profileDetails.rateStandard.error}
-                        errmsg={profileDetails.rateStandard.errmsg}
+                        value={HsnDetails.rateStandard.value}
+                        error={HsnDetails.rateStandard.error}
+                        errmsg={HsnDetails.rateStandard.errmsg}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Rate of Duty Preferential"
                         changeData={(data) => Validation(data, "ratePre")}
-                        value={profileDetails.ratePre.value}
-                        error={profileDetails.ratePre.error}
-                        errmsg={profileDetails.ratePre.errmsg}
+                        value={HsnDetails.ratePre.value}
+                        error={HsnDetails.ratePre.error}
+                        errmsg={HsnDetails.ratePre.errmsg}
                     />
                 </Grid>
-
+{/* 
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Active Status"
                         changeData={(data) => Validation(data, "activeStatus")}
-                        value={profileDetails.activeStatus.value}
-                        error={profileDetails.activeStatus.error}
-                        errmsg={profileDetails.activeStatus.errmsg}
+                        value={HsnDetails.activeStatus.value}
+                        error={HsnDetails.activeStatus.error}
+                        errmsg={HsnDetails.activeStatus.errmsg}
                     />
-                </Grid>
+                </Grid> */}
 
             </Grid>
             <Grid item xs={12} md={4} sx={12} sm={12} direction="row"  container >
@@ -233,7 +266,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onSubmit={HandleCancel}/>
             </Grid>
         </div>
     );

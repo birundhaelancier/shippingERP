@@ -8,7 +8,7 @@ import {  CheckCircle } from '@mui/icons-material';
 import CustomTab from '../../components/CustomTab';
 import ViewCountry from './viewcountry';
 import GeneralInfo from './TabPages/generalInfo';
-import { AddContry, ViewCountryDetails } from '../../Redux/Action/countryAction';
+import { AddContry, ViewCountryDetails } from '../../Redux/Action/GeneralGroupAction/countryAction';
 
 export default function AddCountry(props) {
     let dispatch = useDispatch();

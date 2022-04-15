@@ -1,17 +1,17 @@
-import { apiurl, REQUEST_HEADERS } from '../Utils/baseurl';
+import { apiurl, REQUEST_HEADERS } from '../../Utils/baseurl';
 import axios from 'axios';
 import { notification } from 'antd';
-import { GET_STATE_LIST, VIEW_STATE_LIST } from '../Utils/constant';
+import { GET_COUNTRY_LIST, VIEW_COUNTRY_LIST } from '../../Utils/constant';
 
-export const AddState = (data) => async dispatch => {
+export const AddContry = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'add_state',
+            url: apiurl + 'add_country',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "state_name": data.stateName.value,
-                "country": data.countryName.value,
+                "country_name": data.countryName.value,
+                "country_code": data.countryCode.value,
                 "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
@@ -23,18 +23,17 @@ export const AddState = (data) => async dispatch => {
     } catch (err) { }
 }
 
-export const EditState = (data) => async dispatch => {
-    console.log(data, 'data')
+export const EditContry = (data, countryId) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'edit_state',
+            url: apiurl + 'edit_country',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "state_name": data.stateName.value,
-                "country": data.countryId.value,
+                "country_name": data.countryName.value,
+                "country_code": data.countryCode.value,
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "state_id": data.stateId.value
+                "country_id": countryId
             }
         })
             .then((response) => {
@@ -45,78 +44,83 @@ export const EditState = (data) => async dispatch => {
     } catch (err) { }
 }
 
-export const getStateList = () => async dispatch => {
+export const getCountryList = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'state_list',
+            url: apiurl + 'country_list',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
+                "country_id": data,
             }
         })
             .then((response) => {
                 dispatch({
-                    type: GET_STATE_LIST,
+                    type: GET_COUNTRY_LIST,
                     payload: response.data.Response
                 })
             })
     } catch (err) { }
 }
 
-export const ViewStateDetails = (data) => async dispatch => {
+export const ViewCountryDetails = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'view_state',
+            url: apiurl + 'view_country',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "state_id": data,
+                "country_id": data,
             }
         })
             .then((response) => {
                 dispatch({
-                    type: VIEW_STATE_LIST,
+                    type: VIEW_COUNTRY_LIST,
                     payload: response.data.Response
                 })
             })
     } catch (err) { }
 }
 
-export const StateStatus = () => async dispatch => {
+export const CountryStatus = (portId, status) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'status_state',
+            url: apiurl + 'status_country',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-            }
-        })
-            .then((response) => {
-
-            })
-    } catch (err) { }
-}
-
-export const DeleteStateList = (data) => async dispatch => {
-    try {
-        axios({
-            method: 'POST',
-            url: apiurl + 'delete_state',
-            headers: REQUEST_HEADERS().HEADER,
-            data: {
-                "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "state_id": data,
-
+                "country_id": portId || 0,
+                "status": status || 0,
             }
         })
             .then((response) => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(getStateList())
+                dispatch(getCountryList())
+            })
+    } catch (err) { }
+}
+
+export const DeleteCountryList = (data) => async dispatch => {
+    try {
+        axios({
+            method: 'POST',
+            url: apiurl + 'delete_country',
+            headers: REQUEST_HEADERS().HEADER,
+            data: {
+                "user_id": JSON.parse(localStorage.getItem("user_id")),
+                "country_id": data
+            }
+        })
+            .then((response) => {
+                notification.success({
+                    message: response.data.Message
+                });
+                dispatch(getCountryList())
             })
     } catch (err) { }
 }

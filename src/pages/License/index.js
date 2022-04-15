@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState,useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -9,11 +9,16 @@ import DynModel from '../../components/CustomModal';
 import ViewLicense from './viewlicense';
 import CustomTable from '../../components/CustomTable';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import { useSelector,useDispatch } from 'react-redux'
+import { LicenseList,DeleteLicenseList } from '../../Redux/Action/EnquiryGroupAction/LicenceAction'
 // import './customer.css';
 
 export default function LicenseDetails() {
     const [openModal, setOpenModal] = useState(false);
+    let dispatch=useDispatch()
+    const GetLicenseList  = useSelector((state) => state.LicenseReducer.GetLicenseList);
+    const [rowData, setRowData] = useState([])
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 100, headerName: 'S.No' },
         { field: 'licenseId', width: 150, headerName: 'License Id' },
@@ -39,20 +44,44 @@ export default function LicenseDetails() {
         }
     ];
 
-
-    const rows = [
-        { id: 1, registrationDate: '1', licenseId: "1", registrationNo: 'India', licenseType: "pending" },
-        { id: 2, registrationDate: '2', licenseId: "2", registrationNo: 'India', licenseType: "pending" },
-        { id: 3, registrationDate: '3', licenseId: "3", registrationNo: 'India', licenseType: "pending" },
-        { id: 4, registrationDate: '1', licenseId: "5", registrationNo: 'India', licenseType: "pending" },
-        { id: 5, registrationDate: '2', licenseId: "4", registrationNo: 'India', licenseType: "pending" },
-    ];
-
     let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
         history.push("/addLicense")
     }
+    useEffect(() => {
+        dispatch(LicenseList())
+    }, [])
+
+    useEffect(()=>{
+        let rows= [];
+        GetLicenseList?.map((items,index)=>{
+            rows.push(
+                {
+                    id: index+1,
+                    sectionName: items.section_name,
+                    chapterName: items.chapter_name,
+                    hsnCode:items.hsn_code,
+                    // description:items.description,
+                    status:items.status,
+                    sec_Id:items.id
+                }
+            )
+        })
+        setRowData(rows)
+    },[GetLicenseList])
+
+  
+    const viewModal = (id) =>{
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteSeaPort=(id)=>{
+        dispatch(DeleteLicenseList(id))
+    }
+    // const OnChangeStatus=(id,status)=>{
+    //     dispatch(LicenseStatus(id,status))
+    // }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
@@ -60,7 +89,7 @@ export default function LicenseDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}

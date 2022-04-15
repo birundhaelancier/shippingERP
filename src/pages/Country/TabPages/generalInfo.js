@@ -6,7 +6,7 @@ import CustomButton from '../../../components/Button';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import AddFieldsBtn from '../../../components/AddFieldsBtn';
-import { AddContry, ViewCountryDetails, EditContry } from '../../../Redux/Action/countryAction';
+import { AddContry, ViewCountryDetails, EditContry } from '../../../Redux/Action/GeneralGroupAction/countryAction';
 import FooterBtn from '../../../components/FooterButtons';
 
 export default function GeneralInfo({ countryId }) {

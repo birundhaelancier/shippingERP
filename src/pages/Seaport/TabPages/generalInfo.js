@@ -9,14 +9,21 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
-
-
-
-export default function GeneralInfo() {
+import { useDispatch, useSelector } from 'react-redux'
+import { EditSeaPort,AddSeaPort,ViewSeaPortDetails,SeaPortStatus } from '../../../Redux/Action/EnquiryGroupAction/Seaports'
+import { getCountryList } from '../../../Redux/Action/GeneralGroupAction/countryAction';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+export default function GeneralInfo({portId}) {
+    let history = useHistory()
+    let dispatch=useDispatch()
+    let { id }=useParams()
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
-    let history = useHistory()
+    const [Refresh, setRefresh] = useState(false);
+    const ViewSeaList = useSelector((state) => state.SeaPortReducer.ViewSeaDetails);
+    const GetCountryList  = useSelector((state) => state.CountryReducer.GetCountryList);
     const [FieldModal, setFieldModal] = useState(false);
+    const [CountryList,setCountryList]=useState([])
     const [seaportInfo, setseaportInfo] = useState({
 
         portId: {
@@ -29,21 +36,42 @@ export default function GeneralInfo() {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
         countryId: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            value: "", validation: [], error: null, errmsg: null,
         },
         countryName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
         default: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            value: "", validation: [], error: null, errmsg: null,
         },
         activeSts: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            value: "", validation: [], error: null, errmsg: null,
         },
 
     })
+    useEffect(() => {
+        dispatch(ViewSeaPortDetails(id))
+        dispatch(getCountryList())
+    }, [id])
+
+    useEffect(() => {
+    if(ViewSeaList){
+        seaportInfo.portId.value = ViewSeaList[0]?.id || ""
+        seaportInfo.portCode.value = ViewSeaList[0]?.code || ""
+        seaportInfo.portName.value = ViewSeaList[0]?.name || ""
+        seaportInfo.countryName.value = ViewSeaList[0]?.country || ""
+        }
+    }, [ViewSeaList])
+    useEffect(()=>{
+        let country=[]
+        GetCountryList.map((data)=>{
+            country.push({id:data.id,value:data.name})
+        }) 
+        setCountryList(country)
+    },[GetCountryList])
 
     const Validation = (data, key, list) => {
+     
         var errorcheck = ValidationLibrary.checkValidation(
             data,
             seaportInfo[key].validation
@@ -58,28 +86,47 @@ export default function GeneralInfo() {
         setseaportInfo(prevState => ({
             ...prevState,
             [key]: dynObj,
-
         }));
     }
-
     const onSubmit = () => {
-        history.push("/seaport");
-    }
-    const [showList, setShowList] = useState(
-        [
-            { type: "text", labelName: "Designation", validation: ["required"], arrVal: [] },
-            { type: "text", labelName: "Department", validation: ["required"], arrVal: [] },
-            { type: "text", labelName: "Skype Id", validation: ["required"], arrVal: [] },
-        ]
-    )
-
-    const addInputBox = (obj) => {
-        if (Object.values(obj).every(data => data != '')) {
-            showList.push(obj)
-            setShowList((prevState) => ([
-                ...prevState,
-            ]));
+        var mainvalue = {};
+        var targetkeys = Object.keys(seaportInfo);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                seaportInfo[targetkeys[i]].value,
+                seaportInfo[targetkeys[i]].validation
+            );
+            seaportInfo[targetkeys[i]].error = !errorcheck.state;
+            seaportInfo[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = seaportInfo[targetkeys[i]].value;
         }
+        var filtererr = targetkeys.filter((obj) => seaportInfo[obj].error == true);
+
+        if (filtererr.length > 0) {
+            setRefresh(!Refresh)
+        } else {
+            if (id) {
+                dispatch(EditSeaPort(seaportInfo,id)).then(()=>{
+                    history.push("/seaport")
+                    HandleCancel()
+                })
+            } else {
+                dispatch(AddSeaPort(seaportInfo)).then(()=>{
+                    history.push("/seaport")
+                    HandleCancel()
+                })
+            }
+
+        }
+    }
+    const HandleCancel = () => {
+        let SalesKey =Object.keys(seaportInfo)
+        SalesKey.map((data) => {
+            seaportInfo[data].value = ""
+        })
+        setseaportInfo(prevState => ({
+            ...prevState,
+        }));
     }
     return (
         <div>
@@ -94,7 +141,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
+                    <Labelbox show type="text"
                         labelname="Sea Port Code"
                         changeData={(data) => Validation(data, "portCode")}
                         value={seaportInfo.portCode.value}
@@ -112,21 +159,13 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
+                    <Labelbox show type="select"
                         labelname="Country Name"
-                        changeData={(data) => Validation(data, "countryId")}
-                        value={seaportInfo.countryId.value}
-                        error={seaportInfo.countryId.error}
-                        errmsg={seaportInfo.countryId.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeSts")}
-                        value={seaportInfo.activeSts.value}
-                        error={seaportInfo.activeSts.error}
-                        errmsg={seaportInfo.activeSts.errmsg}
+                        changeData={(data) => Validation(data, "countryName")}
+                        value={seaportInfo.countryName.value}
+                        error={seaportInfo.countryName.error}
+                        errmsg={seaportInfo.countryName.errmsg}
+                        dropdown={CountryList}
                     />
                 </Grid>
             </Grid>
@@ -137,13 +176,13 @@ export default function GeneralInfo() {
             <DynModel handleChangeModel={FieldModal} modelTitle={"Add Fields"}
                 modalchanges="recruit_modal_css" handleChangeCloseModel={() => setFieldModal(false)} width={600} content={
                     <>
-                        <AddFields CloseModal={(bln) => setFieldModal(bln)} addObj={(data) => addInputBox(data)} />
+                        <AddFields CloseModal={(bln) => setFieldModal(bln)}  ViewSeaList={ViewSeaList}/>
                     </>
                 }
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onSubmit={HandleCancel}/>
             </Grid>
         </div>
     );

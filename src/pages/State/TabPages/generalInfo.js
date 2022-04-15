@@ -10,8 +10,8 @@ import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
 import { useDispatch, useSelector } from 'react-redux'
-import { AddState, ViewStateDetails, EditState } from '../../../Redux/Action/stateAction';
-import { getCountryList } from '../../../Redux/Action/countryAction';
+import { AddState, ViewStateDetails, EditState } from '../../../Redux/Action/GeneralGroupAction/stateAction';
+import { getCountryList } from '../../../Redux/Action/GeneralGroupAction/countryAction';
 
 
 

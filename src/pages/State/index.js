@@ -10,7 +10,7 @@ import ViewState from './viewstate';
 import CustomTable from '../../components/CustomTable';
 import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
 import CustomSwitch from '../../components/SwitchBtn';
-import { DeleteStateList, getStateList } from '../../Redux/Action/stateAction';
+import { DeleteStateList, getStateList, StateStatus } from '../../Redux/Action/GeneralGroupAction/stateAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 // import './customer.css';
@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function StateDetails() {
     let dispatch = useDispatch();
     const [rowData, setRowData] = useState([])
-    const GetStateList  = useSelector((state) => state.StateReducer.GetStateList);
+    const GetStateList = useSelector((state) => state.StateReducer.GetStateList);
     const [openModal, setOpenModal] = useState(false);
     const [GetId, setGetId] = useState(null);
     const columnss = [
@@ -26,7 +26,16 @@ export default function StateDetails() {
         { field: 'stateId', width: 170, headerName: 'State Id' },
         { field: 'stateName', width: 170, headerName: 'State Name' },
         { field: 'countryName', width: 170, headerName: 'Country Name' },
-        { field: 'activeStatus', width: 200, headerName: 'Active Status' },
+        {
+            field: 'activeStatus', width: 200, headerName: 'Active Status',
+            renderCell: (params) => {
+                return (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <CustomSwitch size='small' onSwitchChange={() => OnChangeStatus(params.row.stateId, params.row.activeStatus === 1 ? 0 : 1)} checked={params.row.activeStatus === 1 ? true : false} />
+                    </div>
+                );
+        }
+    },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -39,8 +48,8 @@ export default function StateDetails() {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="eyeSymbol" onClick={() => viewModal(params.row.stateId)}><RemoveRedEye /></div>
                         <Link to={`/addState?user_id=${params.row.stateId}`} className="editSymbol" ><Edit /></Link>
-                        <div className="deleteSymbol" onClick={()=>deleteCountry(params.row.stateId)}><Delete /></div>
-                        <div><CustomSwitch size='small' /></div>
+                        <div className="deleteSymbol" onClick={() => deleteCountry(params.row.stateId)}><Delete /></div>
+
                     </div>
                 );
             }
@@ -51,21 +60,21 @@ export default function StateDetails() {
         dispatch(getStateList())
     }, [])
 
-    useEffect(()=>{
-        let rows= [];
-        GetStateList?.map((items,index)=>{
+    useEffect(() => {
+        let rows = [];
+        GetStateList?.map((items, index) => {
             rows.push(
                 {
-                    id: index+1,
+                    id: index + 1,
                     stateId: items.id,
                     stateName: items.name,
                     countryName: items.country_name,
-                    activeStatus: items.status  === 1 ? "Active" : "In-Active",
+                    activeStatus: items.status,
                 }
             )
         })
         setRowData(rows)
-    },[GetStateList])
+    }, [GetStateList])
     console.log(GetStateList, 'GetStateList');
 
     let history = useHistory()
@@ -73,12 +82,15 @@ export default function StateDetails() {
         setOpenModal(true)
         history.push("/addState")
     }
-    const viewModal = (id) =>{
+    const viewModal = (id) => {
         setOpenModal(true)
         setGetId(id)
     }
-    const deleteCountry=(id)=>{
+    const deleteCountry = (id) => {
         dispatch(DeleteStateList(id))
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(StateStatus(id, status))
     }
     return (
         <div>

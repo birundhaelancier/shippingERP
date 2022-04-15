@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import CustomButton from '../../components/Button';
 // import './customer.css';
 
-import { ViewCityDetails } from '../../Redux/Action/cityAction';
+import { ViewCityDetails } from '../../Redux/Action/GeneralGroupAction/cityAction';
 import { useDispatch, useSelector } from 'react-redux'
 
 const ViewCountry = ({GetId}) => {

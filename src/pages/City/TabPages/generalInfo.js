@@ -11,9 +11,9 @@ import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getStateList } from '../../../Redux/Action/stateAction';
-import { getCountryList } from '../../../Redux/Action/countryAction';
-import { AddCity, ViewCityDetails, EditCity } from '../../../Redux/Action/cityAction';
+import { getStateList } from '../../../Redux/Action/GeneralGroupAction/stateAction';
+import { getCountryList } from '../../../Redux/Action/GeneralGroupAction/countryAction';
+import { AddCity, ViewCityDetails, EditCity } from '../../../Redux/Action/GeneralGroupAction/cityAction';
 
 
 

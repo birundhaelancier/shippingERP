@@ -1,17 +1,17 @@
-import { apiurl, REQUEST_HEADERS } from '../Utils/baseurl';
+import { apiurl, REQUEST_HEADERS } from '../../Utils/baseurl';
 import axios from 'axios';
 import { notification } from 'antd';
-import { GET_COUNTRY_LIST, VIEW_COUNTRY_LIST } from '../Utils/constant';
-
-export const AddContry = (data) => async dispatch => {
+import { GET_AIRPORT_LIST, VIEW_AIRPORT_LIST } from '../../Utils/constant';
+export const AddAirPort = (data,country_Id) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'add_country',
+            url: apiurl + 'add_airport',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "country_name": data.countryName.value,
-                "country_code": data.countryCode.value,
+                "airport_name": data.portName.value,
+                "airport_code": data.portCode.value,
+                "country": data.countryId.value,
                 "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
@@ -19,105 +19,112 @@ export const AddContry = (data) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
+                dispatch(AirPortList())
             })
     } catch (err) { }
 }
-
-export const EditContry = (data, countryId) => async dispatch => {
+export const EditAirPort = (data,id) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'edit_country',
+            url: apiurl + 'edit_airport',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "country_name": data.countryName.value,
-                "country_code": data.countryCode.value,
-                "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "country_id": countryId
+                "airport_id": id,
+                "airport_name": data.portName.value,
+                "airport_code": data.portCode.value,
+                "country":data.countryId.value,
+                "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
             .then((response) => {
                 notification.success({
                     message: response.data.Message
                 });
+                dispatch(AirPortList())
             })
     } catch (err) { }
 }
 
-export const getCountryList = (data) => async dispatch => {
+export const AirPortList = () => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'country_list',
+            url: apiurl + 'airport_list',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "country_id": data,
+                "country_id":"All"
             }
         })
             .then((response) => {
                 dispatch({
-                    type: GET_COUNTRY_LIST,
+                    type: GET_AIRPORT_LIST,
+                    payload: response.data.Response
+                })
+                
+            })
+    } catch (err) { }
+}
+
+export const ViewAirPortDetails = (data) => async dispatch => {
+    try {
+        axios({
+            method: 'POST',
+            url: apiurl + 'view_airport',
+            headers: REQUEST_HEADERS().HEADER,
+            data: {
+                "user_id": JSON.parse(localStorage.getItem("user_id")),
+                "airport_id": data || 0,
+            }
+        })
+            .then((response) => {
+                dispatch({
+                    type: VIEW_AIRPORT_LIST,
                     payload: response.data.Response
                 })
             })
     } catch (err) { }
 }
 
-export const ViewCountryDetails = (data) => async dispatch => {
+export const AirPortStatus = (portId,status) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'view_country',
+            url: apiurl + 'status_airport',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "country_id": data,
+                "airport_id":portId || 0,
+                "status":status
             }
         })
-            .then((response) => {
-                dispatch({
-                    type: VIEW_COUNTRY_LIST,
-                    payload: response.data.Response
-                })
+         .then((response) => {
+                notification.success({
+                    message: response.data.Message
+                });
+                dispatch(AirPortList())
             })
     } catch (err) { }
 }
 
-export const CountryStatus = () => async dispatch => {
+export const DeleteAirPortList = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'status_country',
+            url: apiurl + 'delete_airport',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "country_id":"1",
-                "status":"0"
-            }
-        })
-            .then((response) => {
-
-            })
-    } catch (err) { }
-}
-
-export const DeleteCountryList = (data) => async dispatch => {
-    try {
-        axios({
-            method: 'POST',
-            url: apiurl + 'delete_country',
-            headers: REQUEST_HEADERS().HEADER,
-            data: {
-                "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "country_id": data
+                "airport_id": data
             }
         })
             .then((response) => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(getCountryList())
+                dispatch(AirPortList())
+
             })
     } catch (err) { }
 }

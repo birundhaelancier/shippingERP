@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState,useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -7,21 +7,33 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewAirport from './viewairport';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import { useHistory,Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch, useSelector } from 'react-redux'
 // import './customer.css';
-
+import { AirPortStatus,AirPortList,DeleteAirPortList } from '../../Redux/Action/EnquiryGroupAction/AirPortAction'
+import CustomSwitch from '../../components/SwitchBtn'
 export default function AirportDetails(props) {
     let history = useHistory()
-
+    let dispatch=useDispatch()
     const [openModal, setOpenModal] = useState(false);
+    const GetSeaList  = useSelector((state) => state.AirPortReducer.GetAirPortList);
+    const [rowData, setRowData] = useState([])
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
         { field: 'portId', width: 150, headerName: 'Air Port Id' },
         { field: 'portName', width: 190, headerName: 'Air Port Name' },
         { field: 'portCode', width: 170, headerName: 'Air Port Code' },
         { field: 'countryName', width: 150, headerName: 'Country Name' },
-        { field: 'activeStatus', width: 150, headerName: 'Active Status' },
+        { field: 'activeStatus', width: 150, headerName: 'Active Status', 
+        renderCell: (params) => {
+            return (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CustomSwitch  size='small'  onSwitchChange={()=>OnChangeStatus(params.row.portId,params.row.activeStatus===1?0:1)} checked={params.row.activeStatus===1?true:false} /> 
+                </div>
+            );
+        }
+        },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -32,25 +44,50 @@ export default function AirportDetails(props) {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
-                    </div>
+                    {/* <div className="eyeSymbol" onClick={() => viewModal(params.row.portId)}><RemoveRedEye /></div> */}
+                    <Link to={`/addAirport/${params.row.portId}`} className="editSymbol" ><Edit /></Link>
+                    <div className="deleteSymbol" onClick={()=>deleteSeaPort(params.row.portId)}><Delete /></div>
+                </div>
                 );
             }
         }
     ];
 
-    const rows = [
-        { id: 1, portCode: 'Birundha', countryName: '1', portCode: '8', portId: '1', portName: "testing", companyName: "testing", activeStatus: "pending" },
-        { id: 2, portCode: 'Divya', countryName: '2', portCode: '8', portId: '1', portName: "testing", companyName: "testing", activeStatus: "pending" },
-        { id: 3, portCode: 'Lakshmi', countryName: '3', portCode: '8', portId: '1', portName: "testing", companyName: "testing", activeStatus: "pending" },
-        { id: 4, portCode: 'Vicky', countryName: '1', portCode: '8', portId: '1', portName: "testing", companyName: "testing", activeStatus: "pending" },
-        { id: 5, portCode: 'Priya', countryName: '2', portCode: '8', portId: '1', portName: "testing", companyName: "testing", activeStatus: "pending" },
-    ];
     const openFields = () => {
         setOpenModal(true)
         history.push("/addAirport")
+    }
+    useEffect(() => {
+        dispatch(AirPortList())
+    }, [])
+
+    useEffect(()=>{
+        let rows= [];
+        GetSeaList?.map((items,index)=>{
+            rows.push(
+                {
+                    id: index+1,
+                    portId: items.id,
+                    portName: items.name,
+                    portCode: items.code,
+                    countryName:items.code,
+                    activeStatus:items.status,
+                }
+            )
+        })
+        setRowData(rows)
+    },[GetSeaList])
+
+  
+    const viewModal = (id) =>{
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteSeaPort=(id)=>{
+        dispatch(DeleteAirPortList(id))
+    }
+    const OnChangeStatus=(id,status)=>{
+        dispatch(AirPortStatus(id,status))
     }
     return (
         <div>
@@ -59,7 +96,7 @@ export default function AirportDetails(props) {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -68,7 +105,7 @@ export default function AirportDetails(props) {
                 <DynModel handleChangeModel={openModal} modelTitle={"Airport"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewAirport CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewAirport CloseModal={(bln) => setOpenModal(bln)}  GetId={GetId}/>
                         </>
                     }
                 />

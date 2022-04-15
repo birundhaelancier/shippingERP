@@ -9,7 +9,7 @@ export const menu = [
         title: "Master",
         items: [
             {
-                title: "General Group", icon: "", items: [
+                title: "General", icon: "", items: [
                     { title: "Customer", path: "/customer", icon: "" },
                     { title: "Vendor", path: "/vendor", icon: "" },
                     { title: "Shipper", path: "/shipper", icon: "" },
@@ -20,7 +20,7 @@ export const menu = [
                 ]
             },
             {
-                title: "Enquiry Group", icon: "", items: [
+                title: "Enquiry", icon: "", items: [
                     { title: "Business Scope", path: "/business", icon: "" },
                     { title: "Sea Ports", path: "/seaport", icon: "" },
                     { title: "Air Ports", path: "/airport", icon: "" },
@@ -34,7 +34,7 @@ export const menu = [
                 ]
             },
             {
-                title: "Quote Group", icon: "", items: [
+                title: "Quote", icon: "", items: [
                     { title: "Quote", path: "/quote", icon: "" },
                     { title: "Currency", path: "/currency", icon: "" },
                     { title: "Exchange Rate", path: "/exchangerate", icon: "" },
@@ -42,12 +42,12 @@ export const menu = [
                 ]
             },
             {
-                title: "Transport Group", icon: "", items: [
+                title: "Transport", icon: "", items: [
                     { title: "Vehicle", path: "/vehicle", icon: "" },
                 ]
             },
             {
-                title: "Sales Group", icon: "", items: [
+                title: "Sales", icon: "", items: [
                     { title: "Lead", path: "/lead", icon: "" },
                     { title: "Sales", path: "/sales", icon: "" },
                 ]
