@@ -9,7 +9,6 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
-
 import { useDispatch, useSelector } from 'react-redux'
 import { getStateList } from '../../../Redux/Action/GeneralGroupAction/stateAction';
 import { getCountryList } from '../../../Redux/Action/GeneralGroupAction/countryAction';
@@ -41,7 +40,7 @@ export default function GeneralInfo({cityId}) {
 
     useEffect(() => {
         dispatch(ViewCityDetails(cityId))
-        dispatch(getCountryList("All"))
+        dispatch(getCountryList(1))
         dispatch(getStateList())
     }, [])
 

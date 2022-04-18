@@ -55,7 +55,7 @@ export default function ShipmentDetails() {
         history.push("/addShipment")
     }
     useEffect(() => {
-        dispatch(ShipmentList())
+        dispatch(ShipmentList("All"))
     }, [])
 
     useEffect(() => {

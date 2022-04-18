@@ -61,7 +61,7 @@ export default function CargoDetails() {
     }
 
     useEffect(() => {
-        dispatch(CargoList())
+        dispatch(CargoList("All"))
     }, [])
 
     useEffect(() => {

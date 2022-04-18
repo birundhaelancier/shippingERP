@@ -18,7 +18,6 @@ export default function CityDetails() {
     let dispatch = useDispatch();
     const [rowData, setRowData] = useState([])
     const GetCityList  = useSelector((state) => state.CityReducer.GetCityList);
-    console.log(GetCityList)
     const [openModal, setOpenModal] = useState(false);
     const [GetId, setGetId] = useState(null);
     const columnss = [

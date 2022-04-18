@@ -1,16 +1,20 @@
 import { apiurl, REQUEST_HEADERS } from '../../Utils/baseurl';
 import axios from 'axios';
 import { notification } from 'antd';
-import { GET_CARGO_LIST, VIEW_CARGO_LIST } from '../../Utils/constant';
+import { GET_VEHICLE_LIST, VIEW_VEHICLE_LIST } from '../../Utils/constant';
 
-export const AddCargo = (data) => async dispatch => {
+export const AddVehicle = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'add_cargo',
+            url: apiurl + 'add_vehicle',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "cargo_name": data.CargoName.value,
+                "name": data.vehicleName.value,
+                "body_type": data.bodyType.value,
+                "length": data.length.value,
+                "breadth": data.breadth.value,
+                "height": data.height.value,
                 "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
@@ -18,19 +22,23 @@ export const AddCargo = (data) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(CargoList("All"))
+                dispatch(VehicleList())
             })
     } catch (err) { }
 }
-export const EditCargo = (data, id) => async dispatch => {
+export const EditVehicle = (data, id) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'edit_cargo',
+            url: apiurl + 'edit_vehicle',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "cargo_id": id,
-                "cargo_name": data.CargoName.value,
+                "id": id,
+                "name": data.vehicleName.value,
+                "body_type": data.bodyType.value,
+                "length": data.length.value,
+                "breadth": data.breadth.value,
+                "height": data.height.value,
                 "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
@@ -38,61 +46,61 @@ export const EditCargo = (data, id) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(CargoList("All"))
+                dispatch(VehicleList())
             })
     } catch (err) { }
 }
 
-export const CargoList = (data) => async dispatch => {
+export const VehicleList = () => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'cargo_list',
+            url: apiurl + 'vehicle_list',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "cargo_id": data,
+                "id": "All",
             }
         })
             .then((response) => {
                 dispatch({
-                    type: GET_CARGO_LIST,
+                    type: GET_VEHICLE_LIST,
                     payload: response.data.Response
                 })
             })
     } catch (err) { }
 }
 
-export const ViewCargoDetails = (data) => async dispatch => {
+export const ViewVehicleDetails = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'view_cargo',
+            url: apiurl + 'view_vehicle',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "cargo_id": data || 0,
+                "id": data,
             }
         })
             .then((response) => {
                 dispatch({
-                    type: VIEW_CARGO_LIST,
+                    type: VIEW_VEHICLE_LIST,
                     payload: response.data.Response
                 })
             })
     } catch (err) { }
 }
 
-export const CargoStatus = (portId, status) => async dispatch => {
+export const VehicleStatus = (portId, status) => async dispatch => {
 
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'status_cargo',
+            url: apiurl + 'status_vehicle',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "cargo_id": portId || 0,
+                "id": portId || 0,
                 "status": status || 0
             }
         })
@@ -100,27 +108,27 @@ export const CargoStatus = (portId, status) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(CargoList("All"))
+                dispatch(VehicleList())
             })
     } catch (err) { }
 }
 
-export const DeleteCargoList = (data) => async dispatch => {
+export const DeleteVehicleList = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'delete_cargo',
+            url: apiurl + 'delete_vehicle',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "cargo_id": data
+                "id": data
             }
         })
             .then((response) => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(CargoList("All"))
+                dispatch(VehicleList())
             })
     } catch (err) { }
 }
