@@ -1,92 +1,79 @@
 import react, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import ContentHeader from '../../components/ContentHeader';
+import { useDispatch, useSelector } from 'react-redux';
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
-import ViewQuote from './viewquote';
+import ViewCountry from './viewcustomerBusiness';
 import CustomTable from '../../components/CustomTable';
-import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
 import CustomSwitch from '../../components/SwitchBtn';
-import { DeleteQuoteList, QuoteList, QuoteStatus, QuoteDefault } from '../../Redux/Action/QuoteGroupAction/QuoteAction';
-import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { DeleteCustomerBusinessNatureList, getCustomerBusinessNatureList } from '../../Redux/Action/GeneralGroupAction/cutomerBusinessAction';
 
-// import './customer.css';
-
-export default function QuoteDetails() {
+export default function CustomerBusinessDetails() {
     let dispatch = useDispatch();
     let history = useHistory()
     const [rowData, setRowData] = useState([])
-    const GetQuote = useSelector((state) => state?.QuoteReducer?.GetQuoteList);
+    const GetCustomerBusiness = useSelector((state) => state.CustomerBusinessReducer.GetCustomerBusinessList);
     const [openModal, setOpenModal] = useState(false);
     const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 100, headerName: 'S.No' },
-        { field: 'cqId', width: 150, headerName: 'CQ Id' },
-        { field: 'shipmentType', width: 200, headerName: 'Shipment Type' },
-        { field: 'cargoType', width: 200, headerName: 'Cargo Type' },
-        { field: 'stuffingType', width: 200, headerName: 'Stuffing Type' },
+        { field: 'customerId', width: 160, headerName: 'Id' },
+        { field: 'customerBusiness', width: 260, headerName: 'Customer Business Nature' },
+        { field: 'type', width: 200, headerName: 'Type' },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
-            width: 150,
+            width: 200,
             align: 'center',
             headerAlign: 'center',
             disableClickEventBubbling: true,
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <div className="eyeSymbol" onClick={() => viewModal(params.row.cqId)}><RemoveRedEye /></div>
-                    <Link to={`/addQuote?user_id=${params.row.cqId}`} className="editSymbol" ><Edit /></Link>
-                    <div className="deleteSymbol" onClick={() => deleteCountry(params.row.cqId)}><Delete /></div>
-                </div>
+                        {/* <div className="eyeSymbol" onClick={() => viewModal(params.row.customerId)}><RemoveRedEye /></div> */}
+                        <Link to={`/addCustomerBusiness?user_id=${params.row.customerId}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={() => deleteCountry(params.row.customerId)}><Delete /></div>
+                    </div>
                 );
             }
         }
     ];
-
-
     useEffect(() => {
-        dispatch(QuoteList())
+        dispatch(getCustomerBusinessNatureList("All"))
     }, [])
 
     useEffect(() => {
         let rows = [];
-        console.log(GetQuote, 'GetQuote')
-        GetQuote?.map((items, index) => {
+        GetCustomerBusiness?.map((items, index) => {
             rows.push(
                 {
                     id: index + 1,
-                    cqId: items.id,
-                    shipmentType: items.shipment_name,
-                    cargoType: items.cargo_name,
-                    stuffingType: items.stuffing_type,
+                    customerId: items.id,
+                    customerBusiness: items.name,
+                    type: items.type,
                 }
             )
         })
         setRowData(rows)
-    }, [GetQuote])
+    }, [GetCustomerBusiness])
 
     const openFields = () => {
         setOpenModal(true)
-        history.push("/addQuote")
+        history.push("/addCustomerBusiness")
     }
     const viewModal = (id) => {
         setOpenModal(true)
         setGetId(id)
     }
     const deleteCountry = (id) => {
-        dispatch(DeleteQuoteList(id))
-    }
-    const OnChangeStatus = (id, status) => {
-        dispatch(QuoteStatus(id, status))
-    }
-    const OnChangeDefault = (id, status) => {
-        dispatch(QuoteDefault(id, status))
+        dispatch(DeleteCustomerBusinessNatureList(id))
     }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader openFields mainTitle={"Quote"} count='20,000' heading={'Quote'} />
+                <ContentHeader openFields mainTitle={"Country"} count='20,000' heading={'Country'} />
             </Grid>
             <>
                 <CustomTable
@@ -96,10 +83,10 @@ export default function QuoteDetails() {
                     onclickEye={(data) => setOpenModal(data)}
                     onAddBtnClick={openFields}
                 />
-                <DynModel handleChangeModel={openModal} modelTitle={"Quote"}
+                <DynModel handleChangeModel={openModal} modelTitle={"Country"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewQuote CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />
+                            <ViewCountry CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />
                         </>
                     }
                 />

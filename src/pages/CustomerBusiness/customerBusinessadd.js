@@ -1,21 +1,21 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
+import { useDispatch } from 'react-redux';
 import ContentHeader from '../../components/ContentHeader';
-import CustomButton from '../../components/Button';
-import { useHistory } from 'react-router-dom';
-import UploadFiles from '../../components/Upload';
-import { Add, Delete, CheckCircle } from '@mui/icons-material';
+import {  CheckCircle } from '@mui/icons-material';
 import CustomTab from '../../components/CustomTab';
-import ViewQuote from './viewquote';
+import ViewCustomerBusiness from './viewcustomerBusiness';
 import GeneralInfo from './TabPages/generalInfo';
+import { AddContry, ViewCountryDetails } from '../../Redux/Action/GeneralGroupAction/countryAction';
 
-export default function AddQuote(props) {
+export default function AddCustomerBusiness(props) {
+    let dispatch = useDispatch();
     const params = new URLSearchParams(props.location.search);
 
     const tabArray = [
-        { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo quoteId={params.get("user_id")} /> },
+        { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo customerBusinessId={params.get("user_id")} /> },
         { icon: '', title: '', description: '' },
         { icon: '', title: '', description: '' },
         { icon: '', title: '', description: '' },
@@ -27,7 +27,7 @@ export default function AddQuote(props) {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader mainTitle={"Master"} subTitle='Quote' heading={'Quote Data'} />
+                <ContentHeader mainTitle={"Master"} subTitle='Country' heading={'Country Data'} />
             </Grid>
             <CustomTab tabArray={tabArray} />
         </div>

@@ -1,6 +1,5 @@
 
 import React from "react";
-import { Menu, Send, Dashboard, Attractions, AccountBox, BackupTable, Api, ArrowForward, ReportGmailerrorred, Description, AccountBalance, AutoFixHigh, Sell, LocalLaundryService } from '@mui/icons-material';
 
 export const menu = [
 
@@ -17,6 +16,9 @@ export const menu = [
                     { title: "Country", path: "/country", icon: "" },
                     { title: "State", path: "/state", icon: "" },
                     { title: "City", path: "/city", icon: "" },
+                    { title: "CustomerBusiness", path: "/customerBusiness", icon: "" },
+                    { title: "VendorBusiness", path: "/vendorBusiness", icon: "" },
+
                 ]
             },
             {

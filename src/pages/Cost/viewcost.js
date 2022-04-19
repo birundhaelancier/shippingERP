@@ -3,17 +3,16 @@ import Grid from '@mui/material/Grid';
 import CustomButton from '../../components/Button';
 // import './customer.css';
 import { ViewCostDetails } from '../../Redux/Action/QuoteGroupAction/CostAction';
-import { useDispatch, useSelector } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux';
 
 const ViewCost = ({ GetId }) => {
     let dispatch = useDispatch();
     const ViewCost = useSelector((state) => state.CostReducer.ViewCostDetails);
-
+    
     useEffect(() => {
         dispatch(ViewCostDetails(GetId))
     }, [])
-    console.log(ViewCost, 'ViewCost');
+
     return (
         <>
               <Grid item xs={12} spacing={2} direction="row" container>
