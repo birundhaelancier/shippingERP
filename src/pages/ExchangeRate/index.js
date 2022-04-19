@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState,useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,19 +8,26 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewExchangeRate from './viewexchangerate';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import { useHistory,Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch,useSelector } from 'react-redux'
+import CustomSwitch from '../../components/SwitchBtn'
+import { RateList,DeleteRate } from '../../Redux/Action/GeneralGroupAction/RateAction'
+import moment from 'moment'
 // import './customer.css';
 
 export default function CurrencyDetails() {  
     const [openModal, setOpenModal] = useState(false);
+    let dispatch=useDispatch()
+    const GetRateList  = useSelector((state) => state.RateReducer.GetRateList);
+    const [rowData, setRowData] = useState([])
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
-        { field: 'exchangeId', width: 150, headerName: 'Exchange Id' },
         { field: 'currencyId', width: 150, headerName: 'Currency Id' },
         { field: 'countryName', width: 150, headerName: 'Country Name' },
         { field: 'exchangeRate', width: 150, headerName: 'Exchange Rate' },
         { field: 'date', width: 200, headerName: 'Date' },
+       
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -31,9 +38,9 @@ export default function CurrencyDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                        <div className="eyeSymbol" onClick={() => viewModal(params.row.Id)}><RemoveRedEye /></div>
+                        <Link to={`/addExchangerate/${params.row.Id}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={()=>deleterate(params.row.Id)}><Delete /></div>
                     </div>
                 );
             }
@@ -54,6 +61,38 @@ export default function CurrencyDetails() {
         setOpenModal(true)
         history.push("/addExchangerate")
     }
+    useEffect(() => {
+        dispatch(RateList())
+    }, [])
+
+    useEffect(()=>{
+        let rows= [];
+        GetRateList?.map((items,index)=>{
+            rows.push(
+                {
+                    id: index+1,
+                    currencyId: items.currency,
+                    countryName: items.country_name,
+                    exchangeRate:items.exchange_rate,
+                    date:moment(items.d_date).format("DD-MM-YYYY"),
+                    Id:items.id
+                }
+            )
+        })
+        setRowData(rows)
+    },[GetRateList])
+
+  
+    const viewModal = (id) =>{
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleterate=(id)=>{
+        dispatch(DeleteRate(id))
+    }
+    // const OnChangeStatus=(id,status)=>{
+    //     dispatch(RateStatus(id,status))
+    // }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
@@ -62,7 +101,7 @@ export default function CurrencyDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -71,7 +110,7 @@ export default function CurrencyDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"Exchange Rate"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewExchangeRate CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewExchangeRate CloseModal={(bln) => setOpenModal(bln)}  GetId={GetId}/>
                         </>
                     }
                 />

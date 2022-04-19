@@ -22,24 +22,65 @@ export default function GeneralInfo() {
     let { id } =useParams()
     const [FieldModal, setFieldModal] = useState(false);
     const [LicenseDetails, setLicenseDetails] = useState({
-        countryId: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        licence_Id: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
         },
-        countryName: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        reg_no: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
         },
-        countryCode: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        reg_date: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
         },
-
-        activeStatus: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        license_type: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        unit_qty: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        port_of_license: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        total_cif: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        total_debit_qty: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        total_debit_duty:{
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        total_fc: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        currency_symbol: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        license_currency: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        exchange_rate: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        party_name: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        license_description: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        license_no: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        license_date: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
+        },
+        license_item: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
         },
     })
 
     const [showList, setShowList] = useState(
         [
-            { type: 'text', label: 'License Id',licenceId:{value:"", validation: ["required"], arrVal: [] }},
+            { type: 'text', label: 'License Id',value:"", validation: ["required"], arrVal: [] },
             { type: 'text', label: 'Registration No', validation: ["required"], arrVal: [] },
             { type: 'text', label: 'Registration Date', validation: ["required"], arrVal: [] },
             { type: 'text', label: 'License Type', validation: ["required"], arrVal: [] },
@@ -79,24 +120,6 @@ export default function GeneralInfo() {
     // }, [ViewLicenseList])
   
 
-    const Validation = (data, key, list) => {
-     
-        var errorcheck = ValidationLibrary.checkValidation(
-            data,
-            LicenseDetails[key].validation
-        );
-        let dynObj = {
-            value: data,
-            error: !errorcheck.state,
-            errmsg: errorcheck.msg,
-            validation: LicenseDetails[key].validation,
-        };
-
-        setLicenseDetails(prevState => ({
-            ...prevState,
-            [key]: dynObj,
-        }));
-    }
     const onSubmit = () => {
         var mainvalue = {};
         var targetkeys = Object.keys(LicenseDetails);
@@ -115,18 +138,34 @@ export default function GeneralInfo() {
         } else {
             if (id) {
                 dispatch(EditLicense(LicenseDetails,id)).then(()=>{
-                    history.push("/hsn")
                     HandleCancel()
                 })
             } else {
                 dispatch(AddLicense(LicenseDetails)).then(()=>{
-                    history.push("/hsn")
                     HandleCancel()
                 })
             }
 
         }
     }
+    const Validation = (data, key, list) => {
+        var errorcheck = ValidationLibrary.checkValidation(
+            data,
+            LicenseDetails[key].validation
+        );
+        let dynObj = {
+            value: data,
+            error: !errorcheck.state,
+            errmsg: errorcheck.msg,
+            validation: LicenseDetails[key].validation,
+        };
+
+        setLicenseDetails(prevState => ({
+            ...prevState,
+            [key]: dynObj,
+        }));
+    }
+
     const HandleCancel = () => {
         let SalesKey =Object.keys(LicenseDetails)
         SalesKey.map((data) => {
@@ -135,6 +174,8 @@ export default function GeneralInfo() {
         setLicenseDetails(prevState => ({
             ...prevState,
         }));
+        history.push("/license")
+
     }
    
 
@@ -169,15 +210,169 @@ export default function GeneralInfo() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                {showList.map((data) => {
-                    return (
-                        <Grid item xs={12} md={4} sx={12} sm={12}>
-                            <Labelbox show type={data.type}
-                                labelname={data.label}
-                            />
-                        </Grid>
-                    )
-                })}
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="License Id"
+                        changeData={(data) => Validation(data, "licence_Id")}
+                        value={LicenseDetails.licence_Id.value}
+                        error={LicenseDetails.licence_Id.error}
+                        errmsg={LicenseDetails.licence_Id.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Registration No"
+                        changeData={(data) => Validation(data, "reg_no")}
+                        value={LicenseDetails.reg_no.value}
+                        error={LicenseDetails.reg_no.error}
+                        errmsg={LicenseDetails.reg_no.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="datepicker"
+                        labelname="Registration Date"
+                        changeData={(data) => Validation(data, "reg_date")}
+                        value={LicenseDetails.reg_date.value}
+                        error={LicenseDetails.reg_date.error}
+                        errmsg={LicenseDetails.reg_date.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="License Type"
+                        changeData={(data) => Validation(data, "license_type")}
+                        value={LicenseDetails.license_type.value}
+                        error={LicenseDetails.license_type.error}
+                        errmsg={LicenseDetails.license_type.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="License Item No"
+                        changeData={(data) => Validation(data, "license_item")}
+                        value={LicenseDetails.license_item.value}
+                        error={LicenseDetails.license_item.error}
+                        errmsg={LicenseDetails.license_item.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Unit Qty"
+                        changeData={(data) => Validation(data, "unit_qty")}
+                        value={LicenseDetails.unit_qty.value}
+                        error={LicenseDetails.unit_qty.error}
+                        errmsg={LicenseDetails.unit_qty.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Port of License"
+                        changeData={(data) => Validation(data, "port_of_license")}
+                        value={LicenseDetails.port_of_license.value}
+                        error={LicenseDetails.port_of_license.error}
+                        errmsg={LicenseDetails.port_of_license.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Total CIF Value"
+                        changeData={(data) => Validation(data, "total_cif")}
+                        value={LicenseDetails.total_cif.value}
+                        error={LicenseDetails.total_cif.error}
+                        errmsg={LicenseDetails.total_cif.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Total Debit Duty"
+                        changeData={(data) => Validation(data, "total_debit_duty")}
+                        value={LicenseDetails.total_debit_duty.value}
+                        error={LicenseDetails.total_debit_duty.error}
+                        errmsg={LicenseDetails.total_debit_duty.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Total Debit Qty"
+                        changeData={(data) => Validation(data, "total_debit_qty")}
+                        value={LicenseDetails.total_debit_qty.value}
+                        error={LicenseDetails.total_debit_qty.error}
+                        errmsg={LicenseDetails.total_debit_qty.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Total FC Value"
+                        changeData={(data) => Validation(data, "total_fc")}
+                        value={LicenseDetails.total_fc.value}
+                        error={LicenseDetails.total_fc.error}
+                        errmsg={LicenseDetails.total_fc.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Currency Symbol"
+                        changeData={(data) => Validation(data, "currency_symbol")}
+                        value={LicenseDetails.currency_symbol.value}
+                        error={LicenseDetails.currency_symbol.error}
+                        errmsg={LicenseDetails.currency_symbol.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="License Currency"
+                        changeData={(data) => Validation(data, "license_currency")}
+                        value={LicenseDetails.license_currency.value}
+                        error={LicenseDetails.license_currency.error}
+                        errmsg={LicenseDetails.license_currency.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Exchange Rate"
+                        changeData={(data) => Validation(data, "exchange_rate")}
+                        value={LicenseDetails.exchange_rate.value}
+                        error={LicenseDetails.exchange_rate.error}
+                        errmsg={LicenseDetails.exchange_rate.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="Party Name"
+                        changeData={(data) => Validation(data, "party_name")}
+                        value={LicenseDetails.party_name.value}
+                        error={LicenseDetails.party_name.error}
+                        errmsg={LicenseDetails.party_name.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="License Description"
+                        changeData={(data) => Validation(data, "license_description")}
+                        value={LicenseDetails.license_description.value}
+                        error={LicenseDetails.license_description.error}
+                        errmsg={LicenseDetails.license_description.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
+                        labelname="License No"
+                        changeData={(data) => Validation(data, "license_no")}
+                        value={LicenseDetails.license_no.value}
+                        error={LicenseDetails.license_no.error}
+                        errmsg={LicenseDetails.license_no.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="datepicker"
+                        labelname="License Date"
+                        changeData={(data) => Validation(data, "license_date")}
+                        value={LicenseDetails.license_date.value}
+                        error={LicenseDetails.license_date.error}
+                        errmsg={LicenseDetails.license_date.errmsg}
+                    />
+                </Grid>
+                
 
             </Grid>
             <Grid item xs={12} md={4} sx={12} sm={12} direction="row" justifyContent={'flex-start'} container >
@@ -185,7 +380,7 @@ export default function GeneralInfo() {
             </Grid>
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'}  onSaveBtn={onSubmit} onCancel={HandleCancel}/>
             </Grid>
         </div>
     );

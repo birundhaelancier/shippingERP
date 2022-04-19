@@ -33,7 +33,8 @@ export default function CityDetails() {
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CustomSwitch size='small' onSwitchChange={() => OnChangeStatus(params.row.cityId, params.row.activeStatus === 1 ? 0 : 1)} checked={params.row.activeStatus === 1 ? true : false} />
                 </div>
-            ); },
+            ); 
+        },
         },
         {
             field: "actions", headerName: "Actions",

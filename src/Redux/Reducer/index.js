@@ -11,7 +11,9 @@ import CargoReducer from './EnquiryGroupReducer/CargoReducer'
 import DimensionReducer from './EnquiryGroupReducer/DimensionReducer';
 import ShipmentReducer from './EnquiryGroupReducer/ShipmentReducer';
 import ReasonReducer from './EnquiryGroupReducer/ReasonReducer';
-
+import SchemaReducer from "./EnquiryGroupReducer/SchemaReducer";
+import BusinessScopeReducer from "./EnquiryGroupReducer/BusinessScopeReducer";
+import RateReducer from "./GenaralGroupReducer/RateReducer";
 export default combineReducers({
     CountryReducer,
     StateReducer,
@@ -24,4 +26,7 @@ export default combineReducers({
     DimensionReducer,
     ShipmentReducer,
     ReasonReducer,
+    SchemaReducer,
+    BusinessScopeReducer,
+    RateReducer
 })

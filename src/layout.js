@@ -366,7 +366,7 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/addCargo/:id?/:name?" component={AddCargo} />
         <Route exact path="/addDimension" component={AddDimension} />
         <Route exact path="/addReason" component={AddReason} />
-        <Route exact path="/addExchangerate" component={AddExchangeRate} />
+        <Route exact path="/addExchangerate/:id?" component={AddExchangeRate} />
         <Route exact path="/city" component={CityDetails} />
         <Route exact path="/addCity" component={AddCity} />
         <Route exact path="/country" component={CountryDetails} />
@@ -376,11 +376,11 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/enquiry" component={EnquiryDetails} />
         <Route exact path="/addEnquiry" component={AddEnquiry} />
         <Route exact path="/license" component={LicenseDetails} />
-        <Route exact path="/addLicense" component={AddLicense} />
+        <Route exact path="/addLicense/:id?" component={AddLicense} />
         <Route exact path="/jobs" component={JobsDetails} />
         <Route exact path="/addJobs" component={AddJobs} />
         <Route exact path="/scheme" component={SchemeDetails} />
-        <Route exact path="/addScheme" component={AddScheme} />
+        <Route exact path="/addScheme/:id?" component={AddScheme} />
         <Route exact path="/cost" component={CostDetails} />
         <Route exact path="/addCost" component={AddCost} />
         <Route exact path="/quote" component={QuoteDetails} />
@@ -396,7 +396,7 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/consignee" component={ConsigneeDetails} />
         <Route exact path="/addConsignee" component={AddConsignee} />
         <Route exact path="/business" component={BusinessDetails} />
-        <Route exact path="/addBusiness" component={AddBusiness} />
+        <Route exact path="/addBusiness/:id?" component={AddBusiness} />
       </Box>
     </Box>
   );

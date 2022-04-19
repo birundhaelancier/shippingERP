@@ -119,7 +119,7 @@ export default function GeneralInfo() {
             <Grid item xs={12} spacing={2} direction="row" container>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Cargo Name"
+                        labelname="Cargo Type"
                         changeData={(data) => Validation(data, "CargoName")}
                         value={CargoInfo.CargoName.value}
                         error={CargoInfo.CargoName.error}

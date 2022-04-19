@@ -1,16 +1,19 @@
 import { apiurl, REQUEST_HEADERS } from '../../Utils/baseurl';
 import axios from 'axios';
 import { notification } from 'antd';
-import { GET_SHIPMENT_LIST } from '../../Utils/constant';
-
-export const AddShipment = (data) => async dispatch => {
+import { GET_RATE_LIST, VIEW_RATE_LIST } from '../../Utils/constant';
+import moment from 'moment'
+export const AddRate = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'add_shipment',
+            url: apiurl + 'add_exchange_rate',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "shipment_name": data.shipment.value,
+                "exchange_rate":data.exchangeRate.value,
+                "country":data.countryName.value,
+                "currency":data.currencyId.value,
+                "date":moment(data.date.value).format("DD-MM-YYYY"),
                 "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
@@ -18,19 +21,22 @@ export const AddShipment = (data) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(ShipmentList())
+                dispatch(RateList())
             })
     } catch (err) { }
 }
-export const EditShipment = (data, id) => async dispatch => {
+export const EditRate = (data, id) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'edit_shipment',
+            url: apiurl + 'edit_exchange_rate',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "shipment_id": id,
-                "shipment_name": data.shipment.value,
+                "exchange_rate_id":id,
+                "exchange_rate":data.exchangeRate.value,
+                "country":data.countryName.value,
+                "currency":data.currencyId.value,
+                "date":moment(data.date.value).format("DD-MM-YYYY"),
                 "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
@@ -38,69 +44,69 @@ export const EditShipment = (data, id) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(ShipmentList())
+                dispatch(RateList())
             })
     } catch (err) { }
 }
 
-export const ShipmentList = () => async dispatch => {
+export const RateList = () => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'shipment_list',
+            url: apiurl + 'exchange_rate_list',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "shipment_id": "All",
+                "country_id":"All"
             }
         })
             .then((response) => {
                 dispatch({
-                    type: GET_SHIPMENT_LIST,
+                    type: GET_RATE_LIST,
                     payload: response.data.Response
                 })
             })
     } catch (err) { }
 }
 
-export const ShipmentStatus = (portId, status) => async dispatch => {
-
+export const ViewRateDetails = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'status_shipment',
+            url: apiurl + 'view_exchange_rate',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "shipment_id": portId || 0,
-                "status": status || 0
+                "exchange_rate_id": data || 0,
             }
         })
             .then((response) => {
-                notification.success({
-                    message: response.data.Message
-                });
-                dispatch(ShipmentList())
+                dispatch({
+                    type: VIEW_RATE_LIST,
+                    payload: response.data.Response
+                })
             })
     } catch (err) { }
 }
 
-export const DeleteShipmentList = (data) => async dispatch => {
+
+
+export const DeleteRate = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
-            url: apiurl + 'delete_shipment',
+            url: apiurl + 'delete_exchange_rate',
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "shipment_id": data
+                "exchange_rate_id": data
             }
         })
             .then((response) => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(ShipmentList())
+                dispatch(RateList())
             })
     } catch (err) { }
 }

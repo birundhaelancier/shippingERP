@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState,useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,19 +8,34 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewBusiness from './viewbusiness';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import { useHistory,Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch,useSelector } from 'react-redux'
+import  CustomSwitch  from '../../components/SwitchBtn'
+import { BusinessScopeList,DeleteBusinessScopeList,BusinessScopeStatus } from '../../Redux/Action/EnquiryGroupAction/BusinessScopeActions'
 // import './customer.css';
 
 export default function BusinessDetails() {
     const [openModal, setOpenModal] = useState(false);
+    let dispatch = useDispatch();
+    const [rowData, setRowData] = useState([])
+    const GetDataList  = useSelector((state) => state.BusinessScopeReducer.GetBusinessScopeList);
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 100, headerName: 'S.No' },
         { field: 'businessId', width: 150, headerName: 'Business Scope Id' },
         { field: 'businessCode', width: 160, headerName: 'Business Scope Code' },
         { field: 'businessName', width: 160, headerName: 'Business Scope Name' },
-        { field: 'description', width: 150, headerName: 'Description' },
-        { field: 'activeStatus', width: 160, headerName: 'Active Status' },
+        // { field: 'description', width: 150, headerName: 'Description' },
+        { field: 'activeStatus', width: 160, headerName: 'Active Status',
+        renderCell: (params) => {
+            return (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CustomSwitch size='small' onSwitchChange={() => OnChangeStatus(params.row.businessId, params.row.activeStatus === 1 ? 0 : 1)} checked={params.row.activeStatus === 1 ? true : false} />
+                </div>
+            ); 
+        },
+    
+       },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -31,9 +46,9 @@ export default function BusinessDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                        <div className="eyeSymbol" onClick={() => viewModal(params.row.businessId)}><RemoveRedEye /></div>
+                        <Link to={`/addBusiness/${params.row.businessId}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={()=>deleteScope(params.row.businessId)}><Delete /></div>
                     </div>
                 );
             }
@@ -54,6 +69,38 @@ export default function BusinessDetails() {
         setOpenModal(true)
         history.push("/addBusiness")
     }
+    
+    useEffect(() => {
+        dispatch(BusinessScopeList())
+    }, [])
+
+    useEffect(()=>{
+        let rows= [];
+        GetDataList?.map((items,index)=>{
+            rows.push(
+                {
+                    id: index+1,
+                    businessId: items.id,
+                    businessCode: items.code,
+                    businessName: items.name,
+                    activeStatus: items.status,
+                }
+            )
+        })
+        setRowData(rows)
+    },[GetDataList])
+
+
+    const viewModal = (id) =>{
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteScope=(id)=>{
+        dispatch(DeleteBusinessScopeList(id))
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(BusinessScopeStatus(id, status))
+    }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
@@ -61,7 +108,7 @@ export default function BusinessDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}

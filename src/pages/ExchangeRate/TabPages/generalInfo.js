@@ -9,19 +9,23 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
-
-
+import { getCountryList } from '../../../Redux/Action/GeneralGroupAction/countryAction'
+import { EditRate,AddRate,ViewRateDetails } from '../../../Redux/Action/GeneralGroupAction/RateAction'
+import { useDispatch , useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import moment from 'moment'
 
 export default function GeneralInfo() {
+    let history = useHistory()
+    let dispatch=useDispatch()
+    let { id } =useParams()
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
-    let history = useHistory()
+    const ViewRateList = useSelector((state) => state.RateReducer.ViewRateList);
+    const GetCountryList  = useSelector((state) => state.CountryReducer.GetCountryList);
     const [FieldModal, setFieldModal] = useState(false);
+    const [CountryList,setCountryList]=useState([])
     const [exchangeRateInfo, setexchangeRateInfo] = useState({
-       
-        exchangeId: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
         currencyId: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
@@ -65,8 +69,63 @@ export default function GeneralInfo() {
     )
 
 
+    useEffect(() => {
+        dispatch(ViewRateDetails(id))
+        dispatch(getCountryList())
+    }, [id])
+
+    useEffect(() => {
+    if(ViewRateList){
+        exchangeRateInfo.currencyId.value = ViewRateList[0]?.currency || ""
+        exchangeRateInfo.countryName.value = ViewRateList[0]?.country || ""
+        exchangeRateInfo.date.value = ViewRateList[0]?.date?moment(ViewRateList[0]?.date).format("DD-MM-YYYY"):""
+        exchangeRateInfo.exchangeRate.value = ViewRateList[0]?.exchange_rate || ""
+        }
+    }, [ViewRateList])
+    useEffect(()=>{
+        let country=[]
+        GetCountryList.map((data)=>{
+            country.push({id:data.id,value:data.name})
+        }) 
+        setCountryList(country)
+    },[GetCountryList])
     const onSubmit = () => {
-        history.push("/customer");
+        var mainvalue = {};
+        var targetkeys = Object.keys(exchangeRateInfo);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                exchangeRateInfo[targetkeys[i]].value,
+                exchangeRateInfo[targetkeys[i]].validation
+            );
+            exchangeRateInfo[targetkeys[i]].error = !errorcheck.state;
+            exchangeRateInfo[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = exchangeRateInfo[targetkeys[i]].value;
+        }
+        var filtererr = targetkeys.filter((obj) => exchangeRateInfo[obj].error == true);
+
+        if (filtererr.length > 0) {
+        } else {
+            if (id) {
+                dispatch(EditRate(exchangeRateInfo,id)).then(()=>{
+                    HandleCancel()
+                })
+            } else {
+                dispatch(AddRate(exchangeRateInfo)).then(()=>{
+                    HandleCancel()
+                })
+            }
+
+        }
+    }
+    const HandleCancel = () => {
+        let SalesKey =Object.keys(exchangeRateInfo)
+        SalesKey.map((data) => {
+            exchangeRateInfo[data].value = ""
+        })
+        setexchangeRateInfo(prevState => ({
+            ...prevState,
+        }));
+        history.push("/exchangerate")
     }
     const handleAddClick = (type) => {
         if (type === 'general') {
@@ -96,20 +155,13 @@ export default function GeneralInfo() {
             ]));
         }
     }
+    console.log(ViewRateList,"ViewRateList")
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-            <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Exchange Id"
-                        changeData={(data) => Validation(data, "exchangeId")}
-                        value={exchangeRateInfo.exchangeId.value}
-                        error={exchangeRateInfo.exchangeId.error}
-                        errmsg={exchangeRateInfo.exchangeId.errmsg}
-                    />
-                </Grid>
+          
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
+                    <Labelbox show type="text"
                         labelname="Currency Id"
                         changeData={(data) => Validation(data, "currencyId")}
                         value={exchangeRateInfo.currencyId.value}
@@ -118,12 +170,13 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="select"
                         labelname="Country Name"
                         changeData={(data) => Validation(data, "countryName")}
                         value={exchangeRateInfo.countryName.value}
                         error={exchangeRateInfo.countryName.error}
                         errmsg={exchangeRateInfo.countryName.errmsg}
+                        dropdown={CountryList}
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
@@ -159,7 +212,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onCancel={HandleCancel}/>
             </Grid>
         </div>
     );
