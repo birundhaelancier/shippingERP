@@ -1,0 +1,377 @@
+Countdataimport react, { useState, useEffect } from 'react';
+import Labelbox from '../../../helpers/labelbox/labelbox';
+import ValidationLibrary from '../../../helpers/validationfunction';
+import { notification } from 'antd';
+import Grid from '@mui/material/Grid';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import AddFieldsBtn from '../../../components/AddFieldsBtn';
+import FooterBtn from '../../../components/FooterButtons';
+import { AddCustomerAddress, ViewCustomerDetails, EditCustomerAddress, getCustomerList } from '../../../Redux/Action/GeneralGroupAction/customerAction';
+import { getStateList } from '../../../Redux/Action/GeneralGroupAction/stateAction';
+import { getCountryList } from '../../../Redux/Action/GeneralGroupAction/countryAction';
+import { getCityList } from '../../../Redux/Action/GeneralGroupAction/cityAction';
+
+export default function AddressInfo({ customerId, userId, handleActivekey }) {
+    let dispatch = useDispatch();
+    let history = useHistory()
+    const ViewCustomer = useSelector((state) => state.CustomerReducer.ViewCustomerDetails);
+    const GetCountry = useSelector((state) => state.CountryReducer.GetCountryList);
+    const GetState = useSelector((state) => state.StateReducer.GetStateList);
+    const GetCity = useSelector((state) => state.CityReducer.GetCityList);
+    const [Refresh, setRefresh] = useState(false);
+    const [CountryList, setCountryList] = useState([])
+    const [StateList, setStateList] = useState([])
+    const [CityList, setCityList] = useState([])
+    const [AddmoreObj, setAddmoreObj] = useState([{
+        address_type: {
+            value: userId, validation: [], error: null, errmsg: null,
+        },
+        country: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        address1: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        address2: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        state: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        city: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        zip_code: {
+            value: "", validation: [{ name: "required" }, { name: "Pincode" }], error: null, errmsg: null,
+        },
+        fax: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        phone2: {
+            value: "", validation: [{ name: "required" }, { name: "mobilenumber" }], error: null, errmsg: null,
+        },
+        stype: {
+            value: "Address", validation: [], error: null, errmsg: null,
+        },
+        user_id: {
+            value: JSON.parse(localStorage.getItem("user_id")), validation: [], error: null, errmsg: null,
+        },
+    }])
+    const addressType = [
+        { id: 1, value: "Registered" },
+        { id: 2, value: "Corporate" },
+        { id: 3, value: "Head Quarters" },
+        { id: 4, value: "Communication" },
+        { id: 5, value: "Administration" },
+        { id: 6, value: "Branch Office" },
+        { id: 7, value: "Warehouse" },
+        { id: 8, value: "Factory" },
+        { id: 9, value: "Others" },
+    ]
+    const [generalDetails, setgeneralDetails] = useState({
+        address_type: {
+            value: userId, validation: [], error: null, errmsg: null,
+        },
+        country: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        address1: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        address2: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        state: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        city: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        zip_code: {
+            value: "", validation: [{ name: "required" }, { name: "Pincode" }], error: null, errmsg: null,
+        },
+        fax: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        phone2: {
+            value: "", validation: [{ name: "required" }, { name: "mobilenumber" }], error: null, errmsg: null,
+        },
+        stype: {
+            value: "Address", validation: [], error: null, errmsg: null,
+        },
+        user_id: {
+            value: JSON.parse(localStorage.getItem("user_id")), validation: [], error: null, errmsg: null,
+        },
+        // id: {
+        //     value: customerId ? customerId : userId, validation: [], error: null, errmsg: null,
+        // },
+    })
+
+
+    useEffect(() => {
+        dispatch(ViewCustomerDetails(customerId))
+        dispatch(getCountryList(1))
+        dispatch(getStateList(1))
+        dispatch(getCityList(1))
+    }, [])
+
+
+    useEffect(() => {
+        let countryLists = []
+        GetCountry?.map((data) => {
+            countryLists.push(
+                { id: data.id, value: data.name }
+            )
+        })
+        setCountryList(countryLists)
+
+        let stateLists = []
+        GetState?.map((data) => {
+            stateLists.push(
+                { id: data.id, value: data.name }
+            )
+        })
+        setStateList(stateLists)
+
+        let cityLists = []
+        GetCity?.map((data) => {
+            cityLists.push(
+                { id: data.id, value: data.name }
+            )
+        })
+        setCityList(cityLists)
+    }, [GetCountry, GetState, GetCity])
+
+
+    useEffect(() => {
+        if (ViewCustomer) {
+            generalDetails.address1.value = ViewCustomer[0]?.address1
+            generalDetails.address2.value = ViewCustomer[0]?.address2
+            generalDetails.state.value = ViewCustomer[0]?.state
+            generalDetails.city.value = ViewCustomer[0]?.city
+            generalDetails.country.value = ViewCustomer[0]?.country
+            generalDetails.phone2.value = ViewCustomer[0]?.phone2
+            generalDetails.zip_code.value = ViewCustomer[0]?.zip_code
+            generalDetails.fax.value = ViewCustomer[0]?.fax
+            generalDetails.address_type.value = ViewCustomer[0]?.address_type
+        }
+    }, [ViewCustomer])
+
+    const Validation = (data, key, id) => {
+        console.log(data, key, 'functio')
+        // var errorcheck = ValidationLibrary.checkValidation(
+        //     data,
+        //     generalDetails[key].validation
+        // );
+        let dynObj = {
+            value: data,
+            // error: !errorcheck.state,
+            // errmsg: errorcheck.msg,
+            // validation: generalDetails[key].validation,
+        };
+
+        setAddmoreObj(prevState => ([
+            ...prevState,
+            // AddmoreObj[id][key] : dynObj,
+        ]));
+    }
+    console.log(AddmoreObj, 'AddmoreObj')
+    const onSubmit = () => {
+        var mainvalue = {};
+        var targetkeys = Object.keys(generalDetails);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                generalDetails[targetkeys[i]].value,
+                generalDetails[targetkeys[i]].validation
+            );
+            generalDetails[targetkeys[i]].error = !errorcheck.state;
+            generalDetails[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = generalDetails[targetkeys[i]].value;
+        }
+        var filtererr = targetkeys.filter((obj) => generalDetails[obj].error == true);
+
+        if (filtererr.length > 0) {
+            setRefresh(!Refresh)
+        } else {
+            if (customerId) {
+                dispatch(EditCustomerAddress(generalDetails, customerId))
+                handleActivekey('2')
+
+            } else {
+                AddCustomerAddress(generalDetails, userId)
+                    .then((res) => {
+                        notification.success({
+                            message: "Added Successfully"
+                        });
+
+                        handleActivekey('2', res.id)
+                        dispatch(getCustomerList("All"))
+                        // HandleCancel()
+                        // }
+                    })
+            }
+        }
+    }
+    const HandleCancel = () => {
+        let SalesKey = ["address_type", "address1", "address2", "state", "city", "country", "phone2", "zip_code", "fax"]
+        SalesKey.map((data) => {
+            generalDetails[data].value = ""
+        })
+        setgeneralDetails(prevState => ({
+            ...prevState,
+        }));
+        history.push('/customer');
+    }
+
+    const handleAddClick = () => {
+        setAddmoreObj([...AddmoreObj, {
+            address_type: {
+                value: userId, validation: [], error: null, errmsg: null,
+            },
+            country: {
+                value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            },
+            address1: {
+                value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            },
+            address2: {
+                value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            },
+            state: {
+                value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            },
+            city: {
+                value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            },
+            zip_code: {
+                value: "", validation: [{ name: "required" }, { name: "Pincode" }], error: null, errmsg: null,
+            },
+            fax: {
+                value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            },
+            phone2: {
+                value: "", validation: [{ name: "required" }, { name: "mobilenumber" }], error: null, errmsg: null,
+            },
+            stype: {
+                value: "Address", validation: [], error: null, errmsg: null,
+            },
+            user_id: {
+                value: JSON.parse(localStorage.getItem("user_id")), validation: [], error: null, errmsg: null,
+            },
+        }]);
+    };
+
+    return (
+        <div>
+            <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" container>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="select"
+                        labelname="Address Type"
+                        dropdown={addressType}
+                        changeData={(data) => Validation(data, "address_type")}
+                        value={AddmoreObj[0].address_type.value}
+                        error={AddmoreObj[0].address_type.error}
+                        errmsg={AddmoreObj[0].address_type.errmsg}
+                    />
+                </Grid>
+                {AddmoreObj.map((key, index) => {
+                    console.log(key, 'key')
+                    return (
+                        <>
+
+                            <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" container>
+                                <Grid item xs={12} md={4} sx={12} sm={12}>
+                                    <Labelbox show type="textarea"
+                                        labelname="Address1"
+                                        changeData={(data) => Validation(data, "address1", index)}
+                                        value={key?.address1.value}
+                                        error={key?.address1.error}
+                                        errmsg={key?.address1.errmsg}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={4} sx={12} sm={12}>
+                                    <Labelbox show type="textarea"
+                                        labelname="Address2"
+                                        changeData={(data) => Validation(data, "address2", index)}
+                                        value={key?.address2.value}
+                                        error={key?.address2.error}
+                                        errmsg={key?.address2.errmsg}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={4} sx={12} sm={12}>
+                                    <Labelbox show type="select"
+                                        labelname="Country"
+                                        dropdown={CountryList}
+                                        changeData={(data) => Validation(data, "country", index)}
+                                        value={key?.country.value}
+                                        error={key?.country.error}
+                                        errmsg={key?.country.errmsg}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={4} sx={12} sm={12}>
+                                    <Labelbox show type="select"
+                                        labelname="State"
+                                        dropdown={StateList}
+                                        changeData={(data) => Validation(data, "state", index)}
+                                        value={key?.state.value}
+                                        error={key?.state.error}
+                                        errmsg={key?.state.errmsg}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={4} sx={12} sm={12}>
+                                    <Labelbox show type="select"
+                                        labelname="City"
+                                        dropdown={CityList}
+                                        changeData={(data) => Validation(data, "city", index)}
+                                        value={key?.city.value}
+                                        error={key?.city.error}
+                                        errmsg={key?.city.errmsg}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={4} sx={12} sm={12}>
+                                    <Labelbox show type="number"
+                                        labelname="Zip Code"
+                                        changeData={(data) => Validation(data, "zip_code", index)}
+                                        value={key?.zip_code.value}
+                                        error={key?.zip_code.error}
+                                        errmsg={key?.zip_code.errmsg}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={4} sx={12} sm={12}>
+                                    <Labelbox show type="number"
+                                        labelname="Phone"
+                                        showFlag
+                                        changeData={(data) => Validation(data, "phone2", index)}
+                                        value={key?.phone2.value}
+                                        error={key?.phone2.error}
+                                        errmsg={key?.phone2.errmsg}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={4} sx={12} sm={12}>
+                                    <Labelbox show type="text"
+                                        labelname="Fax"
+                                        changeData={(data) => Validation(data, "fax", index)}
+                                        value={key?.fax.value}
+                                        error={key?.fax.error}
+                                        errmsg={key?.fax.errmsg}
+                                    />
+                                </Grid>
+
+
+                            </Grid>
+                        </>
+                    )
+                })}
+
+
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <AddFieldsBtn fieldName='Add Address' AddFieldBtn={handleAddClick} />
+                </Grid>
+            </Grid>
+            <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onCancel={HandleCancel} onBack={() => handleActivekey('0')} />
+            </Grid>
+        </div>
+    );
+}

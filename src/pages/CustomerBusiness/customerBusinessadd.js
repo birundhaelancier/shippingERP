@@ -27,7 +27,7 @@ export default function AddCustomerBusiness(props) {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader mainTitle={"Master"} subTitle='Country' heading={'Country Data'} />
+                <ContentHeader mainTitle={"Master"} subTitle='Customer Business' heading={'Customer Business Data'} />
             </Grid>
             <CustomTab tabArray={tabArray} />
         </div>

@@ -10,7 +10,7 @@ export const AddShipment = (data) => async dispatch => {
             url: apiurl + 'add_shipment',
             headers: REQUEST_HEADERS().HEADER,
             data: {
-                "shipment_name": data.shipmentName.value,
+                "shipment_name": data.shipment.value,
                 "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })
@@ -30,7 +30,7 @@ export const EditShipment = (data, id) => async dispatch => {
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "shipment_id": id,
-                "shipment_name": data.shipmentName.value,
+                "shipment_name": data.shipment.value,
                 "user_id": JSON.parse(localStorage.getItem("user_id"))
             }
         })

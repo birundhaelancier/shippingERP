@@ -17,6 +17,16 @@ import CostReducer from './QuoteGroupReducer/CostReducer';
 import QuoteReducer from './QuoteGroupReducer/QuoteReducer';
 import CustomerBusinessReducer from './GenaralGroupReducer/customerBusinessReducer';
 import VendorBusinessReducer from './GenaralGroupReducer/vendorBusinessReducer';
+import SchemaReducer from "./EnquiryGroupReducer/SchemaReducer";
+import BusinessScopeReducer from "./EnquiryGroupReducer/BusinessScopeReducer";
+import RateReducer from "./GenaralGroupReducer/RateReducer";
+import SalesReducer from "./SalesGroupReducer/SalesReducer";
+import LeadReducer from "./SalesGroupReducer/LeadReducer";
+import ShipperReducer from "./GenaralGroupReducer/shipperReducer";
+import ConsigneeReducer from "./GenaralGroupReducer/consigneeReducer";
+import CustomerReducer from "./GenaralGroupReducer/customerReducer";
+import VendorReducer from "./GenaralGroupReducer/VendorReducer";
+
 
 export default combineReducers({
     CountryReducer,
@@ -36,4 +46,13 @@ export default combineReducers({
     QuoteReducer,
     CustomerBusinessReducer,
     VendorBusinessReducer,
+    SchemaReducer,
+    BusinessScopeReducer,
+    RateReducer,
+    SalesReducer,
+    LeadReducer,
+    ShipperReducer,
+    CustomerReducer,
+    ConsigneeReducer,
+    VendorReducer,
 })

@@ -8,7 +8,7 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewLicense from './viewlicense';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory,Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { useSelector,useDispatch } from 'react-redux'
 import { LicenseList,DeleteLicenseList } from '../../Redux/Action/EnquiryGroupAction/LicenceAction'
 // import './customer.css';
@@ -35,10 +35,10 @@ export default function LicenseDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
-                    </div>
+                    <div className="eyeSymbol" onClick={() => viewModal(params.row.licenseId)}><RemoveRedEye /></div>
+                    <Link to={`/addLicense/${params.row.licenseId}`} className="editSymbol" ><Edit /></Link>
+                    <div className="deleteSymbol" onClick={()=>deleteSeaPort(params.row.licenseId)}><Delete /></div>
+                </div>
                 );
             }
         }
@@ -59,12 +59,11 @@ export default function LicenseDetails() {
             rows.push(
                 {
                     id: index+1,
-                    sectionName: items.section_name,
-                    chapterName: items.chapter_name,
-                    hsnCode:items.hsn_code,
+                    licenseId: items.id,
+                    registrationNo: items.reg_no,
+                    registrationDate:items.reg_date,
                     // description:items.description,
-                    status:items.status,
-                    sec_Id:items.id
+                    licenseType:items.type,
                 }
             )
         })

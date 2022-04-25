@@ -28,7 +28,7 @@ export default function AddLicense() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader mainTitle={"Master"} subTitle='License' heading={'License Data'} />
+                <ContentHeader mainTitle={"Master"} subTitle='Schema' heading={'Schema Data'} />
             </Grid>
             <CustomTab tabArray={tabArray} />
         </div>

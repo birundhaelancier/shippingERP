@@ -39,13 +39,18 @@ export default function GeneralInfo() {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
         rateStandard: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            value: "", validation: [{ name: "required" },{name:"alphaNumaricOnly"}], error: null, errmsg: null,
         },
         ratePre: {
+            value: "", validation: [{ name: "required" },{name:"alphaNumaricOnly"}], error: null, errmsg: null,
+        },
+        transaction: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-      
-        transaction: {
+        section_description: {
+            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        },
+        chapter_description: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
     })
@@ -62,13 +67,15 @@ export default function GeneralInfo() {
     }, [id])
 
     useEffect(() => {
-    if(ViewHsnList){
+    if(id){
         HsnDetails.description.value = ViewHsnList[0]?.description || ""
         HsnDetails.hsnCode.value = ViewHsnList[0]?.hsn_code || ""
         HsnDetails.rateStandard.value = ViewHsnList[0]?.rate_standard || ""
         HsnDetails.chapterName.value = ViewHsnList[0]?.chapter_name || ""
         HsnDetails.sectionName.value = ViewHsnList[0]?.section_name || ""
         HsnDetails.unit.value = ViewHsnList[0]?.unit || ""
+        HsnDetails.section_description.value = ViewHsnList[0]?.section_description || ""
+        HsnDetails.chapter_description.value = ViewHsnList[0]?.chapter_description || ""
         HsnDetails.transaction.value = ViewHsnList[0]?.type==="Import"?1:2 ||""
         HsnDetails.ratePre.value = ViewHsnList[0]?.rate_preferential || ""
         }
@@ -111,12 +118,10 @@ export default function GeneralInfo() {
         } else {
             if (id) {
                 dispatch(EditHsn(HsnDetails,id)).then(()=>{
-                    history.push("/hsn")
                     HandleCancel()
                 })
             } else {
                 dispatch(AddHsn(HsnDetails)).then(()=>{
-                    history.push("/hsn")
                     HandleCancel()
                 })
             }
@@ -131,6 +136,7 @@ export default function GeneralInfo() {
         setHsnDetails(prevState => ({
             ...prevState,
         }));
+        history.push("/hsn")
     }
     const handleAddClick = (type) => {
         if (type === 'general') {
@@ -189,6 +195,15 @@ export default function GeneralInfo() {
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
+                        labelname="Section Description"
+                        changeData={(data) => Validation(data, "section_description")}
+                        value={HsnDetails.section_description.value}
+                        error={HsnDetails.section_description.error}
+                        errmsg={HsnDetails.section_description.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="text"
                         labelname="Chapter Name"
                         changeData={(data) => Validation(data, "chapterName")}
                         value={HsnDetails.chapterName.value}
@@ -198,6 +213,15 @@ export default function GeneralInfo() {
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
+                        labelname="Chapter Description"
+                        changeData={(data) => Validation(data, "chapter_description")}
+                        value={HsnDetails.chapter_description.value}
+                        error={HsnDetails.chapter_description.error}
+                        errmsg={HsnDetails.chapter_description.errmsg}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="number"
                         labelname="HSN Code"
                         changeData={(data) => Validation(data, "hsnCode")}
                         value={HsnDetails.hsnCode.value}
@@ -207,7 +231,7 @@ export default function GeneralInfo() {
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
-                        labelname="Description"
+                        labelname="HSN Code Description"
                         changeData={(data) => Validation(data, "description")}
                         value={HsnDetails.description.value}
                         error={HsnDetails.description.error}
@@ -241,16 +265,11 @@ export default function GeneralInfo() {
                         errmsg={HsnDetails.ratePre.errmsg}
                     />
                 </Grid>
-{/* 
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeStatus")}
-                        value={HsnDetails.activeStatus.value}
-                        error={HsnDetails.activeStatus.error}
-                        errmsg={HsnDetails.activeStatus.errmsg}
-                    />
-                </Grid> */}
+                
+              
+              
+              
+
 
             </Grid>
             <Grid item xs={12} md={4} sx={12} sm={12} direction="row"  container >
@@ -266,7 +285,7 @@ export default function GeneralInfo() {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onSubmit={HandleCancel}/>
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onCancel={HandleCancel}/>
             </Grid>
         </div>
     );

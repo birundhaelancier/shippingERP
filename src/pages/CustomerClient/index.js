@@ -1,6 +1,4 @@
-import react, { useState } from 'react';
-import Labelbox from '../../helpers/labelbox/labelbox';
-import ValidationLibrary from '../../helpers/validationfunction';
+import react, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import ContentHeader from '../../components/ContentHeader';
 import CustomButton from '../../components/Button';
@@ -8,24 +6,26 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewCustomer from './viewcustomer';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import QuickSearchToolbar from '../../components/SearchBar';
+import CustomSwitch from '../../components/SwitchBtn';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { DeleteCustomerList, CustomerStatus, getCustomerList } from '../../Redux/Action/GeneralGroupAction/customerAction';
 
 // import './customer.css';
 
 export default function CustomerClient() {
+    let dispatch = useDispatch();
     let history = useHistory()
-    const [showlist, setShowlist] = useState(false);
+    const [rowData, setRowData] = useState([])
+    const GetCustomerList = useSelector((state) => state.CustomerReducer.GetCustomerList);
     const [openModal, setOpenModal] = useState(false);
-
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 50, headerName: 'S.No' },
-        { field: 'customerId', width: 130, headerName: 'Customer Id' },
-        { field: 'companyName', width: 150, headerName: 'Company Name' },
-        { field: 'mobile', width: 140, headerName: 'Phone No' },
+        { field: 'customerId', width: 150, headerName: 'Customer Id' },
+        { field: 'companyName', width: 200, headerName: 'Company Name' },
+        { field: 'mobile', width: 200, headerName: 'Phone No' },
         { field: 'email', width: 200, headerName: 'Email ID' },
-        { field: 'city', width: 140, headerName: 'City' },
-        { field: 'tags', width: 120, headerName: 'Tags' },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -36,27 +36,50 @@ export default function CustomerClient() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                       
+                        <div className="eyeSymbol" onClick={() => viewModal(params.row.customerId)}><RemoveRedEye /></div>
+                        <Link to={`/addCustomer?user_id=${params.row.customerId}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={() => deleteCustomer(params.row.customerId)}><Delete /></div>
                     </div>
                 );
             }
         }
     ];
 
+    useEffect(() => {
+        dispatch(getCustomerList("All"))
+    }, [])
 
-    const rows = [
-        { id: 1, customerId: '1', customerName: 'Birundha', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
-        { id: 2, customerId: '2', customerName: 'Divya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
-        { id: 3, customerId: '3', customerName: 'Lakshmi', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
-        { id: 4, customerId: '1', customerName: 'Vicky', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
-        { id: 5, customerId: '2', customerName: 'Priya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", city: 'chennai', tags: 'tags' },
-    ];
+    useEffect(() => {
+        let rows = [];
+        console.log(GetCustomerList, 'GetCustomerList')
+        GetCustomerList?.map((items, index) => {
+            rows.push(
+                {
+                    id: index + 1,
+                    customerId: items.id,
+                    companyName: items.company_name,
+                    mobile: items.phone,
+                    email: items.email,
+                    activeStatus: items.status,
+                }
+            )
+        })
+        setRowData(rows)
+    }, [GetCustomerList])
 
     const openFields = () => {
         setOpenModal(true)
         history.push("/addCustomer")
+    }
+    const viewModal = (id) => {
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteCustomer = (id) => {
+        dispatch(DeleteCustomerList(id))
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(CustomerStatus(id, status))
     }
     return (
         <div>
@@ -65,7 +88,7 @@ export default function CustomerClient() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -74,7 +97,7 @@ export default function CustomerClient() {
                 <DynModel handleChangeModel={openModal} modelTitle={"Customer"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewCustomer CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewCustomer CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />
                         </>
                     }
                 />

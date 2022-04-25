@@ -26,27 +26,17 @@ export default function GeneralInfo({portId}) {
     const [CountryList,setCountryList]=useState([])
     const [seaportInfo, setseaportInfo] = useState({
 
-        portId: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
+      
         portCode: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
         portName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-        countryId: {
-            value: "", validation: [], error: null, errmsg: null,
-        },
         countryName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-        default: {
-            value: "", validation: [], error: null, errmsg: null,
-        },
-        activeSts: {
-            value: "", validation: [], error: null, errmsg: null,
-        },
+   
 
     })
     useEffect(() => {
@@ -56,7 +46,6 @@ export default function GeneralInfo({portId}) {
 
     useEffect(() => {
     if(ViewSeaList){
-        seaportInfo.portId.value = ViewSeaList[0]?.id || ""
         seaportInfo.portCode.value = ViewSeaList[0]?.code || ""
         seaportInfo.portName.value = ViewSeaList[0]?.name || ""
         seaportInfo.countryName.value = ViewSeaList[0]?.country || ""
@@ -107,12 +96,10 @@ export default function GeneralInfo({portId}) {
         } else {
             if (id) {
                 dispatch(EditSeaPort(seaportInfo,id)).then(()=>{
-                    history.push("/seaport")
                     HandleCancel()
                 })
             } else {
                 dispatch(AddSeaPort(seaportInfo)).then(()=>{
-                    history.push("/seaport")
                     HandleCancel()
                 })
             }
@@ -127,11 +114,12 @@ export default function GeneralInfo({portId}) {
         setseaportInfo(prevState => ({
             ...prevState,
         }));
+        history.push("/seaport")
     }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
+                {/* <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Sea Port Id"
                         changeData={(data) => Validation(data, "portId")}
@@ -139,7 +127,7 @@ export default function GeneralInfo({portId}) {
                         error={seaportInfo.portId.error}
                         errmsg={seaportInfo.portId.errmsg}
                     />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Sea Port Code"
@@ -182,7 +170,7 @@ export default function GeneralInfo({portId}) {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onSubmit={HandleCancel}/>
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onCancel={HandleCancel}/>
             </Grid>
         </div>
     );

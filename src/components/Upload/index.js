@@ -2,21 +2,25 @@ import react from 'react';
 import { CloudUpload } from '@mui/icons-material';
 import './upload.css';
 
-const UploadFiles = ({ uploadLabel, show , getOnChangeFile }) => {
-    const handleFile = (event) => {
-        console.log(event,'ii')
-        getOnChangeFile(event);
+const UploadFiles = ({ uploadLabel, show, getOnChangeFile, showLabel, fileId, showLabelView  }) => {
+    let url = 'https://elancier.xyz/shipping_erp/public/upload/customers/';
+    const handleFile = (e) => {
+        const selectedFile = e.target.files[0];
+        getOnChangeFile(selectedFile, selectedFile.name);
     }
+    
     return (
         <>
             {show ?
-                // <div className='cloudIcon'><CloudUpload /></div>
                 <div className='btn_upload'>
                     <lable className='labeltxt'>{uploadLabel}</lable>
-                    <label for="file-upload" class="btn-file-upload">
-                        <div className='cloudIcon'><CloudUpload /></div>
+                    <label for={`file-upload${fileId}`} class="btn-file-upload">
+                        <div className='cloudIcon'>
+                            <CloudUpload />
+                           {!showLabelView &&  <div>{typeof showLabel == 'object' ? showLabel && showLabel?.name : showLabel && showLabel.replace("https://elancier.xyz/shipping_erp/public/upload/customers/", "") }</div>}
+                        </div>
                     </label>
-                    <input id="file-upload" type="file" onChange={(e) => handleFile(e)} />
+                    <input id={`file-upload${fileId}`} type="file" onChange={(e) => handleFile(e)} />
                 </div>
                 :
                 <div className='custom_upload'>

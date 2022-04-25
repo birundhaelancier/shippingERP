@@ -133,6 +133,7 @@ export default function GeneralInfo({cityId}) {
         setprofileDetails(prevState => ({
             ...prevState,
         }));
+        history.push("/city")
     }
 
     const addInputBox = (obj) => {

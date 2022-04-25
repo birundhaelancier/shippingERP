@@ -70,7 +70,7 @@ export default function AirportDetails(props) {
                     portId: items.id,
                     portName: items.name,
                     portCode: items.code,
-                    countryName:items.code,
+                    countryName:items.country_name,
                     activeStatus:items.status,
                 }
             )

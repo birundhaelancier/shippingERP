@@ -19,6 +19,7 @@ export const AddCustomerBusinessNature = (data, typeName) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
+                dispatch(getCustomerBusinessNatureList("All"))
             })
     } catch (err) { }
 }
@@ -40,6 +41,7 @@ export const EditCustomerBusinessNature = (data, countryId, typeName) => async d
                 notification.success({
                     message: response.data.Message
                 });
+                dispatch(getCustomerBusinessNatureList("All"))
             })
     } catch (err) { }
 }
@@ -101,6 +103,7 @@ export const CustomerBusinessNatureStatus = (portId, status) => async dispatch =
                     message: response.data.Message
                 });
                 dispatch(getCustomerBusinessNatureList("All"))
+                dispatch(getCustomerBusinessNatureList("All"))
             })
     } catch (err) { }
 }
@@ -120,6 +123,7 @@ export const DeleteCustomerBusinessNatureList = (data) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
+                dispatch(getCustomerBusinessNatureList("All"))
                 dispatch(getCustomerBusinessNatureList("All"))
             })
     } catch (err) { }

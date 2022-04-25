@@ -47,7 +47,7 @@ export const EditCity = (data, ViewCity) => async dispatch => {
     } catch (err) { }
 }
 
-export const getCityList = () => async dispatch => {
+export const getCityList = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
@@ -55,6 +55,7 @@ export const getCityList = () => async dispatch => {
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
+                "state_id": data || 'All',
             }
         })
             .then((response) => {

@@ -18,19 +18,20 @@ export default function GeneralInfo({ shipmentId, shipmentName}) {
     let dispatch = useDispatch();
     const [Refresh, setRefresh] = useState(false);
     const [shipmentInfo, setshipmentInfo] = useState({
-        shipmentName: {
+        shipment: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
     })
     
-    useEffect(() => {
-        if (shipmentName) {
-            shipmentInfo.shipmentName.value = shipmentName
-        }        
-        setshipmentInfo(prevState => ({
-            ...prevState,
-        }));
-    }, [shipmentName])
+    // useEffect(() => {
+    //     if (shipmentName) {
+    //         shipmentInfo.shipment.value = shipmentName || ""
+    //         setshipmentInfo(prevState => ({
+    //             ...prevState,
+    //         }));
+    //     }        
+      
+    // }, [shipmentName])
 
     const Validation = (data, key, list) => {
         var errorcheck = ValidationLibrary.checkValidation(
@@ -87,7 +88,7 @@ export default function GeneralInfo({ shipmentId, shipmentName}) {
     }
 
     const HandleCancel = () => {
-        let SalesKey = ["shipmentName"]
+        let SalesKey = ["shipment"]
         SalesKey.map((data) => {
             shipmentInfo[data].value = ""
         })
@@ -108,21 +109,22 @@ export default function GeneralInfo({ shipmentId, shipmentName}) {
     return (
         <div>
             <Grid item xs={8} spacing={2} direction="row" container>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={10}  sm={12}>
                     <Labelbox show type="text"
-                        labelname="Shipment Name"
-                        changeData={(data) => Validation(data, "shipmentName")}
-                        value={shipmentInfo.shipmentName.value}
-                        error={shipmentInfo.shipmentName.error}
-                        errmsg={shipmentInfo.shipmentName.errmsg}
+                        labelname="Shipment Type"
+                        changeData={(data) => Validation(data, "shipment")}
+                        value={shipmentInfo.shipment.value}
+                        error={shipmentInfo.shipment.error}
+                        errmsg={shipmentInfo.shipment.errmsg}
                     />
                 </Grid>
                
-            </Grid>
-            <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container style={{ position: 'relative', bottom: '50px' }}>
+            <Grid item xs={12} md={10}  sm={12} >
                 <AddFieldsBtn fieldName='Add Additional Field' />
                 {/* AddFieldBtn={() => setFieldModal(true)} */}
             </Grid>
+            </Grid>
+
             <DynModel handleChangeModel={FieldModal} modelTitle={"Add Fields"}
                 modalchanges="recruit_modal_css" handleChangeCloseModel={() => setFieldModal(false)} width={600} content={
                     <>

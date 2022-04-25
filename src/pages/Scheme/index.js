@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState,useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,12 +8,17 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewScheme from './viewscheme';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import { useHistory,Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch,useSelector } from 'react-redux'
+import { DeleteSchema,SchemaList } from '../../Redux/Action/EnquiryGroupAction/SchemaActions'
 // import './customer.css';
 
 export default function SchemeDetails() {
+    let dispatch=useDispatch()
     const [openModal, setOpenModal] = useState(false);
+    const GetSchemaList  = useSelector((state) => state.SchemaReducer.GetSchemaList);
+    const [rowData, setRowData] = useState([])
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 100, headerName: 'S.No' },
         { field: 'schemeId', width: 150, headerName: 'Scheme Id' },
@@ -30,9 +35,9 @@ export default function SchemeDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                    <div className="eyeSymbol" onClick={() => viewModal(params.row.schemeId)}><RemoveRedEye /></div>
+                    <Link to={`/addScheme/${params.row.schemeId}`} className="editSymbol" ><Edit /></Link>
+                    <div className="deleteSymbol" onClick={()=>deleteSchema(params.row.schemeId)}><Delete /></div>
                     </div>
                 );
             }
@@ -53,6 +58,35 @@ export default function SchemeDetails() {
         setOpenModal(true)
         history.push("/addScheme")
     }
+    useEffect(() => {
+        dispatch(SchemaList())
+    }, [])
+
+    useEffect(()=>{
+        let rows= [];
+        GetSchemaList?.map((items,index)=>{
+            rows.push(
+                {
+                    id: index+1,
+                    schemeId: items.id,
+                    schemeCode: items.code,
+                    schemeDescription:items.description,
+                    // description:items.description,
+                    licenseRequired:items.license,
+                }
+            )
+        })
+        setRowData(rows)
+    },[GetSchemaList])
+
+  
+    const viewModal = (id) =>{
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteSchema=(id)=>{
+        dispatch(DeleteSchema(id))
+    }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
@@ -60,7 +94,7 @@ export default function SchemeDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -69,7 +103,7 @@ export default function SchemeDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"Scheme"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewScheme CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewScheme CloseModal={(bln) => setOpenModal(bln)} GetId={GetId}/>
                         </>
                     }
                 />

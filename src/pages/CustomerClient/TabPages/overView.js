@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import Labelbox from '../../../helpers/labelbox/labelbox';
 import Grid from '@mui/material/Grid';
 import CustomButton from '../../../components/Button';
@@ -6,15 +6,22 @@ import { useHistory } from 'react-router-dom';
 import { Edit } from '@mui/icons-material';
 import FooterBtn from '../../../components/FooterButtons';
 import '../../customer.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { ViewCustomerDetails } from '../../../Redux/Action/GeneralGroupAction/customerAction';
+
 
 
 // import './customer.css';
 
-export default function OverView() {
-    let history = useHistory()
-    const onSubmit = () => {
-        history.push("/customer");
-    }
+export default function OverView({ GetId }) {
+    let history = useHistory();
+    let dispatch = useDispatch();
+
+    const ViewCustomer = useSelector((state) => state.CustomerReducer.ViewCustomerDetails);
+
+    useEffect(() => {
+        dispatch(ViewCustomerDetails(GetId))
+    }, [])
 
     const CustomerDetails = [
         {
@@ -86,9 +93,13 @@ export default function OverView() {
 
     ]
 
+    console.log(ViewCustomer, 'ViewCustomer')
+
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
+
+
 
                 {CustomerDetails.map((data) => {
                     return (

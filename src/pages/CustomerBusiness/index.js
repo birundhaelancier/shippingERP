@@ -73,7 +73,7 @@ export default function CustomerBusinessDetails() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader openFields mainTitle={"Country"} count='20,000' heading={'Country'} />
+                <ContentHeader openFields mainTitle={"Customer Business"} count='20,000' heading={'Customer Business'} />
             </Grid>
             <>
                 <CustomTable
@@ -83,7 +83,7 @@ export default function CustomerBusinessDetails() {
                     onclickEye={(data) => setOpenModal(data)}
                     onAddBtnClick={openFields}
                 />
-                <DynModel handleChangeModel={openModal} modelTitle={"Country"}
+                <DynModel handleChangeModel={openModal} modelTitle={"Customer Business"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
                             <ViewCountry CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />

@@ -50,7 +50,6 @@ export default function CurrencyDetails() {
                         <Link to={`/addHsn/${params.row.sec_Id}`} className="editSymbol" ><Edit /></Link>
                         <div className="deleteSymbol" onClick={()=>deleteSeaPort(params.row.sec_Id)}><Delete /></div>
                     </div>
-                  
                 );
             }
         }

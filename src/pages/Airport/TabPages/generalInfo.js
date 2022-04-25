@@ -28,9 +28,9 @@ export default function GeneralInfo() {
     const [CountryList,setCountryList]=useState([])
     const [Refresh,setRefresh]=useState(false)
     const [AirportInfo, setAirportInfo] = useState({
-        portId: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
+        // portId: {
+        //     value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+        // },
         portCode: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
@@ -49,7 +49,6 @@ export default function GeneralInfo() {
 
     useEffect(() => {
     if(ViewAirList){
-        AirportInfo.portId.value = ViewAirList[0]?.id || ""
         AirportInfo.portCode.value = ViewAirList[0]?.code || ""
         AirportInfo.portName.value = ViewAirList[0]?.name || ""
         AirportInfo.countryId.value = ViewAirList[0]?.country || ""
@@ -100,12 +99,10 @@ export default function GeneralInfo() {
         } else {
             if (id) {
                 dispatch(EditAirPort(AirportInfo, id)).then(()=>{
-                    history.push("/airport")
                     HandleCancel()
                 })
             } else {
                 dispatch(AddAirPort(AirportInfo)).then(()=>{
-                    history.push("/airport")
                     HandleCancel()
                 })
             }
@@ -120,6 +117,7 @@ export default function GeneralInfo() {
         setAirportInfo(prevState => ({
             ...prevState,
         }));
+        history.push("/airport")
     }
 
     const addInputBox = (obj) => {
@@ -133,7 +131,7 @@ export default function GeneralInfo() {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" justifyContent={'center'} container>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
+                {/* <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="number"
                         labelname="Air Port Id"
                         changeData={(data) => Validation(data, "portId")}
@@ -141,9 +139,9 @@ export default function GeneralInfo() {
                         error={AirportInfo.portId.error}
                         errmsg={AirportInfo.portId.errmsg}
                     />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
+                    <Labelbox show type="text"
                         labelname="Air Port Code"
                         changeData={(data) => Validation(data, "portCode")}
                         value={AirportInfo.portCode.value}

@@ -17,24 +17,33 @@ import Documents from './TabPages/documents';
 import OverView from './TabPages/overView';
 
 
-export default function AddVendor() {
+export default function AddVendor(props) {
+    const params = new URLSearchParams(props.location.search);
+    const [activeId, setActiveId] = useState('0');
+    const [userId, setUserId] = useState();
 
     const tabArray = [
-        { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo /> },
-        { icon: <CheckCircle />, title: 'Address Details', description: <AddressInfo /> },
-        { icon: <CheckCircle />, title: 'KYC Details', description: <KycDeatils /> },
-        { icon: <CheckCircle />, title: 'Contact Details', description: <ContactPerson /> },
-        { icon: <CheckCircle />, title: 'Documents', description: <Documents /> },
-        // { icon: <CheckCircle />, title: 'Payments Terms', description: 'de65' },
-        { icon: <CheckCircle />, title: 'Overview', description: <OverView /> },
+        { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo vendorId={params.get("user_id")} handleActivekey={(data, id)=>handleChange(data, id)} /> },
+        { icon: <CheckCircle />, title: 'Address Details', description: <AddressInfo vendorId={params.get("user_id")} userId={userId} handleActivekey={(data, id)=>handleChange(data, id)} /> },
+        { icon: <CheckCircle />, title: 'KYC Details', description: <KycDeatils vendorId={params.get("user_id")} userId={userId} handleActivekey={(data, id)=>handleChange(data, id)} /> },
+        { icon: <CheckCircle />, title: 'Contact Details', description: <ContactPerson vendorId={params.get("user_id")} userId={userId} handleActivekey={(data, id)=>handleChange(data, id)} /> },
+        { icon: <CheckCircle />, title: 'Documents', description: <Documents vendorId={params.get("user_id")} userId={userId} handleActivekey={(data, id)=>handleChange(data, id)} /> },
+        // { icon: <CheckCircle />, title: 'Overview', description: <OverView vendorId={params.get("user_id")} userId={userId} handleActivekey={(data, id)=>handleChange(data, id)} /> },
     ]
+    
+    const handleChange = (data, id) =>{
+        setActiveId(data);
+        setUserId(id);
+    }
+
+    console.log(userId, 'userId')
 
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader mainTitle={"Master"} subTitle='Vendor' heading={'Vendor Data'} />
+                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' mainTitle={"Master"} subTitle='Vendor' heading={'Vendor Data'} />
             </Grid>
-            <CustomTab tabArray={tabArray} />
+            <CustomTab tabArray={tabArray} handleChange={(data)=>handleChange(data)} activeKey={activeId} />
         </div>
     );
 }

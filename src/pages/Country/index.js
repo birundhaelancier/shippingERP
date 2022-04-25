@@ -2,15 +2,13 @@ import react, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import ContentHeader from '../../components/ContentHeader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCountryList } from '../../Redux/Action/GeneralGroupAction/countryAction';
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewCountry from './viewcountry';
 import CustomTable from '../../components/CustomTable';
-
 import CustomSwitch from '../../components/SwitchBtn';
 import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
-import { DeleteCountryList, CountryStatus } from '../../Redux/Action/GeneralGroupAction/countryAction';
+import { DeleteCountryList, CountryStatus, getCountryList } from '../../Redux/Action/GeneralGroupAction/countryAction';
 
 
 // import './customer.css';

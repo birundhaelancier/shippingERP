@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,15 +8,20 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewShipper from './viewshipper';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import QuickSearchToolbar from '../../components/SearchBar';
+import CustomSwitch from '../../components/SwitchBtn';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { DeleteShipperList, ShipperStatus, getShipperList } from '../../Redux/Action/GeneralGroupAction/shipperAction';
 
 // import './Shipper.css';
 
 export default function ShipperDetails() {
+    let dispatch = useDispatch();
     let history = useHistory()
-    const [showlist, setShowlist] = useState(false);
+    const [rowData, setRowData] = useState([])
+    const GetShipperList  = useSelector((state) => state.ShipperReducer.GetShipperList);
     const [openModal, setOpenModal] = useState(false);
+    const [GetId, setGetId] = useState(null);
 
     const columnss = [
         { field: 'id', width: 50, headerName: 'S.No' },
@@ -24,7 +29,15 @@ export default function ShipperDetails() {
         { field: 'companyName', width: 150, headerName: 'Company Name' },
         { field: 'mobile', width: 140, headerName: 'Phone No' },
         { field: 'email', width: 200, headerName: 'Email ID' },
-        { field: 'department', width: 140, headerName: 'Department' },
+        { field: 'status', width: 120, headerName: 'Status',
+        renderCell: (params) => {
+            return (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CustomSwitch size='small' onSwitchChange={() => OnChangeStatus(params.row.shipperId, params.row.activeStatus === 1 ? 0 : 1)} checked={params.row.activeStatus === 1 ? true : false} />
+                </div>
+            );
+         }
+        },
         {
             field: "actions", headerName: "Actions",
             sortable: false,
@@ -35,27 +48,49 @@ export default function ShipperDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                       
-                    </div>
+                    <div className="eyeSymbol" onClick={() => viewModal(params.row.shipperId)}><RemoveRedEye /></div>
+                    <Link to={`/addShipper?user_id=${params.row.shipperId}`} className="editSymbol" ><Edit /></Link>
+                    <div className="deleteSymbol" onClick={()=>deleteShipper(params.row.shipperId)}><Delete /></div>
+                </div>
                 );
             }
         }
     ];
 
+    useEffect(() => {
+        dispatch(getShipperList("All"))
+    }, [])
 
-    const rows = [
-        { id: 1, shipperId: '1', customerName: 'Birundha', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", department: 'chennai'},
-        { id: 2, shipperId: '2', customerName: 'Divya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", department: 'chennai'},
-        { id: 3, shipperId: '3', customerName: 'Lakshmi', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", department: 'chennai'},
-        { id: 4, shipperId: '1', customerName: 'Vicky', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", department: 'chennai'},
-        { id: 5, shipperId: '2', customerName: 'Priya', companyName: "testing", mobile: 12345678908, email: "test@gmail.com", department: 'chennai'},
-    ];
+    useEffect(()=>{
+        let rows= [];
+        GetShipperList?.map((items,index)=>{
+            rows.push(
+                {
+                    id: index+1,
+                    shipperId: items.id,
+                    companyName: items.company_name,
+                    mobile: items.phone,
+                    email: items.email,
+                    activeStatus: items.status,
+                }
+            )
+        })
+        setRowData(rows)
+    },[GetShipperList])
 
     const openFields = () => {
         setOpenModal(true)
         history.push("/addShipper")
+    }
+    const viewModal = (id) =>{
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteShipper=(id)=>{
+        dispatch(DeleteShipperList(id))
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(ShipperStatus(id, status))
     }
     return (
         <div>
@@ -64,7 +99,7 @@ export default function ShipperDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -73,7 +108,7 @@ export default function ShipperDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"Shipper"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewShipper CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewShipper CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />
                         </>
                     }
                 />

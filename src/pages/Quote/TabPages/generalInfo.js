@@ -14,6 +14,7 @@ import { getStateList } from '../../../Redux/Action/GeneralGroupAction/stateActi
 import { ShipmentList } from '../../../Redux/Action/EnquiryGroupAction/ShipmentAction';
 import { AddQuote, ViewQuoteDetails, EditQuote } from '../../../Redux/Action/QuoteGroupAction/QuoteAction';
 import { CargoList } from '../../../Redux/Action/EnquiryGroupAction/CargoAction'
+import { SchemaList } from '../../../Redux/Action/EnquiryGroupAction/SchemaActions';
 
 
 export default function GeneralInfo({ quoteId }) {
@@ -22,6 +23,7 @@ export default function GeneralInfo({ quoteId }) {
     const GetShipment = useSelector((state) => state.ShipmentReducer.GetShipmentList);
     const GetCargoList = useSelector((state) => state.CargoReducer.GetCargoList);
     const ViewQuote = useSelector((state) => state.QuoteReducer.ViewQuoteDetails);
+    const GetSchemaList = useSelector((state) => state.SchemaReducer.GetSchemaList);
     const [CountryList, setCountryList] = useState([])
     const [CargoLists, setCargoLists] = useState([])
     const [Refresh, setRefresh] = useState(false);
@@ -60,6 +62,7 @@ export default function GeneralInfo({ quoteId }) {
         dispatch(ViewQuoteDetails(quoteId))
         dispatch(ShipmentList(1))
         dispatch(CargoList(1))
+        dispatch(SchemaList())
     }, [])
 
     useEffect(() => {
@@ -79,13 +82,13 @@ export default function GeneralInfo({ quoteId }) {
         })
         setCargoLists(cargoLists)
         let schemeList = []
-        GetCargoList?.map((data) => {
+        GetSchemaList?.map((data) => {
             schemeList.push(
                 { id: data.id, value: data.name }
             )
         })
         setschemeList(schemeList)
-    }, [GetShipment, GetCargoList])
+    }, [GetShipment, GetCargoList, GetSchemaList])
 
 
     useEffect(() => {
@@ -93,12 +96,12 @@ export default function GeneralInfo({ quoteId }) {
             quoteDetails.clearanceScheme.value = ViewQuote[0]?.scheme
             quoteDetails.cqId.value = ViewQuote[0]?.id
             quoteDetails.shipmentType.value = ViewQuote[0]?.shipment
-            quoteDetails.cargoType.value = ViewQuote[0]?.cargo 
+            quoteDetails.cargoType.value = ViewQuote[0]?.cargo
             quoteDetails.expenseType.value = ViewQuote[0]?.expense_type
-            quoteDetails.stuffingType.value = ViewQuote[0]?.stuffing_type 
-            quoteDetails.amount.value = ViewQuote[0]?.amount 
+            quoteDetails.stuffingType.value = ViewQuote[0]?.stuffing_type
+            quoteDetails.amount.value = ViewQuote[0]?.amount
             quoteDetails.unit.value = ViewQuote[0]?.unit
-            quoteDetails.remarks.value = ViewQuote[0]?.remarks 
+            quoteDetails.remarks.value = ViewQuote[0]?.remarks
         }
     }, [ViewQuote])
 
@@ -162,7 +165,7 @@ export default function GeneralInfo({ quoteId }) {
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-            <Grid item xs={12} md={4} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="select"
                         labelname="Clearance Scheme"
                         dropdown={schemeList}
@@ -221,7 +224,7 @@ export default function GeneralInfo({ quoteId }) {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="number"
+                    <Labelbox show type="text"
                         labelname="Unit"
                         changeData={(data) => Validation(data, "unit")}
                         value={quoteDetails.unit.value}
@@ -245,7 +248,7 @@ export default function GeneralInfo({ quoteId }) {
             </Grid>
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onCancel={HandleCancel}  />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onCancel={HandleCancel} />
             </Grid>
         </div>
     );

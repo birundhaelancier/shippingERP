@@ -11,7 +11,6 @@ const ViewSeaList = useSelector((state) => state.HsnReducer.ViewHsnDetails);
 useEffect(() => {
     dispatch(ViewHsnDetails(GetId))
 }, [])
-console.log(ViewSeaList,"jjjjjjj")
     return (
         <>
             <Grid item xs={12} spacing={2} direction="row" container>
@@ -43,12 +42,19 @@ console.log(ViewSeaList,"jjjjjjj")
                     <label className="labeltxt">Rate of Duty Standard</label>
                     <div>{ViewSeaList[0]?.rate_standard}</div>
                 </Grid>
-                <Grid item xs={12} md={3} sx={12} sm={12}>
-                    
-                </Grid>
+            
                 <Grid item xs={12} md={6} sx={12} sm={12}>
                     <label className="labeltxt">Rate of Duty Preferential</label>
                     <div>{ViewSeaList[0]?.rate_preferential}</div>
+                </Grid>
+           
+                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <label className="labeltxt">Section Description</label>
+                    <div>{ViewSeaList[0]?.section_description}</div>
+                </Grid> 
+                <Grid item xs={12} md={6} sx={12} sm={12}>
+                <label className="labeltxt">Chapter Description</label>
+                    <div>{ViewSeaList[0]?.chapter_description}</div>
                 </Grid>
             </Grid>
         </>
