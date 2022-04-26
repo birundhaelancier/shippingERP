@@ -6,7 +6,7 @@ import MenuPopOver from '../PopOver';
 
 import './customTab.css';
 
-const CustomTab = ({ tabArray, getMenuValue, activeKey, handleChange }) => {
+const CustomTab = ({ tabArray, getMenuValue, activeKey, handleChange, disabledTab }) => {
     const { TabPane } = Tabs;
     const { Panel } = Collapse;
     const anchorRef = useRef(null);
@@ -36,6 +36,7 @@ const CustomTab = ({ tabArray, getMenuValue, activeKey, handleChange }) => {
                                             </div>
                                         </>
                                     }
+                                    disabled = {disabledTab}
                                     key={index}
                                 >
                                     {data.description}

@@ -44,8 +44,8 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
         state: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
         phone: { value: "", validation: [{ name: "required" }, { name: "mobilenumber" }], error: null, errmsg: null },
         city: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
-        mobile: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
-        email: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
+        mobile: { value: "", validation: [{ name: "required" }, { name: "mobilenumber" }], error: null, errmsg: null },
+        email: { value: "", validation: [{ name: "required" }, { name: "email" }], error: null, errmsg: null },
         department: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
         designation: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
 
@@ -61,57 +61,61 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
         state: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
         phone: { value: "", validation: [{ name: "required" }, { name: 'mobilenumber' }], error: null, errmsg: null },
         city: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
-        mobile: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
-        email: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
+        mobile: { value: "", validation: [{ name: "required" }, { name: "mobilenumber" }], error: null, errmsg: null },
+        email: { value: "", validation: [{ name: "required" }, { name: "email" }], error: null, errmsg: null },
         department: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
         designation: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
     })
 
 
     useEffect(() => {
-        dispatch(ViewCustomerDetails(customerId))
+        dispatch(ViewCustomerDetails(customerId ? customerId : userId))
         dispatch(getCountryList(1))
     }, [])
 
 
     useEffect(() => {
         let countryLists = []
-        GetCountry?.map((data) => {
-            countryLists.push(
-                { id: data.id, value: data.name }
-            )
-        })
+        const arrayUniqueByKey = [...new Map(ViewCustomer[0]?.address?.map(item =>
+            [item.country, item])).values()]?.forEach((data) => {
+                countryLists.push({ id: data.country, value: data.country_name })
+            })
         setCountryList(countryLists)
 
         let stateLists = []
-        GetState?.map((data) => {
-            stateLists.push(
-                { id: data.id, value: data.name }
-            )
-        })
+        const state = [...new Map(ViewCustomer[0]?.address?.map(item =>
+            [item.state, item])).values()]?.forEach((data) => {
+                stateLists.push({ id: data.state, value: data.state_name })
+            })
         setStateList(stateLists)
 
         let cityLists = []
-        GetCity?.map((data) => {
-            cityLists.push(
-                { id: data.id, value: data.name }
-            )
-        })
+        const city = [...new Map(ViewCustomer[0]?.address?.map(item =>
+            [item.city, item])).values()]?.forEach((data) => {
+                cityLists.push({ id: data.city, value: data.city_name })
+            })
         setCityList(cityLists)
-    }, [GetCountry, GetState, GetCity])
+    }, [ViewCustomer])
 
     useEffect(() => {
         if (ViewCustomer) {
+
             let objeList = [];
             if (Nommiee.length <= ViewCustomer[0]?.contact.length) {
                 ViewCustomer[0]?.contact?.forEach((data, index) => {
                     objeList.push(`obj${index}`)
                     setcount(count + 1)
+                    setNommiee(
+                        prevState => ({
+                            ...prevState,
+                            ["obj" + index]: dynObjs,
+                        })
+                    )
                 })
             }
             ViewCustomer[0]?.contact?.forEach((data, index) => {
                 Object.keys(data).forEach((items) => {
-                    if (Object.keys(dynObjs).includes(items) && count > 0) {
+                    if (Object.keys(dynObjs).includes(items) && count > 0 && Nommiee[`obj${index}`] != undefined) {
                         Nommiee[`obj${index}`][items].value = (items === 'contact_salute') ? 1 : data[items];
                     }
                 })
@@ -171,7 +175,7 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
         var filtererr = targetkeys.filter((obj) => BasicInformation[obj].error == true);
 
         const header = {
-            contact_salute: [], country: [], mobile: [], contact_second_name: [], email: [], state: [], phone: [], contact_first_name: [], city: [], email:[], department:[], designation:[]
+            contact_salute: [], country: [], mobile: [], contact_second_name: [], email: [], state: [], phone: [], contact_first_name: [], city: [], email: [], department: [], designation: []
         };
 
         Object.keys(Nommiee).forEach((data) => {
@@ -196,35 +200,35 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
             if (customerId) {
 
                 EditCustomerContact(header, customerId)
-                .then((res) => {
-                    if (res?.Status === 'Success') {
-                        notification.success({
-                            message: res?.Message
-                        });
-                        handleActivekey('4', res?.Response?.id)
-                        dispatch(getCustomerList("All"))
-                    } else {
-                        notification.success({
-                            message: "Something Went Wrong"
-                        });
-                    }
-                })
+                    .then((res) => {
+                        if (res?.Status === 'Success') {
+                            notification.success({
+                                message: res?.Message
+                            });
+                            handleActivekey('4', res?.Response?.id)
+                            dispatch(getCustomerList("All"))
+                        } else {
+                            notification.success({
+                                message: "Something Went Wrong"
+                            });
+                        }
+                    })
             } else {
 
                 AddCustomerContact(header, userId)
-                .then((res) => {
-                    if (res?.Status === 'Success') {
-                        notification.success({
-                            message: res?.Message
-                        });
-                        handleActivekey('4', res?.Response?.id)
-                        dispatch(getCustomerList("All"))
-                    } else {
-                        notification.success({
-                            message: "Something Went Wrong"
-                        });
-                    }
-                })
+                    .then((res) => {
+                        if (res?.Status === 'Success') {
+                            notification.success({
+                                message: res?.Message
+                            });
+                            handleActivekey('4', res?.Response?.id)
+                            dispatch(getCustomerList("All"))
+                        } else {
+                            notification.success({
+                                message: "Something Went Wrong"
+                            });
+                        }
+                    })
 
             }
         }
@@ -329,8 +333,9 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                                             changeData={(data) => OnChangeNommiee(data, "contact_salute", item, index)}
                                             showString
                                             dropdown={[
-                                                { id: 1, value: 'Male' },
-                                                { id: 2, value: 'Female' }
+                                                { id: 1, value: 'Mr' },
+                                                { id: 2, value: 'Mrs' },
+                                                { id: 3, value: 'Miss' }
                                             ]}
                                             value={Nommiee[item]["contact_salute"].value == "" ? BasicInformation.contact_salute.value : Nommiee[item]["contact_salute"].value}
                                             error={Nommiee[item]["contact_salute"].error == null ? BasicInformation.contact_salute.error : Nommiee[item]["contact_salute"].error}
@@ -394,6 +399,7 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                                     <Grid item md={4} xs={12} lg={4}>
                                         <Labelbox type="number" labelname="Mobile"
                                             changeData={(data) => OnChangeNommiee(data, "mobile", item, index)}
+                                            showFlag
                                             value={Nommiee[item]["mobile"].value == "" ? BasicInformation.mobile.value : Nommiee[item]["mobile"].value}
                                             error={Nommiee[item]["mobile"].error == null ? BasicInformation.mobile.error : Nommiee[item]["mobile"].error}
                                             errmsg={Nommiee[item]["mobile"].errmsg == null ? BasicInformation.mobile.errmsg : Nommiee[item]["mobile"].errmsg}
@@ -439,7 +445,7 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                 </Grid>
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onBack={() => handleActivekey('0')} />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'}  onBack={() => handleActivekey('2')}  onSaveBtn={onSubmit} nextDisable={ViewCustomer[0] && ViewCustomer[0]?.contact.length > 0 ? false : true} />
             </Grid>
         </div>
     );

@@ -23,14 +23,11 @@ export const AddCustomer = (data) => {
 
 export const AddCustomerAddress = (data, userId) => {
 
-    console.log(data, 'test')
+    console.log(data, userId, 'test')
     var formData = new FormData()
 
-    Object.keys(data).forEach((val) => {
-        // Array.from(data[val]).forEach(image => {
-            formData.set(`${val}[]`, `[${data[val]}]`)
-
-        // })
+    Object.keys(data)?.forEach((val) => {
+        formData.append(`${val}`, data[val])
     })
     formData.set(`id`, userId)
     formData.set(`stype`, `Address`)
@@ -42,7 +39,7 @@ export const AddCustomerAddress = (data, userId) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                return data.Response;
+                return data;
             });
     } catch (err) { }
 }
@@ -53,17 +50,22 @@ export const AddCustomerKyc = (kycInfo, data, userId) => {
     Object.keys(kycInfo)?.forEach((val) => {
         formData.set([val], kycInfo[val].value)
     })
+    console.log(data, userId, 'image')
 
-    Object.keys(data).forEach((val) => {
-        formData.append(`gst_reg[]`, `[${data.gst_reg}]`)
-        formData.append(`gst_state[]`, `[${data.gst_state}]`)
-        formData.append(`gst_image[]`, data.gst_image)
+    data.gst_image.forEach((val) => {
+        formData.append(`gst_image[]`, val)
+    })
+    data.gst_reg.forEach((val) => {
+        formData.append(`gst_reg[]`, val)
+    })
+    data.gst_state.forEach((val) => {
+        formData.append(`gst_state[]`, val)
     })
 
     formData.set(`id`, userId)
     formData.set(`stype`, `KYC`)
     try {
-        return fetch(apiurl + 'edit_customer', {
+        return fetch(apiurl + 'add_customer', {
             method: "post",
             headers: REQUEST_HEADERS().HEADER,
             body: formData
@@ -77,11 +79,11 @@ export const AddCustomerKyc = (kycInfo, data, userId) => {
 
 export const AddCustomerContact = (data, userId) => {
     var formData = new FormData()
-    Object.keys(data).forEach((val) => {
-        formData.set(`${val}[]`, data[val])
+    Object.keys(data)?.forEach((val) => {
+        formData.append(`${val}`, data[val])
     })
     formData.set(`id`, userId)
-    formData.set(`stype`, `Address`)
+    formData.set(`stype`, `Contact`)
     try {
         return fetch(apiurl + 'add_customer', {
             method: "post",
@@ -90,30 +92,34 @@ export const AddCustomerContact = (data, userId) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                return data.Response;
+                return data;
             });
     } catch (err) { }
 }
 
-export const AddCustomerDocument = (data, userId) => async dispatch => {
+export const AddCustomerDocument = (data, userId) => {
+    var formData = new FormData()
+
+    data.document_name.forEach((val) => {
+        formData.append(`document_name[]`, val)
+    })
+
+    data.document.forEach((val) => {
+        formData.append(`document[]`, val)
+    })
+
+    formData.set(`id`, userId)
+    formData.set(`stype`, `Documents`)
     try {
-        axios({
-            method: 'POST',
-            url: apiurl + 'add_customer',
+        return fetch(apiurl + 'edit_customer', {
+            method: "post",
             headers: REQUEST_HEADERS().HEADER,
-            data: {
-                "document_name": [],
-                "document": [],
-                "stype": "Documents",
-                "id": userId
-            }
+            body: formData
         })
-            .then((response) => {
-                notification.success({
-                    message: response.data.Message
-                });
-                dispatch(getCustomerList("All"))
-            })
+            .then((response) => response.json())
+            .then((data) => {
+                return data;
+            });
     } catch (err) { }
 }
 
@@ -134,34 +140,18 @@ export const EditCustomer = (data, customerId) => {
                 return data;
             });
     } catch (err) { }
-    // try {
-    //     axios({
-    //         method: 'POST',
-    //         url: apiurl + 'edit_customer',
-    //         headers: REQUEST_HEADERS().HEADER,
-    //         data: formData,
-    //     })
-    //         .then((response) => {
-    //             notification.success({
-    //                 message: response.data.Message
-    //             });
-    //             dispatch(getCustomerList("All"))
-
-    //         })
-    // } catch (err) { }
 }
 
 export const EditCustomerAddress = (data, customerId) => {
     var formData = new FormData()
 
     Object.keys(data)?.forEach((val) => {
-    console.log(data[val], 'tet')
-        formData.append(`${val}[]`, data[val].toString())
+        formData.append(`${val}`, data[val])
     })
     formData.set(`id`, customerId)
     formData.set(`stype`, `Address`)
 
-    
+
     try {
         return fetch(apiurl + 'edit_customer', {
             method: "post",
@@ -180,12 +170,26 @@ export const EditCustomerKyc = (kycInfo, data, customerId) => {
     Object.keys(kycInfo)?.forEach((val) => {
         formData.set([val], kycInfo[val].value)
     })
-    console.log(data, 'image')
-    // Object.keys(data).forEach((val) => {
-        formData.append(`gst_reg[]`, `[${data.gst_reg}]`)
-        formData.append(`gst_state[]`, `[${data.gst_state}]`)
-        formData.append(`gst_image[]`, data.gst_image)
-    // })
+
+    formData.set( 'pan_no' , kycInfo.pan_no.value)
+    formData.set( 'cin_no' , kycInfo.cin_no.value)
+    formData.set( 'msme_reg' , kycInfo.msme_reg.value)
+    formData.set( 'iec_reg' , kycInfo.iec_reg.value)
+
+    formData.set( 'pan_image' , typeof val === 'string' ? "" : kycInfo.pan_image.value)
+    formData.set( 'cin_image' , typeof val === 'string' ? "" : kycInfo.cin_image.value)
+    formData.set( 'iec_image' , typeof val === 'string' ? "" : kycInfo.iec_image.value)
+    formData.set( 'msme_image' , typeof val === 'string' ? "" : kycInfo.msme_image.value)
+
+    data.gst_image.forEach((val) => {
+        formData.append(`gst_image[]`, typeof val === 'string' ? "" : val)
+    })
+    data.gst_reg.forEach((val) => {
+        formData.append(`gst_reg[]`, val)
+    })
+    data.gst_state.forEach((val) => {
+        formData.append(`gst_state[]`, val)
+    })
 
     formData.set(`id`, customerId)
     formData.set(`stype`, `KYC`)
@@ -207,7 +211,7 @@ export const EditCustomerContact = (data, customerId) => {
     console.log(data, 'tet')
 
     Object.keys(data)?.forEach((val) => {
-        formData.append(`${val}[]`, `[${data[val]}]`)
+        formData.append(`${val}`, data[val])
     })
     formData.set(`id`, customerId)
     formData.set(`stype`, `Contact`)
@@ -227,11 +231,14 @@ export const EditCustomerContact = (data, customerId) => {
 export const EditCustomerDocument = (data, customerId) => {
     console.log(data, 'yuyu')
     var formData = new FormData()
-    // Object.keys(data).forEach((val) => {
-    formData.append(`document[]`, `[${data?.document}]`)
-    formData.append(`document_name[]`, `[${data?.document_name}]`)
 
-    // })
+    data.document_name.forEach((val) => {
+        formData.append(`document_name[]`, val)
+    })
+
+    data.document.forEach((val) => {
+        formData.append(`document[]`, typeof val === 'string' ? "" : val)
+    })
 
     formData.set(`id`, customerId)
     formData.set(`stype`, `Documents`)

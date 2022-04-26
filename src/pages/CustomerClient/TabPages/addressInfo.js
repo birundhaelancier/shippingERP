@@ -24,6 +24,7 @@ export default function AddressInfo({ customerId, userId, handleActivekey }) {
     const [StateList, setStateList] = useState([])
     const [CityList, setCityList] = useState([])
     const [Itemkeys, setItemKeys] = useState([])
+    const [refresh, setrefresh] = useState(false);
 
     const addressType = [
         { id: 1, value: "Registered" },
@@ -99,19 +100,35 @@ export default function AddressInfo({ customerId, userId, handleActivekey }) {
     useEffect(() => {
         if (ViewCustomer) {
             let objeList = [];
-            if (Nommiee.length <= ViewCustomer[0]?.address.length) {
+            if (Object.keys(Nommiee) <= ViewCustomer[0]?.address.length) {
                 ViewCustomer[0]?.address?.forEach((data, index) => {
                     objeList.push(`obj${index}`)
+                    // let code = count + 1;
                     setcount(count + 1)
+                    setNommiee(
+                        prevState => ({
+                            ...prevState,
+                            ["obj" + index]: dynObjs,
+                        })
+                    )
                 })
             }
+            
+
             ViewCustomer[0]?.address?.forEach((data, index) => {
+
+                setrefresh(!refresh)
                 Object.keys(data).forEach((items) => {
-                    if (Object.keys(dynObjs).includes(items) && count > 0) {
+                    console.log(objeList,count, Nommiee[`obj${index}`], Nommiee, 'Nommiee')
+
+                    if (Object.keys(dynObjs).includes(items) && count > 0 && Nommiee[`obj${index}`] != undefined) {
+                        console.log(items, 'items')
                         Nommiee[`obj${index}`][items].value = (items === 'address_type') ? 1 : data[items];
                     }
                 })
             })
+
+
             setNommiee(
                 prevState => ({
                     ...prevState,
@@ -175,7 +192,7 @@ export default function AddressInfo({ customerId, userId, handleActivekey }) {
             header.address2.push(Nommiee[data].address2.value);
             header.address1.push(Nommiee[data].address1.value);
             header.country.push(Nommiee[data].country.value);
-            header.state.push();
+            header.state.push(Nommiee[data].state.value);
             header.city.push(Nommiee[data].city.value);
             header.phone2.push(Nommiee[data].phone2.value);
             header.zip_code.push(Nommiee[data].zip_code.value);
@@ -190,22 +207,6 @@ export default function AddressInfo({ customerId, userId, handleActivekey }) {
             if (customerId) {
 
                 EditCustomerAddress(header, customerId)
-                .then((res) => {
-                    if (res?.Status === 'Success') {
-                        notification.success({
-                            message: res?.Message
-                        });
-                        handleActivekey('2', res?.Response?.id)
-                        dispatch(getCustomerList("All"))
-                    } else {
-                        notification.success({
-                            message: "Something Went Wrong"
-                        });
-                    }
-                })
-            } else {
-
-                AddCustomerAddress(header, userId)
                     .then((res) => {
                         if (res?.Status === 'Success') {
                             notification.success({
@@ -217,6 +218,26 @@ export default function AddressInfo({ customerId, userId, handleActivekey }) {
                             notification.success({
                                 message: "Something Went Wrong"
                             });
+                        }
+                    })
+            } else {
+
+                AddCustomerAddress(header, userId)
+                    .then((res) => {
+                        console.log(res?.Status, 'res?.Status')
+                        if (res?.Status === 'Success') {
+                            notification.success({
+                                message: res?.Message
+                            });
+                            handleActivekey('2', res?.Response?.id)
+                            dispatch(getCustomerList("All"))
+                        } else {
+                            notification.success({
+                                message: res?.Message
+                            });
+
+                            handleActivekey('2', res?.Response?.id)
+                            dispatch(getCustomerList("All"))
                         }
                     })
 
@@ -321,7 +342,7 @@ export default function AddressInfo({ customerId, userId, handleActivekey }) {
                                     <Grid item md={4} xs={12} lg={4}>
                                         <Labelbox type="select" labelname="Address Type"
                                             changeData={(data) => OnChangeNommiee(data, "address_type", item, index)}
-                                            showString
+                                            // showString
                                             dropdown={addressType}
                                             value={Nommiee[item]["address_type"].value == "" ? BasicInformation.address_type.value : Nommiee[item]["address_type"].value}
                                             error={Nommiee[item]["address_type"].error == null ? BasicInformation.address_type.error : Nommiee[item]["address_type"].error}
@@ -414,7 +435,7 @@ export default function AddressInfo({ customerId, userId, handleActivekey }) {
                 </Grid>
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onBack={() => handleActivekey('0')} />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onBack={() => handleActivekey('0')} nextDisable={ViewCustomer[0] && ViewCustomer[0]?.address.length > 0 ? false : true} />
             </Grid>
         </div>
     );

@@ -20,6 +20,7 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
     const [Itemkeys, setItemKeys] = useState([])
     const [Refresh, setRefresh] = useState(false);
     const ViewCustomer = useSelector((state) => state.CustomerReducer.ViewCustomerDetails);
+    const [stateList, setstateList] = useState([])
 
     const [BasicInformation, setBasicInformation] = useState({
         gst_state: {
@@ -96,21 +97,38 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
     }, [])
 
     useEffect(() => {
+        let getState = []
+        const arrayUniqueByKey = [...new Map(ViewCustomer[0]?.address?.map(item =>
+            [item.state, item])).values()]?.forEach((data) => {
+            getState.push({ id: data.state, value: data.state_name })
+        })
+        setstateList(getState)
+    }, [ViewCustomer])
+
+    useEffect(() => {
         if (ViewCustomer) {
             Object.keys(kycInfo).forEach((key) => {
                 kycInfo[key].value = ViewCustomer[0] && ViewCustomer[0][key]
             })
 
             let objeList = [];
-            if (Nommiee.length <= ViewCustomer[0]?.gst.length) {
+            if (Object.keys(Nommiee) <= ViewCustomer[0]?.gst.length) {
                 ViewCustomer[0]?.gst?.forEach((data, index) => {
                     objeList.push(`obj${index}`)
                     setcount(count + 1)
+                    setNommiee(
+                        prevState => ({
+                            ...prevState,
+                            ["obj" + index]: dynObjs,
+                        })
+                    )
                 })
             }
             ViewCustomer[0]?.gst?.forEach((data, index) => {
                 Object.keys(data)?.forEach((items) => {
                     if (Object.keys(dynObjs)?.includes(items) && count > 0 && Nommiee[`obj${index}`] != undefined) {
+                        console.log(data, 'items')
+
                         Nommiee[`obj${index}`][items].value = data[items];
                     }
                 })
@@ -123,6 +141,9 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
             setItemKeys(objeList)
         }
     }, [ViewCustomer])
+
+    console.log(Nommiee, 'Nommiee')
+
 
     useEffect(() => {
         let obj = Object.keys(Nommiee);
@@ -185,7 +206,7 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
     }
 
     const CancelDynObjs2 = () => {
-        let key_Data = [ 'gst_state', 'gst_image', 'gst_reg']
+        let key_Data = ['gst_state', 'gst_image', 'gst_reg']
         key_Data.map((data) => {
             try {
                 dynObjs[data].value = "";
@@ -244,7 +265,7 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
 
         } else {
             if (customerId) {
-                EditCustomerKyc(kycInfo, header, userId)
+                EditCustomerKyc(kycInfo, header, customerId)
                     .then((res) => {
                         if (res?.Status === 'Success') {
                             notification.success({
@@ -358,6 +379,7 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
 
                             <Grid item md={7} xs={12} lg={7}>
                                 <Labelbox type="text" labelname="GST State"
+                                    // dropdown={stateList}
                                     changeData={(data) => OnChangeNommiee(data, "gst_state", item, index)}
                                     value={Nommiee[item]["gst_state"].value == "" ? BasicInformation.gst_state.value : Nommiee[item]["gst_state"].value}
                                     error={Nommiee[item]["gst_state"].error == null ? BasicInformation.gst_state.error : Nommiee[item]["gst_state"].error}
@@ -365,7 +387,7 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
                                 />
                             </Grid>
                             <Grid item xs={12} md={4} sx={12} sm={12}>
-                                <UploadFiles show getOnChangeFile={(event, name) => OnChangeNommiee(event, 'gst_image', item, index)} showLabel={Nommiee[item]["gst_image"].value == "" ? BasicInformation.gst_image.value : Nommiee[item]["gst_image"].value} fileId={5 + index}
+                                <UploadFiles show getOnChangeFile={(event, name) => OnChangeNommiee(event, 'gst_image', item, index)} showLabel={Nommiee[item]["gst_image"].value == "" ? BasicInformation.gst_image.value : Nommiee[item]["gst_image"].value} fileId={index + 5}
                                     showName
                                     error={Nommiee[item]["gst_image"].error == null ? BasicInformation.gst_image.error : Nommiee[item]["gst_image"].error}
                                     errmsg={Nommiee[item]["gst_image"].errmsg == null ? BasicInformation.gst_image.errmsg : Nommiee[item]["gst_image"].errmsg}
@@ -391,7 +413,7 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
 
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="flex-start" container>
-                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onBack={() => handleActivekey('3')} />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onBack={() => handleActivekey('1')} nextDisable={ViewCustomer[0] && ViewCustomer[0]?.gst.length > 0 ? false : true} />
             </Grid>
         </div>
     );

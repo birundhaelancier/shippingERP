@@ -69,7 +69,7 @@ export default function GeneralInfo({ customerId, handleActivekey }) {
         if (ViewCustomer) {
             generalDetails.company_name.value = ViewCustomer[0]?.company_name
             generalDetails.mobile.value = ViewCustomer[0]?.mobile
-            generalDetails.primary_salute.value = ViewCustomer[0]?.primary_salute === "Male" ? 1 : 2
+            generalDetails.primary_salute.value = ViewCustomer[0]?.primary_salute === "Mr" ? 1 : 2
             generalDetails.primary_first_name.value = ViewCustomer[0]?.primary_first_name
             generalDetails.primary_second_name.value = ViewCustomer[0]?.primary_second_name
             generalDetails.designation.value = ViewCustomer[0]?.designation
@@ -172,7 +172,6 @@ export default function GeneralInfo({ customerId, handleActivekey }) {
         }));
     }
 
-
     return (
         <div>
             <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" container>
@@ -181,8 +180,8 @@ export default function GeneralInfo({ customerId, handleActivekey }) {
                     <Labelbox show type="select"
                         labelname='Salutation'
                         dropdown={[
-                            { id: 1, value: 'Male' },
-                            { id: 2, value: 'Female' }
+                            { id: 1, value: 'Mr' },
+                            { id: 2, value: 'Mrs' },
                         ]}
                         changeData={(data) => Validation(data, "primary_salute")}
                         value={generalDetails.primary_salute.value}
@@ -297,7 +296,7 @@ export default function GeneralInfo({ customerId, handleActivekey }) {
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn saveBtn={"Save Stage"} onSaveBtn={onSubmit} onCancel={HandleCancel} onNext={() => handleActivekey('1')} />
+                <FooterBtn nextBtn saveBtn={"Save Stage"} onSaveBtn={onSubmit} onCancel={HandleCancel} onNext={() => handleActivekey('1')} nextDisable={ViewCustomer && ViewCustomer.length > 0 ? false : true} />
             </Grid>
         </div>
     );

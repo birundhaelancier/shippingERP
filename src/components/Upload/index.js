@@ -17,7 +17,7 @@ const UploadFiles = ({ uploadLabel, show, getOnChangeFile, showLabel, fileId, sh
                     <label for={`file-upload${fileId}`} class="btn-file-upload">
                         <div className='cloudIcon'>
                             <CloudUpload />
-                           {!showLabelView &&  <div>{typeof showLabel == 'object' ? showLabel && showLabel?.name : showLabel && showLabel.replace("https://elancier.xyz/shipping_erp/public/upload/customers/", "") }</div>}
+                           {!showLabelView &&  <div>{typeof showLabel == 'object' ? showLabel && showLabel?.name : showLabel && showLabel.split("_")[showLabel.split("_").length - 1] }</div>}
                         </div>
                     </label>
                     <input id={`file-upload${fileId}`} type="file" onChange={(e) => handleFile(e)} />

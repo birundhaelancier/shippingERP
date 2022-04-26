@@ -103,6 +103,12 @@ export default function AddressInfo({ vendorId, userId, handleActivekey }) {
                 ViewVendor[0]?.address?.forEach((data, index) => {
                     objeList.push(`obj${index}`)
                     setcount(count + 1)
+                    setNommiee(
+                        prevState => ({
+                            ...prevState,
+                            ["obj" + index]: dynObjs,
+                        })
+                    )
                 })
             }
             ViewVendor[0]?.address?.forEach((data, index) => {
@@ -188,7 +194,6 @@ export default function AddressInfo({ vendorId, userId, handleActivekey }) {
 
         } else {
             if (vendorId) {
-
                 EditVendorAddress(header, vendorId)
                 .then((res) => {
                     if (res?.Status === 'Success') {
@@ -198,7 +203,7 @@ export default function AddressInfo({ vendorId, userId, handleActivekey }) {
                         handleActivekey('2', res?.Response?.id)
                         dispatch(getVendorList("All"))
                     } else {
-                        notification.success({
+                        notification.error({
                             message: "Something Went Wrong"
                         });
                     }
@@ -414,7 +419,7 @@ export default function AddressInfo({ vendorId, userId, handleActivekey }) {
                 </Grid>
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onBack={() => handleActivekey('0')} />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onBack={() => handleActivekey('0')} nextDisable={ViewVendor[0] && ViewVendor[0]?.address.length > 0 ? false : true} />
             </Grid>
         </div>
     );

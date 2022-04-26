@@ -20,6 +20,7 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
     const [Itemkeys, setItemKeys] = useState([])
     const [Refresh, setRefresh] = useState(false);
     const ViewVendor = useSelector((state) => state.VendorReducer.ViewVendorDetails);
+    const [stateList, setstateList] = useState([])
 
     const [BasicInformation, setBasicInformation] = useState({
         gst_state: {
@@ -92,8 +93,18 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
     }
 
     useEffect(() => {
-        dispatch(ViewVendorDetails(vendorId))
+        dispatch(ViewVendorDetails(vendorId ? vendorId : userId))
     }, [])
+
+
+    useEffect(() => {
+        let getState = []
+        const arrayUniqueByKey = [...new Map(ViewVendor[0]?.address?.map(item =>
+            [item.state, item])).values()]?.forEach((data) => {
+                getState.push({ id: data.state, value: data.state_name })
+            })
+        setstateList(getState)
+    }, [ViewVendor])
 
     useEffect(() => {
         if (ViewVendor) {
@@ -106,6 +117,12 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
                 ViewVendor[0]?.gst?.forEach((data, index) => {
                     objeList.push(`obj${index}`)
                     setcount(count + 1)
+                    setNommiee(
+                        prevState => ({
+                            ...prevState,
+                            ["obj" + index]: dynObjs,
+                        })
+                    )
                 })
             }
             ViewVendor[0]?.gst?.forEach((data, index) => {
@@ -255,7 +272,7 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
                             handleActivekey('3', res?.Response?.id)
                             dispatch(getVendorList("All"))
                         } else {
-                            notification.success({
+                            notification.error({
                                 message: "Something Went Wrong"
                             });
                         }
@@ -271,7 +288,7 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
                             handleActivekey('3', res?.Response?.id)
                             dispatch(getVendorList("All"))
                         } else {
-                            notification.success({
+                            notification.error({
                                 message: "Something Went Wrong"
                             });
                         }
@@ -359,7 +376,8 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
                         <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-start'} container>
 
                             <Grid item md={7} xs={12} lg={7}>
-                                <Labelbox type="text" labelname="GST State"
+                                <Labelbox type="select" labelname="GST State"
+                                    dropdown={stateList}
                                     changeData={(data) => OnChangeNommiee(data, "gst_state", item, index)}
                                     value={Nommiee[item]["gst_state"].value == "" ? BasicInformation.gst_state.value : Nommiee[item]["gst_state"].value}
                                     error={Nommiee[item]["gst_state"].error == null ? BasicInformation.gst_state.error : Nommiee[item]["gst_state"].error}
@@ -393,7 +411,7 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
 
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="flex-start" container>
-                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onBack={() => handleActivekey('3')} />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onBack={() => handleActivekey('1')} nextDisable={ViewVendor[0] && ViewVendor[0]?.gst.length > 0 ? false : true} />
             </Grid>
         </div>
     );

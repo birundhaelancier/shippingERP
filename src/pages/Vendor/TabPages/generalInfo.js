@@ -181,8 +181,9 @@ export default function GeneralInfo({ vendorId, handleActivekey }) {
                     <Labelbox show type="select"
                         labelname='Salutation'
                         dropdown={[
-                            { id: 1, value: 'Male' },
-                            { id: 2, value: 'Female' }
+                            { id: 1, value: 'Mr' },
+                            { id: 2, value: 'Mrs' },
+                            { id: 2, value: 'Miss' }
                         ]}
                         changeData={(data) => Validation(data, "primary_salute")}
                         value={generalDetails.primary_salute.value}

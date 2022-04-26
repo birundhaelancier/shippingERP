@@ -42,32 +42,29 @@ export default function Documents({ handleActivekey, vendorId, userId }) {
     }
 
     useEffect(() => {
-        dispatch(ViewVendorDetails(vendorId))
+        dispatch(ViewVendorDetails(vendorId ? vendorId : userId))
     }, [])
 
-    let url = 'https://cdn.shopify.com/s/files/1/0234/8017/2591/products/young-man-in-bright-fashion_925x_f7029e2b-80f0-4a40-a87b-834b9a283c39.jpg'
-    const toDataURL = url => fetch(url)
-          .then(response => response.blob())
-          .then(blob => new Promise((resolve, reject) => {
-          const reader = new FileReader()
-          reader.onloadend = () => resolve(reader.result)
-          reader.onerror = reject
-          reader.readAsDataURL(blob)
-         }))
     useEffect(() => {
         if (ViewVendor) {
-            console.log(toDataURL(url), 'toDataURL(url)')
 
             let objeList = [];
             if (Nommiee.length <= ViewVendor[0]?.documents.length) {
                 ViewVendor[0]?.documents?.forEach((data, index) => {
                     objeList.push(`obj${index}`)
                     setcount(count + 1)
+                    setNommiee(
+                        prevState => ({
+                            ...prevState,
+                            ["obj" + index]: dynObjs,
+                        })
+                    )
                 })
             }
+            let test = {}
             ViewVendor[0]?.documents?.forEach((data, index) => {
                 Object.keys(data)?.forEach((items) => {
-                    if (Object.keys(dynObjs)?.includes(items) && count > 0 && Nommiee[`obj${index}`] != undefined) {
+                    if (Object.keys(dynObjs)?.includes(items) && count > index && Nommiee[`obj${index}`] != undefined) {
                         Nommiee[`obj${index}`][items].value = data[items];
                     }
                 })
@@ -203,7 +200,7 @@ export default function Documents({ handleActivekey, vendorId, userId }) {
 
         } else {
             if (vendorId) {
-                EditVendorDocument(header, userId)
+                EditVendorDocument(header, vendorId)
                     .then((res) => {
                         if (res?.Status === 'Success') {
                             notification.success({
@@ -239,10 +236,7 @@ export default function Documents({ handleActivekey, vendorId, userId }) {
         setBasicInformation((prevState) => ({
             ...prevState,
         }));
-
     }
-
-    console.log(Nommiee, 'Nommiee')
 
     return (
         <div>
@@ -258,9 +252,10 @@ export default function Documents({ handleActivekey, vendorId, userId }) {
                             <Grid item md={7} xs={12} lg={7}>
                                 <Labelbox type="text" labelname={`Documents${index + 1}`}
                                     changeData={(data) => OnChangeNommiee(data, "document", item, index)}
-                                    value={Nommiee[item]["document"].value == "" ? BasicInformation.document.value : Nommiee[item]["document"].value?.name}
+                                    value={Nommiee[item]["document"].value == "" ? BasicInformation.document.value : typeof Nommiee[item]["document"].value === 'string' ? Nommiee[item]["document"].value?.split("_")[Nommiee[item]["document"].value?.split("_").length - 1]  : Nommiee[item]["document"].value?.name}
                                     error={Nommiee[item]["document"].error == null ? BasicInformation.document.error : Nommiee[item]["document"].error}
                                     errmsg={Nommiee[item]["document"].errmsg == null ? BasicInformation.document.errmsg : Nommiee[item]["document"].errmsg}
+                                    disabled
                                 />
                             </Grid>
                             <Grid item xs={12} md={4} sx={12} sm={12}>
@@ -290,7 +285,7 @@ export default function Documents({ handleActivekey, vendorId, userId }) {
 
             </Grid>
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onSaveBtn={onSubmit} onCancel={() => history.push('/Vendor')} />
+                <FooterBtn nextBtn backBtn saveBtn={'Save Stage'} onBack={() => handleActivekey('3')}  onSaveBtn={onSubmit} onCancel={() => history.push('/Vendor')} nextDisable={ViewVendor[0] && ViewVendor[0]?.documents.length > 0 ? false : true} />
             </Grid>
         </div>
     );

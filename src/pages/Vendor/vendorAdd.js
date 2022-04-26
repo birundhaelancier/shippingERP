@@ -28,15 +28,13 @@ export default function AddVendor(props) {
         { icon: <CheckCircle />, title: 'KYC Details', description: <KycDeatils vendorId={params.get("user_id")} userId={userId} handleActivekey={(data, id)=>handleChange(data, id)} /> },
         { icon: <CheckCircle />, title: 'Contact Details', description: <ContactPerson vendorId={params.get("user_id")} userId={userId} handleActivekey={(data, id)=>handleChange(data, id)} /> },
         { icon: <CheckCircle />, title: 'Documents', description: <Documents vendorId={params.get("user_id")} userId={userId} handleActivekey={(data, id)=>handleChange(data, id)} /> },
-        // { icon: <CheckCircle />, title: 'Overview', description: <OverView vendorId={params.get("user_id")} userId={userId} handleActivekey={(data, id)=>handleChange(data, id)} /> },
+        { icon: <CheckCircle />, title: 'Overview', description: <OverView vendorId={params.get("user_id")} userId={userId} handleActivekey={(data, id)=>handleChange(data, id)} /> },
     ]
     
     const handleChange = (data, id) =>{
         setActiveId(data);
         setUserId(id);
     }
-
-    console.log(userId, 'userId')
 
     return (
         <div>

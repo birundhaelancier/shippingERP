@@ -22,7 +22,8 @@ export default function CustomerClient() {
     const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 50, headerName: 'S.No' },
-        { field: 'customerId', width: 150, headerName: 'Customer Id' },
+        { field: 'customerId', width: 180, headerName: 'Customer Id'},
+        { field: 'customerCode', width: 150, headerName: 'Customer Code' },
         { field: 'companyName', width: 200, headerName: 'Company Name' },
         { field: 'mobile', width: 200, headerName: 'Phone No' },
         { field: 'email', width: 200, headerName: 'Email ID' },
@@ -36,7 +37,7 @@ export default function CustomerClient() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => viewModal(params.row.customerId)}><RemoveRedEye /></div>
+                        {/* <div className="eyeSymbol" onClick={() => viewModal(params.row.customerId)}><RemoveRedEye /></div> */}
                         <Link to={`/addCustomer?user_id=${params.row.customerId}`} className="editSymbol" ><Edit /></Link>
                         <div className="deleteSymbol" onClick={() => deleteCustomer(params.row.customerId)}><Delete /></div>
                     </div>
@@ -57,6 +58,7 @@ export default function CustomerClient() {
                 {
                     id: index + 1,
                     customerId: items.id,
+                    customerCode: items.code,
                     companyName: items.company_name,
                     mobile: items.phone,
                     email: items.email,
