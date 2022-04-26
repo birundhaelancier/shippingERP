@@ -10,7 +10,7 @@ export default function (state = initalState, action) {
     switch (type) {
         case GET_COST_LIST:
             return { ...state, GetCostList: payload }
-            case VIEW_COST_LIST:
+        case VIEW_COST_LIST:
                 return { ...state, ViewCostDetails: payload }
         default:
             return state;

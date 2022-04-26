@@ -1,0 +1,204 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { Chip, Grid, Box } from "@material-ui/core";
+import AttachmentRoundedIcon from "@material-ui/icons/AttachmentRounded";
+import ButtonField from "../Button";
+import useStyles from "./fileImport-styles";
+
+/**
+  @param {} root0 contains destructured values
+ * @param {boolean} root0.isIcon to show icon or button
+ * @param {Function} root0.fileHandler function to handle selected files
+ * @param {Array} root0.files list of selected files
+ * @param {boolean} root0.showIcon show file type icon
+ * @param {string} root0.acceptFileTypes file types to be allowed
+ * @function FileImport to import files
+ * @returns {React.createElement} CommonImport
+ */
+const FileImport = ({ isIcon, fileHandler, files, showIcon, acceptFileTypes }) => {
+  const fileInput = React.createRef();
+  const classes = useStyles();
+
+  /**
+   * @function handleFileOpen Function to process selected file from the file system.
+    @param {} event event having the file value
+   */
+  const handleFileOpen = (event) => {
+    const acceptFileType = [".xlsx", ".xls", ".doc", ".docx", ".ppt", ".pptx", ".txt", ".pdf", ".png", ".jpeg", ".jpg"];
+    const isAcceptable = acceptFileType.findIndex((fileType) => {
+      const regex1 = new RegExp(`${fileType}`);
+      return regex1.test(event.target.value);
+    });
+    if (isAcceptable > -1) {
+      const fileName = fileInput.current.files[0].name;
+      const index = files.findIndex((file) => file.name === fileName);
+      if (index === -1) fileHandler((prev) => [...prev, fileInput.current.files[0]]);
+    }
+  };
+
+  /**
+   * @function openFileSelectHandler  to open file system on button click.
+   */
+  const openFileSelectHandler = () => {
+    fileInput.current.value = null;
+    fileInput.current.click();
+  };
+
+  /**
+   * @function handleDelete to delete selected file
+   * @param {string} name contains file name to delete
+   */
+  const handleDelete = (name) => {
+    fileHandler((prev) => prev.filter((file) => file.name !== name));
+  };
+  /**
+    @param {} file file
+   * @returns {string} filepath
+   */
+  const getThumbnail = (file) => {
+    const type = file.name.split(".").pop();
+    switch (type) {
+      case "docx":
+      case "doc":
+        return "/assets/images/thumbnail_doc.svg";
+      case "pdf":
+        return "/assets/images/thumbnail_pdf.svg";
+      case "txt":
+        return "/assets/images/thumbnail_txt.svg";
+      case "xlsx":
+      case "xls":
+        return "/assets/images/thumbnail_xlsx.svg";
+      case "pptx":
+      case "ppt":
+        return "/assets/images/thumbnail_ppt.svg";
+      case "jpeg":
+      case "jpg":
+      case "png":
+        return URL.createObjectURL(file);
+      default:
+        return "";
+    }
+  };
+
+  return (
+    <Grid container className={classes.container}>
+      {isIcon ? (
+        <AttachmentRoundedIcon className={classes.attachmentIcon} onClick={openFileSelectHandler} />
+      ) : (
+        <ButtonField variants="outlined" color="primary" handleClick={openFileSelectHandler}>
+          Attach File
+        </ButtonField>
+      )}
+      <Box className={classes.boxStyle}>
+        <input
+          type="file"
+          id="file-name"
+          ref={fileInput}
+          onChange={handleFileOpen}
+          accept={acceptFileTypes}
+          hidden
+          multiple
+        />
+        <Grid item className={classes.grid}>
+          {files.length > 0 &&
+            files.map((file, index) => (
+              <div key={index} className={classes.chips}>
+                {showIcon && (
+                  <div className={classes.thumbnail}>
+                    <img src={getThumbnail(file)} alt="thumbnail-img" />
+                  </div>
+                )}
+                <Chip
+                  label={file.name}
+                  key={file.name}
+                  onDelete={() => handleDelete(file.name)}
+                  className={classes.chipStyle}
+                />
+              </div>
+            ))}
+        </Grid>
+      </Box>
+    </Grid>
+  );
+};
+
+FileImport.propTypes = {
+  isIcon: PropTypes.bool.isRequired,
+  fileHandler: PropTypes.func.isRequired,
+  files: PropTypes.arrayOf(PropTypes.any).isRequired,
+  showIcon: PropTypes.bool,
+  acceptFileTypes: PropTypes.string,
+};
+FileImport.defaultProps = {
+  showIcon: false,
+  acceptFileTypes: ".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf",
+};
+export default FileImport;
+
+
+import react, { createRef } from 'react';
+import { CloudUpload } from '@mui/icons-material';
+import './upload.css';
+
+const UploadFiles = ({ uploadLabel, show, getOnChangeFile, value, fileHandler }) => {
+    const fileInput = createRef();
+
+    const handleFile = (e) => {
+        const selectedFile = e.target.files[0];
+        console.log(selectedFile, selectedFile.name, 'test')
+        getOnChangeFile(selectedFile, selectedFile.name);
+    }
+
+    const openFileSelectHandler = () => {
+        fileInput.current.value = null;
+        fileInput.current.click();
+    };
+
+    const handleFileOpen = (event) => {
+        const acceptFileType = [".xlsx", ".xls", ".doc", ".docx", ".ppt", ".pptx", ".txt", ".pdf", ".png", ".jpeg", ".jpg"];
+        const isAcceptable = acceptFileType.findIndex((fileType) => {
+            const regex1 = new RegExp(`${fileType}`);
+            return regex1.test(event.target.value);
+        });
+        if (isAcceptable > -1) {
+            const fileName = fileInput.current.files[0].name;
+            fileHandler(fileName)
+            // const index = files.findIndex((file) => file.name === fileName);
+            // if (index === -1) fileHandler((prev) => [...prev, fileInput.current.files[0]]);
+        }
+    };
+
+    const handleDelete = (name) => {
+        fileHandler((prev) => prev.filter((file) => file.name !== name));
+      };
+    return (
+        <>
+            {show ?
+                <div className='btn_upload'>
+                    <lable className='labeltxt'>{uploadLabel}</lable>
+                    <label for="file-upload" class="btn-file-upload">
+                        <div className='cloudIcon'>
+                            <CloudUpload onClick={openFileSelectHandler} />
+                            <div>{value}</div>
+                        </div>
+                    </label>
+                    <input id="file-upload" type="file" ref={fileInput}
+                        onChange={handleFileOpen} hidden />
+                </div>
+                :
+                <div className='custom_upload'>
+                    <lable className='labeltxt'>{uploadLabel}</lable>
+                    <label for="file-upload" class="custom-file-upload">
+                        <div className='upload_container'>
+                            <div>Upload</div>
+                            <CloudUpload />
+                        </div>
+                    </label>
+                    <input id="file-upload" type="file" />
+                </div>}
+        </>
+    )
+}
+export default UploadFiles;
+
+

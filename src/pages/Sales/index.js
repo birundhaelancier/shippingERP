@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,12 +8,20 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewSales from './viewsales';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import CustomSwitch from '../../components/SwitchBtn';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { DeleteSalesList, SalesList } from '../../Redux/Action/SalesGroupAction/SalesAction';
 
 // import './customer.css';
 
 export default function SalesDetails() {
+    let dispatch = useDispatch();
+    let history = useHistory()
+    const [rowData, setRowData] = useState([])
+    const GetSalesList  = useSelector((state) => state.SalesReducer.GetSalesList);
     const [openModal, setOpenModal] = useState(false);
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 100, headerName: 'S.No' },
         { field: 'salesId', width: 150, headerName: 'Sales Person Id' },
@@ -30,29 +38,47 @@ export default function SalesDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                        <div className="eyeSymbol" onClick={() => viewModal(params.row.salesId)}><RemoveRedEye /></div>
+                        <Link to={`/addSales?user_id=${params.row.salesId}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={()=>deleteSales(params.row.salesId)}><Delete /></div>
                     </div>
                 );
             }
         }
     ];
 
+    useEffect(() => {
+        dispatch(SalesList("All"))
+    }, [])
 
-    const rows = [
-        { id: 1, incentivePlan: '1', salesId: "1", salesPersonName: 'India', designation: "pending" },
-        { id: 2, incentivePlan: '2', salesId: "2", salesPersonName: 'India', designation: "pending" },
-        { id: 3, incentivePlan: '3', salesId: "3", salesPersonName: 'India', designation: "pending" },
-        { id: 4, incentivePlan: '1', salesId: "5", salesPersonName: 'India', designation: "pending" },
-        { id: 5, incentivePlan: '2', salesId: "4", salesPersonName: 'India', designation: "pending" },
-    ];
+    useEffect(()=>{
+        let rows= [];
+        GetSalesList?.map((items,index) => {
+            rows.push(
+                {
+                    id: index+1,
+                    salesId: items.id,
+                    salesPersonName: items.name,
+                    incentivePlan: items.incentive_plan,
+                    designation: items.designation,
+                }
+            )
+        })
+        setRowData(rows)
+    },[GetSalesList])
 
-    let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
         history.push("/addSales")
     }
+    const viewModal = (id) =>{
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteSales=(id)=>{
+        dispatch(DeleteSalesList(id))
+    }
+
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
@@ -60,7 +86,7 @@ export default function SalesDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -69,7 +95,7 @@ export default function SalesDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"Sales"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewSales CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewSales CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />
                         </>
                     }
                 />

@@ -45,7 +45,7 @@ export const EditState = (data) => async dispatch => {
     } catch (err) { }
 }
 
-export const getStateList = () => async dispatch => {
+export const getStateList = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
@@ -53,6 +53,7 @@ export const getStateList = () => async dispatch => {
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
+                "country_id": data || 'All',
             }
         })
             .then((response) => {

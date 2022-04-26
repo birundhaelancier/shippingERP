@@ -65,7 +65,7 @@ class ValidationLibrary extends Component {
       }
 
       else if (validatorsArray[valid].name == 'mobilenumber') { // 8 Digit Only
-        var re = /^([0-9][0-9]{9})$/;
+        var re = /^([+][0-9][0-9]{11})$/;
         if (re.test(textValue) == false) {
           return { msg: "Please Enter 10 digit Mobile Number", state: false };
         }

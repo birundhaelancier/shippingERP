@@ -1,6 +1,5 @@
 
 import React from "react";
-import { Menu, Send, Dashboard, Attractions, AccountBox, BackupTable, Api, ArrowForward, ReportGmailerrorred, Description, AccountBalance, AutoFixHigh, Sell, LocalLaundryService } from '@mui/icons-material';
 
 export const menu = [
 
@@ -17,6 +16,7 @@ export const menu = [
                     { title: "Country", path: "/country", icon: "" },
                     { title: "State", path: "/state", icon: "" },
                     { title: "City", path: "/city", icon: "" },
+                    { title: "Business Nature", path: "/customerBusiness", icon: "" },
                 ]
             },
             {
@@ -48,13 +48,19 @@ export const menu = [
             },
             {
                 title: "Sales", icon: "", items: [
-                    { title: "Lead", path: "/lead", icon: "" },
                     { title: "Sales", path: "/sales", icon: "" },
+                    { title: "Lead", path: "/lead", icon: "" },
                 ]
             },
         ],
         icon: <i class="fa fa-cc-mastercard" aria-hidden="true"></i>
     },
+    // {
+    //     title: "Master Settings", items: [
+    //         { title: "Business Nature", path: "/customerBusiness", icon: "" },
+    //     ], path: "",
+    //     icon: <i class="fa fa-ship" aria-hidden="true"></i>
+    // },
     {
         title: "Shipments", items: [
             { title: "Enquiry", path: "/enquiry", icon: "" },
@@ -63,6 +69,7 @@ export const menu = [
         ], path: "/home",
         icon: <i class="fa fa-ship" aria-hidden="true"></i>
     },
+
     { title: "Sales ", items: [], path: "", icon: <i class="fa fa-users" aria-hidden="true"></i> },
     { title: "Reports", items: [], path: "/report", icon: <i class="fa fa-check" aria-hidden="true"></i> },
     { title: "Accounts", items: [], path: "/test", icon: <i class="fa fa-user" aria-hidden="true"></i> },

@@ -70,8 +70,10 @@ import ConsigneeDetails from './pages/Consignee'
 import AddConsignee from './pages/Consignee/consigneeadd';
 import BusinessDetails from './pages/BusinessScope'
 import AddBusiness from './pages/BusinessScope/businessadd';
-
-
+import CustomerBusinessDetails from './pages/CustomerBusiness';
+import AddCustomerBusiness from './pages/CustomerBusiness/customerBusinessadd';
+import VendorBusinessDetails from './pages/VendorBusiness';
+import AddVendorBusiness from './pages/VendorBusiness/vendorBusinessadd';
 import { Route } from "react-router-dom";
 import AccountPopover from "./pages/layouts/dashboard/AccountPopover";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -396,7 +398,11 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/consignee" component={ConsigneeDetails} />
         <Route exact path="/addConsignee" component={AddConsignee} />
         <Route exact path="/business" component={BusinessDetails} />
-        <Route exact path="/addBusiness/:id?" component={AddBusiness} />
+        <Route exact path="/addBusiness" component={AddBusiness} />
+        <Route exact path="/customerBusiness" component={CustomerBusinessDetails} />
+        <Route exact path="/addCustomerBusiness" component={AddCustomerBusiness} />
+        <Route exact path="/vendorBusiness" component={VendorBusinessDetails} />
+        <Route exact path="/addVendorBusiness" component={AddVendorBusiness} />
       </Box>
     </Box>
   );

@@ -1,19 +1,24 @@
-import react, { useState } from 'react';
-import Labelbox from '../../helpers/labelbox/labelbox';
-import ValidationLibrary from '../../helpers/validationfunction';
+import react, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import ContentHeader from '../../components/ContentHeader';
-import CustomButton from '../../components/Button';
 import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewQuote from './viewquote';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import CustomSwitch from '../../components/SwitchBtn';
+import { DeleteQuoteList, QuoteList, QuoteStatus, QuoteDefault } from '../../Redux/Action/QuoteGroupAction/QuoteAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 // import './customer.css';
 
 export default function QuoteDetails() {
+    let dispatch = useDispatch();
+    let history = useHistory()
+    const [rowData, setRowData] = useState([])
+    const GetQuote = useSelector((state) => state?.QuoteReducer?.GetQuoteList);
     const [openModal, setOpenModal] = useState(false);
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 100, headerName: 'S.No' },
         { field: 'cqId', width: 150, headerName: 'CQ Id' },
@@ -30,28 +35,53 @@ export default function QuoteDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
-                    </div>
+                    <div className="eyeSymbol" onClick={() => viewModal(params.row.cqId)}><RemoveRedEye /></div>
+                    <Link to={`/addQuote?user_id=${params.row.cqId}`} className="editSymbol" ><Edit /></Link>
+                    <div className="deleteSymbol" onClick={() => deleteCountry(params.row.cqId)}><Delete /></div>
+                </div>
                 );
             }
         }
     ];
 
 
-    const rows = [
-        { id: 1, cargoType: '1', cqId: "1", shipmentType: 'India', stuffingType: "pending" },
-        { id: 2, cargoType: '2', cqId: "2", shipmentType: 'India', stuffingType: "pending" },
-        { id: 3, cargoType: '3', cqId: "3", shipmentType: 'India', stuffingType: "pending" },
-        { id: 4, cargoType: '1', cqId: "5", shipmentType: 'India', stuffingType: "pending" },
-        { id: 5, cargoType: '2', cqId: "4", shipmentType: 'India', stuffingType: "pending" },
-    ];
+    useEffect(() => {
+        dispatch(QuoteList())
+    }, [])
 
-    let history = useHistory()
+    useEffect(() => {
+        let rows = [];
+        console.log(GetQuote, 'GetQuote')
+        GetQuote?.map((items, index) => {
+            rows.push(
+                {
+                    id: index + 1,
+                    cqId: items.id,
+                    shipmentType: items.shipment_name,
+                    cargoType: items.cargo_name,
+                    stuffingType: items.stuffing_type,
+                }
+            )
+        })
+        setRowData(rows)
+    }, [GetQuote])
+
     const openFields = () => {
         setOpenModal(true)
         history.push("/addQuote")
+    }
+    const viewModal = (id) => {
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteCountry = (id) => {
+        dispatch(DeleteQuoteList(id))
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(QuoteStatus(id, status))
+    }
+    const OnChangeDefault = (id, status) => {
+        dispatch(QuoteDefault(id, status))
     }
     return (
         <div>
@@ -60,7 +90,7 @@ export default function QuoteDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -69,7 +99,7 @@ export default function QuoteDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"Quote"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewQuote CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewQuote CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />
                         </>
                     }
                 />

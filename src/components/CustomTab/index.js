@@ -6,7 +6,7 @@ import MenuPopOver from '../PopOver';
 
 import './customTab.css';
 
-const CustomTab = ({ tabArray, getMenuValue }) => {
+const CustomTab = ({ tabArray, getMenuValue, activeKey, handleChange, disabledTab }) => {
     const { TabPane } = Tabs;
     const { Panel } = Collapse;
     const anchorRef = useRef(null);
@@ -15,17 +15,14 @@ const CustomTab = ({ tabArray, getMenuValue }) => {
     const handleOpen = () => {
         setOpen(true);
     };
-    const handleClose = () => {
-        setOpen(false);
-    };
     function callback(key) {
         console.log(key);
     }
-
+    
     return (
         <div className='tabContainer'>
             <div className='tableWeb'>
-                <Tabs defaultActiveKey="0">
+                <Tabs defaultActiveKey={activeKey ? activeKey : '0'} onChange={(key) => handleChange(key)} activeKey={activeKey ? activeKey : '0'}>
                     {tabArray.map((data, index) => {
                         return (
                             <>
@@ -39,6 +36,7 @@ const CustomTab = ({ tabArray, getMenuValue }) => {
                                             </div>
                                         </>
                                     }
+                                    disabled = {disabledTab}
                                     key={index}
                                 >
                                     {data.description}
