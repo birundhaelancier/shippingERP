@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import Labelbox from '../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../helpers/validationfunction';
 import Grid from '@mui/material/Grid';
@@ -8,12 +8,20 @@ import { RemoveRedEye, Edit, Delete } from '@mui/icons-material';
 import DynModel from '../../components/CustomModal';
 import ViewCost from './viewcost';
 import CustomTable from '../../components/CustomTable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import CustomSwitch from '../../components/SwitchBtn';
+import { DeleteCostList, CostList, CostStatus, CostDefault } from '../../Redux/Action/QuoteGroupAction/CostAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 // import './customer.css';
 
 export default function CostDetails() {
+    let dispatch = useDispatch();
+    let history = useHistory()
+    const [rowData, setRowData] = useState([])
+    const GetCost = useSelector((state) => state?.CostReducer?.GetCostList);
     const [openModal, setOpenModal] = useState(false);
+    const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 100, headerName: 'S.No' },
         { field: 'costId', width: 150, headerName: 'Cost Id' },
@@ -30,28 +38,51 @@ export default function CostDetails() {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol" onClick={() => setOpenModal(true)}><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
+                        <div className="eyeSymbol" onClick={() => viewModal(params.row.costId)}><RemoveRedEye /></div>
+                        <Link to={`/addCost?user_id=${params.row.costId}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={() => deleteCountry(params.row.costId)}><Delete /></div>
                     </div>
                 );
             }
         }
     ];
 
+    useEffect(() => {
+        dispatch(CostList())
+    }, [])
 
-    const rows = [
-        { id: 1, cargoType: '1', costId: "1", shipmentType: 'India', expenseType: "pending" },
-        { id: 2, cargoType: '2', costId: "2", shipmentType: 'India', expenseType: "pending" },
-        { id: 3, cargoType: '3', costId: "3", shipmentType: 'India', expenseType: "pending" },
-        { id: 4, cargoType: '1', costId: "5", shipmentType: 'India', expenseType: "pending" },
-        { id: 5, cargoType: '2', costId: "4", shipmentType: 'India', expenseType: "pending" },
-    ];
+    useEffect(() => {
+        let rows = [];
+        GetCost?.map((items, index) => {
+            rows.push(
+                {
+                    id: index + 1,
+                    costId: items.id,
+                    shipmentType: items.shipment_name,
+                    cargoType: items.cargo_name,
+                    expenseType: items.expense_type,
+                }
+            )
+        })
+        setRowData(rows)
+    }, [GetCost])
 
-    let history = useHistory()
     const openFields = () => {
         setOpenModal(true)
         history.push("/addCost")
+    }
+    const viewModal = (id) => {
+        setOpenModal(true)
+        setGetId(id)
+    }
+    const deleteCountry = (id) => {
+        dispatch(DeleteCostList(id))
+    }
+    const OnChangeStatus = (id, status) => {
+        dispatch(CostStatus(id, status))
+    }
+    const OnChangeDefault = (id, status) => {
+        dispatch(CostDefault(id, status))
     }
     return (
         <div>
@@ -60,7 +91,7 @@ export default function CostDetails() {
             </Grid>
             <>
                 <CustomTable
-                    rowData={rows}
+                    rowData={rowData}
                     columnData={columnss}
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
@@ -69,7 +100,7 @@ export default function CostDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"Cost"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewCost CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewCost CloseModal={(bln) => setOpenModal(bln)} GetId={GetId} />
                         </>
                     }
                 />

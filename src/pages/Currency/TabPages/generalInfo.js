@@ -9,182 +9,167 @@ import LabelBoxes from '../../../components/labelbox/labelbox';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
+import { useDispatch, useSelector } from 'react-redux'
+import { getStateList } from '../../../Redux/Action/GeneralGroupAction/stateAction';
+import { getCountryList } from '../../../Redux/Action/GeneralGroupAction/countryAction';
+import { AddCurrency, ViewCurrencyDetails, EditCurrency } from '../../../Redux/Action/QuoteGroupAction/CurrencyAction';
 
 
 
-export default function GeneralInfo() {
-    const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
-    const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
+export default function GeneralInfo({ currencyId }) {
+    let dispatch = useDispatch();
     let history = useHistory()
     const [FieldModal, setFieldModal] = useState(false);
-    const [profileDetails, setprofileDetails] = useState({
+    const GetCountry = useSelector((state) => state.CountryReducer.GetCountryList);
+    const ViewCurrency = useSelector((state) => state.CurrencyReducer.ViewCurrencyDetails);
+    const [CountryList, setCountryList] = useState([])
+    const [Refresh, setRefresh] = useState(false);
+    const [currencyDetails, setcurrencyDetails] = useState({
         currencyId: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
+            value: "", validation: [], error: null, errmsg: null,
         },
         currencyName: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        }, 
+        },
         currencySymbol: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-
         countryId: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        countryName: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },      
-        default: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-     
-        activeStatus: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
     })
 
-    const [showList, setShowList] = useState(
-        [
-            { type: "text", labelName: "Designation", validation: ["required"], arrVal: [] },
-            { type: "text", labelName: "Department", validation: ["required"], arrVal: [] },
-            { type: "text", labelName: "Skype Id", validation: ["required"], arrVal: [] },
-        ]
-    )
+
+    useEffect(() => {
+        dispatch(ViewCurrencyDetails(currencyId))
+        dispatch(getCountryList(1))
+    }, [])
+
+    useEffect(() => {
+        let countryLists = []
+        GetCountry?.map((data) => {
+            countryLists.push(
+                { id: data.id, value: data.name }
+            )
+        })
+        setCountryList(countryLists)
+
+    }, [GetCountry])
+
+
+    useEffect(() => {
+        console.log(ViewCurrency, 'ViewCurrency')
+        if (ViewCurrency) {
+            currencyDetails.currencyName.value = ViewCurrency[0]?.name
+            currencyDetails.currencyId.value = ViewCurrency[0]?.id
+            currencyDetails.countryId.value = ViewCurrency[0]?.country
+            currencyDetails.currencySymbol.value = ViewCurrency[0]?.symbol 
+        }
+    }, [ViewCurrency])
 
     const Validation = (data, key, list) => {
         var errorcheck = ValidationLibrary.checkValidation(
             data,
-            profileDetails[key].validation
+            currencyDetails[key].validation
         );
         let dynObj = {
             value: data,
             error: !errorcheck.state,
             errmsg: errorcheck.msg,
-            validation: profileDetails[key].validation,
+            validation: currencyDetails[key].validation,
         };
 
-        setprofileDetails(prevState => ({
+        setcurrencyDetails(prevState => ({
             ...prevState,
             [key]: dynObj,
 
         }));
     }
-
     const onSubmit = () => {
-        history.push("/customer");
-    }
-    const handleAddClick = (type) => {
-        if (type === 'general') {
-            setCustomerObj([...CustomerObj, { description: "", state: "", city: "" }])
-        } else if (type === 'address') {
-            setAddmoreObj([...AddmoreObj, { address: "", gst: "", state: "", city: "", country: "" }]);
+        var mainvalue = {};
+        var targetkeys = Object.keys(currencyDetails);
+        for (var i in targetkeys) {
+            var errorcheck = ValidationLibrary.checkValidation(
+                currencyDetails[targetkeys[i]].value,
+                currencyDetails[targetkeys[i]].validation
+            );
+            currencyDetails[targetkeys[i]].error = !errorcheck.state;
+            currencyDetails[targetkeys[i]].errmsg = errorcheck.msg;
+            mainvalue[targetkeys[i]] = currencyDetails[targetkeys[i]].value;
         }
-    };
-    const handleRemoveClick = (type, index) => {
-        if (type === 'general') {
-            const list = [...CustomerObj];
-            list.splice(index, 1);
-            setCustomerObj(list);
-        } else if (type === 'address') {
-            const list = [...AddmoreObj];
-            list.splice(index, 1);
-            setAddmoreObj(list);
-        }
+        var filtererr = targetkeys.filter((obj) => currencyDetails[obj].error == true);
 
-    };
-
-    const addInputBox = (obj) => {
-        if (Object.values(obj).every(data => data != '')) {
-            showList.push(obj)
-            setShowList((prevState) => ([
-                ...prevState,
-            ]));
+        if (filtererr.length > 0) {
+            setRefresh(!Refresh)
+        } else {
+            if (currencyId) {
+                dispatch(EditCurrency(currencyDetails, currencyId))
+                HandleCancel()
+                history.push('/currency');
+            } else {
+                dispatch(AddCurrency(currencyDetails))
+                HandleCancel()
+                history.push('/currency');
+            }
         }
     }
+
+    const HandleCancel = () => {
+        let SalesKey = ["currencyName", "countryId", "currencySymbol"]
+        SalesKey.map((data) => {
+            currencyDetails[data].value = ""
+        })
+        setcurrencyDetails(prevState => ({
+            ...prevState,
+        }));
+    }
+
     return (
         <div>
-            <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
-            <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Currency Id"
-                        changeData={(data) => Validation(data, "currencyId")}
-                        value={profileDetails.currencyId.value}
-                        error={profileDetails.currencyId.error}
-                        errmsg={profileDetails.currencyId.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+            <Grid item xs={12} spacing={2} direction="row" justifyContent={'start'} container>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Currency Name"
                         changeData={(data) => Validation(data, "currencyName")}
-                        value={profileDetails.currencyName.value}
-                        error={profileDetails.currencyName.error}
-                        errmsg={profileDetails.currencyName.errmsg}
+                        value={currencyDetails.currencyName.value}
+                        error={currencyDetails.currencyName.error}
+                        errmsg={currencyDetails.currencyName.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Currency Symbol"
                         changeData={(data) => Validation(data, "currencySymbol")}
-                        value={profileDetails.currencySymbol.value}
-                        error={profileDetails.currencySymbol.error}
-                        errmsg={profileDetails.currencySymbol.errmsg}
+                        value={currencyDetails.currencySymbol.value}
+                        error={currencyDetails.currencySymbol.error}
+                        errmsg={currencyDetails.currencySymbol.errmsg}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="number"
-                        labelname="Country Id"
-                        changeData={(data) => Validation(data, "countryId")}
-                        value={profileDetails.countryId.value}
-                        error={profileDetails.countryId.error}
-                        errmsg={profileDetails.countryId.errmsg}
-                    />
-                </Grid>
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                <Grid item xs={12} md={4} sx={12} sm={12}>
+                    <Labelbox show type="select"
                         labelname="Country Name"
-                        changeData={(data) => Validation(data, "countryName")}
-                        value={profileDetails.countryName.value}
-                        error={profileDetails.countryName.error}
-                        errmsg={profileDetails.countryName.errmsg}
+                        dropdown={CountryList}
+                        changeData={(data) => Validation(data, "countryId")}
+                        value={currencyDetails.countryId.value}
+                        error={currencyDetails.countryId.error}
+                        errmsg={currencyDetails.countryId.errmsg}
                     />
                 </Grid>
-               
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Default"
-                        changeData={(data) => Validation(data, "default")}
-                        value={profileDetails.default.value}
-                        error={profileDetails.default.error}
-                        errmsg={profileDetails.default.errmsg}
-                    />
-                </Grid>
-               
-                <Grid item xs={12} md={10} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="Active Status"
-                        changeData={(data) => Validation(data, "activeStatus")}
-                        value={profileDetails.activeStatus.value}
-                        error={profileDetails.activeStatus.error}
-                        errmsg={profileDetails.activeStatus.errmsg}
-                    />
-                </Grid>
-
             </Grid>
-            <Grid item xs={12} md={10} sx={12} sm={12} direction="row" justifyContent={'flex-end'} container style={{ position: 'relative', bottom: '50px' }}>
+            <Grid item xs={12} md={12} sx={12} sm={12} direction="row" justifyContent={'flex-start'} container>
                 <AddFieldsBtn fieldName='Add Additional Field' />
                 {/* AddFieldBtn={() => setFieldModal(true)} */}
             </Grid>
             <DynModel handleChangeModel={FieldModal} modelTitle={"Add Fields"}
                 modalchanges="recruit_modal_css" handleChangeCloseModel={() => setFieldModal(false)} width={600} content={
                     <>
-                        <AddFields CloseModal={(bln) => setFieldModal(bln)} addObj={(data) => addInputBox(data)} />
+                        <AddFields CloseModal={(bln) => setFieldModal(bln)} />
                     </>
                 }
             />
 
             <Grid item xs={12} spacing={2} direction="row" justifyContent="center" container>
-                <FooterBtn saveBtn={'Submit'} />
+                <FooterBtn saveBtn={'Submit'} onSaveBtn={onSubmit} onCancel={HandleCancel} />
             </Grid>
         </div>
     );

@@ -31,7 +31,7 @@ export const EditLicense = (data,id) => async dispatch => {
             url: apiurl + 'edit_license',
             headers: REQUEST_HEADERS().HEADER,
             data:{
-                "reg_no":data.reg_no, "reg_date" :moment(data.reg_date.value).format("DD-MM-YYYY"), "type" :data.license_type.value, "item_no" :data.license_item.value, 
+                "reg_no":data.reg_no.value, "reg_date" :moment(data.reg_date.value).format("DD-MM-YYYY"), "type" :data.license_type.value, "item_no" :data.license_item.value, 
                 "unit_qty" :data.unit_qty.value, "part_license" :data.port_of_license.value, "cif_value" : data.total_cif.value, "debit_duty" :data.total_debit_duty.value,
                  "debit_qty" :data.total_debit_qty.value, "fc_value" :data.total_fc.value, "currency_sym" : data.currency_symbol.value, "currency" :data.license_currency.value, "exchange_rate" :data.exchange_rate.value, "party_name" :data.party_name.value,
                 "description" :data.license_description.value, "license_no" :data.license_no.value, "license_date":moment(data.license_date.value).format("DD-MM-YYYY") , "user_id":JSON.parse(localStorage.getItem("user_id")),"license_id":id

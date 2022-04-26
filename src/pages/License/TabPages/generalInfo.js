@@ -11,6 +11,7 @@ import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
 import { useDispatch,useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import moment from 'moment'
 import { ViewLicenseDetails,AddLicense,EditLicense } from '../../../Redux/Action/EnquiryGroupAction/LicenceAction'
 
 export default function GeneralInfo() {
@@ -22,9 +23,7 @@ export default function GeneralInfo() {
     let { id } =useParams()
     const [FieldModal, setFieldModal] = useState(false);
     const [LicenseDetails, setLicenseDetails] = useState({
-        licence_Id: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
-        },
+  
         reg_no: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,type:"text"
         },
@@ -106,18 +105,28 @@ export default function GeneralInfo() {
         dispatch(ViewLicenseDetails(id))
     }, [id])
 
-    // useEffect(() => {
-    // if(ViewLicenseList){
-    //     LicenseDetails.description.value = ViewLicenseList[0]?.description || ""
-    //     LicenseDetails.hsnCode.value = ViewLicenseList[0]?.hsn_code || ""
-    //     LicenseDetails.rateStandard.value = ViewLicenseList[0]?.rate_standard || ""
-    //     LicenseDetails.chapterName.value = ViewLicenseList[0]?.chapter_name || ""
-    //     LicenseDetails.sectionName.value = ViewLicenseList[0]?.section_name || ""
-    //     LicenseDetails.unit.value = ViewLicenseList[0]?.unit || ""
-    //     LicenseDetails.transaction.value = ViewLicenseList[0]?.type==="Import"?1:2 ||""
-    //     LicenseDetails.ratePre.value = ViewLicenseList[0]?.rate_preferential || ""
-    //     }
-    // }, [ViewLicenseList])
+    useEffect(() => {
+    if(id){
+        LicenseDetails.total_fc.value = ViewLicenseList[0]?.fc_value || ""
+        LicenseDetails.reg_no.value = ViewLicenseList[0]?.reg_no || ""
+        LicenseDetails.reg_date.value = ViewLicenseList[0]?.d_date ? moment(ViewLicenseList[0]?.d_date).format("MM-DD-YYYY"):""
+        LicenseDetails.license_item.value = ViewLicenseList[0]?.item_no || ""
+        LicenseDetails.unit_qty.value = ViewLicenseList[0]?.unit_qty || ""
+        LicenseDetails.port_of_license.value = ViewLicenseList[0]?.part_license ||""
+        LicenseDetails.total_cif.value = ViewLicenseList[0]?.cif_value || ""
+        LicenseDetails.total_debit_duty.value = ViewLicenseList[0]?.debit_duty || ""
+        LicenseDetails.total_debit_qty.value = ViewLicenseList[0]?.debit_qty || ""
+        LicenseDetails.currency_symbol.value = ViewLicenseList[0]?.currency_sym || ""
+        LicenseDetails.license_currency.value = ViewLicenseList[0]?.currency || ""
+        LicenseDetails.party_name.value = ViewLicenseList[0]?.party_name || ""
+        LicenseDetails.license_description.value = ViewLicenseList[0]?.description || ""
+        LicenseDetails.license_no.value = ViewLicenseList[0]?.license_no || ""
+        LicenseDetails.license_date.value =ViewLicenseList[0]?.license_date? moment(ViewLicenseList[0]?.license_date).format("MM-DD-YYYY"):"" 
+        LicenseDetails.exchange_rate.value = ViewLicenseList[0]?.exchange_rate || ""
+        LicenseDetails.license_type.value = ViewLicenseList[0]?.type || ""
+        
+        }
+    }, [ViewLicenseList])
   
 
     const onSubmit = () => {
@@ -147,6 +156,9 @@ export default function GeneralInfo() {
             }
 
         }
+        setLicenseDetails(prevState => ({
+            ...prevState,
+        }));
     }
     const Validation = (data, key, list) => {
         var errorcheck = ValidationLibrary.checkValidation(
@@ -207,18 +219,11 @@ export default function GeneralInfo() {
             ]));
         }
     }
+    console.log(LicenseDetails,"LicenseDetails")
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
-                        labelname="License Id"
-                        changeData={(data) => Validation(data, "licence_Id")}
-                        value={LicenseDetails.licence_Id.value}
-                        error={LicenseDetails.licence_Id.error}
-                        errmsg={LicenseDetails.licence_Id.errmsg}
-                    />
-                </Grid>
+            
                 <Grid item xs={12} md={4} sx={12} sm={12}>
                     <Labelbox show type="text"
                         labelname="Registration No"
@@ -247,7 +252,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="number"
                         labelname="License Item No"
                         changeData={(data) => Validation(data, "license_item")}
                         value={LicenseDetails.license_item.value}
@@ -256,7 +261,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="number"
                         labelname="Unit Qty"
                         changeData={(data) => Validation(data, "unit_qty")}
                         value={LicenseDetails.unit_qty.value}
@@ -274,7 +279,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="number"
                         labelname="Total CIF Value"
                         changeData={(data) => Validation(data, "total_cif")}
                         value={LicenseDetails.total_cif.value}
@@ -283,7 +288,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="number"
                         labelname="Total Debit Duty"
                         changeData={(data) => Validation(data, "total_debit_duty")}
                         value={LicenseDetails.total_debit_duty.value}
@@ -292,7 +297,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="number"
                         labelname="Total Debit Qty"
                         changeData={(data) => Validation(data, "total_debit_qty")}
                         value={LicenseDetails.total_debit_qty.value}
@@ -301,7 +306,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="number"
                         labelname="Total FC Value"
                         changeData={(data) => Validation(data, "total_fc")}
                         value={LicenseDetails.total_fc.value}
@@ -328,7 +333,7 @@ export default function GeneralInfo() {
                     />
                 </Grid>
                 <Grid item xs={12} md={4} sx={12} sm={12}>
-                    <Labelbox show type="text"
+                    <Labelbox show type="number"
                         labelname="Exchange Rate"
                         changeData={(data) => Validation(data, "exchange_rate")}
                         value={LicenseDetails.exchange_rate.value}

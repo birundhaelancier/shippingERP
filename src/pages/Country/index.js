@@ -55,7 +55,7 @@ export default function CountryDetails() {
         }
     ];
     useEffect(() => {
-        dispatch(getCountryList(1))
+        dispatch(getCountryList("All"))
     }, [])
 
     useEffect(()=>{

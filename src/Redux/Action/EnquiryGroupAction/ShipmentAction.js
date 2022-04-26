@@ -18,7 +18,7 @@ export const AddShipment = (data) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(ShipmentList())
+                dispatch(ShipmentList("All"))
             })
     } catch (err) { }
 }
@@ -38,12 +38,12 @@ export const EditShipment = (data, id) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(ShipmentList())
+                dispatch(ShipmentList("All"))
             })
     } catch (err) { }
 }
 
-export const ShipmentList = () => async dispatch => {
+export const ShipmentList = (data) => async dispatch => {
     try {
         axios({
             method: 'POST',
@@ -51,7 +51,7 @@ export const ShipmentList = () => async dispatch => {
             headers: REQUEST_HEADERS().HEADER,
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "shipment_id": "All",
+                "shipment_id": data,
             }
         })
             .then((response) => {
@@ -80,7 +80,7 @@ export const ShipmentStatus = (portId, status) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(ShipmentList())
+                dispatch(ShipmentList("All"))
             })
     } catch (err) { }
 }
@@ -100,7 +100,7 @@ export const DeleteShipmentList = (data) => async dispatch => {
                 notification.success({
                     message: response.data.Message
                 });
-                dispatch(ShipmentList())
+                dispatch(ShipmentList("All"))
             })
     } catch (err) { }
 }

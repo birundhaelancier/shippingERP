@@ -14,6 +14,10 @@ import ReasonReducer from './EnquiryGroupReducer/ReasonReducer';
 import SchemaReducer from "./EnquiryGroupReducer/SchemaReducer";
 import BusinessScopeReducer from "./EnquiryGroupReducer/BusinessScopeReducer";
 import RateReducer from "./GenaralGroupReducer/RateReducer";
+import CurrencyReducer from './QuoteGroupReducer/CurrencyReducer';
+import VehicleReducer from './VehicleGroupReducer/VehicleReducer';
+import CostReducer from './QuoteGroupReducer/CostReducer';
+
 export default combineReducers({
     CountryReducer,
     StateReducer,
@@ -28,5 +32,8 @@ export default combineReducers({
     ReasonReducer,
     SchemaReducer,
     BusinessScopeReducer,
-    RateReducer
+    RateReducer,
+    CurrencyReducer,
+    VehicleReducer,
+    CostReducer,
 })

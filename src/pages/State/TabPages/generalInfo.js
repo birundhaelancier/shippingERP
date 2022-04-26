@@ -43,7 +43,7 @@ export default function GeneralInfo({ stateId }) {
 
     useEffect(() => {
         dispatch(ViewStateDetails(stateId))
-        dispatch(getCountryList("All"))
+        dispatch(getCountryList(1))
     }, [])
 
     useEffect(() => {
