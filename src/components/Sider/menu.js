@@ -65,7 +65,7 @@ export const menu = [
         title: "Shipments", items: [
             { title: "Enquiry", path: "/enquiry", icon: "" },
             { title: "Job", path: "/jobs", icon: "" },
-            { title: "Quotation", path: "", icon: "" },
+            { title: "Quotation", path: "/dashboard", icon: "" },
         ], path: "/home",
         icon: <i class="fa fa-ship" aria-hidden="true"></i>
     },

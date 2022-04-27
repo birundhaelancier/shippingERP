@@ -13,10 +13,15 @@ import CustomerDetails from './TabPages/customerDetails';
 import ShipmentDetails from './TabPages/shipmentDetails';
 import RateRequest from './TabPages/rateRequest';
 import OverView from './TabPages/overview';
+import { useDispatch, useSelector } from 'react-redux';
 
 
-export default function AddJobs() {
-
+export default function AddJobs(props) {
+    const params = new URLSearchParams(props.location.search);
+    let dispatch = useDispatch();
+    const [activeId, setActiveId] = useState('0');
+    const [userId, setUserId] = useState();
+    const ViewCustomer = useSelector((state) => state.CustomerReducer.ViewCustomerDetails);
     const tabArray = [
         { icon: <CheckCircle />, title: 'Customer Details', description: <CustomerDetails /> },
         { icon: <CheckCircle />, title: 'Shipment Details', description: <ShipmentDetails /> },
@@ -24,12 +29,18 @@ export default function AddJobs() {
         { icon: <CheckCircle />, title: 'Rate Request', description: <RateRequest /> },
     ]
 
+    
+    const handleChange = (data, id) => {
+        setActiveId(data);
+        setUserId(id);
+    }
+
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
                 <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' mainTitle={"Shipment"} subTitle='Enquiry' heading={'Enquiry Data'} />
             </Grid>
-            <CustomTab tabArray={tabArray} />
+            <CustomTab tabArray={tabArray} handleChange={(data) => handleChange(data)} activeKey={activeId} />
         </div>
     );
 }

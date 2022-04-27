@@ -23,7 +23,6 @@ export default function AddCustomer(props) {
     const [userId, setUserId] = useState();
     const ViewCustomer = useSelector((state) => state.CustomerReducer.ViewCustomerDetails);
 
-
     useEffect(() => {
         dispatch(ViewCustomerDetails(params.get("user_id") ? params.get("user_id") : userId))
     }, [userId, params.get("user_id")])
