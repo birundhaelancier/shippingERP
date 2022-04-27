@@ -378,8 +378,8 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
                         <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-start'} container>
 
                             <Grid item md={7} xs={12} lg={7}>
-                                <Labelbox type="text" labelname="GST State"
-                                    // dropdown={stateList}
+                                <Labelbox type="select" labelname="GST State"
+                                    dropdown={stateList}
                                     changeData={(data) => OnChangeNommiee(data, "gst_state", item, index)}
                                     value={Nommiee[item]["gst_state"].value == "" ? BasicInformation.gst_state.value : Nommiee[item]["gst_state"].value}
                                     error={Nommiee[item]["gst_state"].error == null ? BasicInformation.gst_state.error : Nommiee[item]["gst_state"].error}
