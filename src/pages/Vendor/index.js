@@ -52,7 +52,6 @@ export default function VendorClient() {
 
     useEffect(() => {
         let rows = [];
-        console.log(GetVendorList, 'GetVendorList')
         GetVendorList?.map((items, index) => {
             rows.push(
                 {

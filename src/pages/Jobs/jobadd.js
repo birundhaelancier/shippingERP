@@ -14,8 +14,15 @@ import CargoDetails from './TabPages/cargoDetails';
 import TransportDetails from './TabPages/transportDetails'
 import ServiceDetails from './TabPages/serviceDetails';
 import InvoiceMainDetails from './TabPages/invoiceMain';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function AddJobs() {
+
+export default function AddJobs(props) {
+    const params = new URLSearchParams(props.location.search);
+    let dispatch = useDispatch();
+    const [activeId, setActiveId] = useState('0');
+    const [userId, setUserId] = useState();
+    const ViewCustomer = useSelector((state) => state.CustomerReducer.ViewCustomerDetails);
     const [MenuList, setMenuList] = useState('shipperInvoice')
 
 
@@ -50,12 +57,18 @@ export default function AddJobs() {
         },
     ]
 
+    
+    const handleChange = (data, id) => {
+        setActiveId(data);
+        setUserId(id);
+    }
+
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
                 <ContentHeader mainTitle={"Shipment"} subTitle='Jobs' heading={'Jobs Data'} />
             </Grid>
-            <CustomTab tabArray={tabArray} getMenuValue={(data)=>setMenuList(data)} />
+            <CustomTab tabArray={tabArray} getMenuValue={(data)=>setMenuList(data)} handleChange={(data) => handleChange(data)} activeKey={activeId} />
         </div>
     );
 }
