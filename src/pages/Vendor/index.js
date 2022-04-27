@@ -23,7 +23,7 @@ export default function VendorClient() {
     const columnss = [
         { field: 'id', width: 50, headerName: 'S.No' },
         { field: 'vendorId', width: 130, headerName: 'Vendor Id' },
-        { field: 'vendorCode', width: 130, headerName: 'Vendor Code' },
+        // { field: 'vendorCode', width: 130, headerName: 'Vendor Code' },
         { field: 'companyName', width: 150, headerName: 'Company Name' },
         { field: 'mobile', width: 140, headerName: 'Phone No' },
         { field: 'email', width: 200, headerName: 'Email ID' },
@@ -38,8 +38,8 @@ export default function VendorClient() {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         {/* <div className="eyeSymbol" onClick={() => viewModal(params.row.vendorId)}><RemoveRedEye /></div> */}
-                        <Link to={`/addVendor?user_id=${params.row.vendorId}`} className="editSymbol" ><Edit /></Link>
-                        <div className="deleteSymbol" onClick={() => deleteVendor(params.row.vendorId)}><Delete /></div>
+                        <Link to={`/addVendor?user_id=${params.row.Id}`} className="editSymbol" ><Edit /></Link>
+                        <div className="deleteSymbol" onClick={() => deleteVendor(params.row.Id)}><Delete /></div>
                     </div>
                 );
             }
@@ -57,12 +57,12 @@ export default function VendorClient() {
             rows.push(
                 {
                     id: index + 1,
-                    vendorId: items.id,
-                    vendorCode: items.code,
+                    vendorId: items.code,
                     companyName: items.company_name,
                     mobile: items.phone,
                     email: items.email,
-                    activeStatus: items.status,
+                    // activeStatus: items.status,
+                    Id:items.id
                 }
             )
         })

@@ -309,7 +309,7 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
             <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-start'} container>
                 <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-start'} container>
                     <Grid item xs={12} md={7} sx={12} sm={12}>
-                        <Labelbox show type="number"
+                        <Labelbox show type="text"
                             labelname="PAN Number"
                             changeData={(data) => Validations(data, '', "pan_no")}
                             value={kycInfo.pan_no.value}
@@ -326,7 +326,7 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
 
                 <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-start'} container>
                     <Grid item xs={12} md={7} sx={12} sm={12}>
-                        <Labelbox show type="number"
+                        <Labelbox show type="text"
                             labelname="CIN Registration"
                             changeData={(data) => Validations(data, '', "cin_reg")}
                             value={kycInfo.cin_reg.value}
@@ -342,7 +342,7 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
                 </Grid>
                 <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-start'} container>
                     <Grid item xs={12} md={7} sx={12} sm={12}>
-                        <Labelbox show type="number"
+                        <Labelbox show type="text"
                             labelname="MSME Registration"
                             changeData={(data) => Validations(data, '', "msme_reg")}
                             value={kycInfo.msme_reg.value}
@@ -358,7 +358,7 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
                 </Grid>
                 <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-start'} container>
                     <Grid item xs={12} md={7} sx={12} sm={12}>
-                        <Labelbox show type="number"
+                        <Labelbox show type="text"
                             labelname="IEC Number"
                             changeData={(data) => Validations(data, '', "iec_no")}
                             value={kycInfo.iec_no.value}
@@ -386,20 +386,21 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
                                     errmsg={Nommiee[item]["gst_state"].errmsg == null ? BasicInformation.gst_state.errmsg : Nommiee[item]["gst_state"].errmsg}
                                 />
                             </Grid>
+                         
+
+                            <Grid item md={7} xs={12} lg={7}>
+                                <Labelbox type="text" labelname="Gst Registration"
+                                    changeData={(data) => OnChangeNommiee(data, "gst_reg", item, index)}
+                                    value={Nommiee[item]["gst_reg"].value == "" ? BasicInformation.gst_reg.value : Nommiee[item]["gst_reg"].value}
+                                    error={Nommiee[item]["gst_reg"].error == null ? BasicInformation.gst_reg.error : Nommiee[item]["gst_reg"].error}
+                                    errmsg={Nommiee[item]["gst_reg"].errmsg == null ? BasicInformation.gst_reg.errmsg : Nommiee[item]["gst_reg"].errmsg}
+                                />
+                            </Grid>
                             <Grid item xs={12} md={4} sx={12} sm={12}>
                                 <UploadFiles show getOnChangeFile={(event, name) => OnChangeNommiee(event, 'gst_image', item, index)} showLabel={Nommiee[item]["gst_image"].value == "" ? BasicInformation.gst_image.value : Nommiee[item]["gst_image"].value} fileId={index + 5}
                                     showName
                                     error={Nommiee[item]["gst_image"].error == null ? BasicInformation.gst_image.error : Nommiee[item]["gst_image"].error}
                                     errmsg={Nommiee[item]["gst_image"].errmsg == null ? BasicInformation.gst_image.errmsg : Nommiee[item]["gst_image"].errmsg}
-                                />
-                            </Grid>
-
-                            <Grid item md={7} xs={12} lg={7}>
-                                <Labelbox type="number" labelname="Gst Registration"
-                                    changeData={(data) => OnChangeNommiee(data, "gst_reg", item, index)}
-                                    value={Nommiee[item]["gst_reg"].value == "" ? BasicInformation.gst_reg.value : Nommiee[item]["gst_reg"].value}
-                                    error={Nommiee[item]["gst_reg"].error == null ? BasicInformation.gst_reg.error : Nommiee[item]["gst_reg"].error}
-                                    errmsg={Nommiee[item]["gst_reg"].errmsg == null ? BasicInformation.gst_reg.errmsg : Nommiee[item]["gst_reg"].errmsg}
                                 />
                             </Grid>
                         </Grid>

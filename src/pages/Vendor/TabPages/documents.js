@@ -149,7 +149,7 @@ export default function Documents({ handleActivekey, vendorId, userId }) {
                 dynObjs[data].errmsg = null
                 BasicInformation[data].value = "";
                 BasicInformation[data].validation = [{ name: "required" }]
-            }
+             }
             catch (err) {
                 throw err;
             }

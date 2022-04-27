@@ -169,6 +169,7 @@ export default function Documents({ handleActivekey, customerId, userId }) {
     }
 
     function OnChangeNommiee(item, key, data, index, name) {
+        console.log(item,key,data,"gggggggggggg")
         CheckValidation(item, key);
         Nommiee[data][key].value = item
         var errorcheck = ValidationLibrary.checkValidation(
@@ -272,7 +273,7 @@ export default function Documents({ handleActivekey, customerId, userId }) {
                                 />
                             </Grid>
                             <Grid item xs={12} md={4} sx={12} sm={12}>
-                                <UploadFiles show getOnChangeFile={(event, name) => OnChangeNommiee(event, 'document', item, index)} showLabel={Nommiee[item]["document"].value == "" ? BasicInformation.document.value : Nommiee[item]["document"].value} fileId={index + 1}
+                                <UploadFiles show getOnChangeFile={(event, name) => OnChangeNommiee(event, 'document', item, index)} showLabel={Nommiee[item]["document"].value === "" ? BasicInformation.document.value : Nommiee[item]["document"].value} fileId={index + 1}
                                     showName
                                     showLabelView
                                 />

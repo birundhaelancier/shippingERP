@@ -97,7 +97,7 @@ export default function LicenseDetails() {
                 <DynModel handleChangeModel={openModal} modelTitle={"License"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={
                         <>
-                            <ViewLicense CloseModal={(bln) => setOpenModal(bln)} />
+                            <ViewLicense CloseModal={(bln) => setOpenModal(bln)} GetId={GetId}/>
                         </>
                     }
                 />
