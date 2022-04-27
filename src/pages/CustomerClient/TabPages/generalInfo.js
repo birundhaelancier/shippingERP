@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import react, { useEffect, useState } from 'react';
 import Labelbox from '../../../helpers/labelbox/labelbox';
 import ValidationLibrary from '../../../helpers/validationfunction';
@@ -11,9 +12,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddCustomer, ViewCustomerDetails, EditCustomer, getCustomerList } from '../../../Redux/Action/GeneralGroupAction/customerAction';
 import { getCustomerBusinessNatureList } from '../../../Redux/Action/GeneralGroupAction/cutomerBusinessAction';
 
-export default function GeneralInfo({ customerId, handleActivekey }) {
+export default function GeneralInfo(props) {
+    const params = new URLSearchParams(props.location?.search);
+    const { customerId, handleActivekey } = props;
     let dispatch = useDispatch();
     let history = useHistory()
+
     const ViewCustomer = useSelector((state) => state.CustomerReducer.ViewCustomerDetails);
     const ViewBusiness = useSelector((state) => state.CustomerBusinessReducer.GetCustomerBusinessList);
     const [FieldModal, setFieldModal] = useState(false);
@@ -65,11 +69,22 @@ export default function GeneralInfo({ customerId, handleActivekey }) {
         dispatch(getCustomerBusinessNatureList(1))
     }, [])
 
+    const getSalutation = (data) => {
+        switch (data) {
+            case "Mr": return 1;
+            case "Mrs": return 2;
+            case "Ms": return 3;
+            case "Miss": return 4;
+            case "Dr": return 5;
+            default: return '';
+        }
+    }
+
     useEffect(() => {
         if (ViewCustomer) {
             generalDetails.company_name.value = ViewCustomer[0]?.company_name
             generalDetails.mobile.value = ViewCustomer[0]?.mobile
-            generalDetails.primary_salute.value = ViewCustomer[0]?.primary_salute === "Mr" ? 1 : 2
+            generalDetails.primary_salute.value = getSalutation(ViewCustomer[0]?.primary_salute)
             generalDetails.primary_first_name.value = ViewCustomer[0]?.primary_first_name
             generalDetails.primary_second_name.value = ViewCustomer[0]?.primary_second_name
             generalDetails.designation.value = ViewCustomer[0]?.designation
@@ -150,6 +165,8 @@ export default function GeneralInfo({ customerId, handleActivekey }) {
                             notification.success({
                                 message: res?.Message
                             });
+                            params.set('user_id', res?.Response?.id);
+                            window.history.replaceState({}, "", decodeURIComponent(`${window.location.href}?${params}`));
                             handleActivekey('1', res?.Response?.id)
                             dispatch(getCustomerList("All"))
                         } else {
@@ -182,6 +199,9 @@ export default function GeneralInfo({ customerId, handleActivekey }) {
                         dropdown={[
                             { id: 1, value: 'Mr' },
                             { id: 2, value: 'Mrs' },
+                            { id: 3, value: 'Ms' },
+                            { id: 4, value: 'Miss' },
+                            { id: 5, value: 'Dr' },
                         ]}
                         changeData={(data) => Validation(data, "primary_salute")}
                         value={generalDetails.primary_salute.value}

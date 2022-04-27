@@ -64,12 +64,23 @@ export default function GeneralInfo({ vendorId, handleActivekey }) {
         dispatch(ViewVendorDetails(vendorId))
         dispatch(getCustomerBusinessNatureList(1))
     }, [])
+    
+    const getSalutation = (data)=>{
+        switch (data){
+            case "Mr": return 1;
+            case "Mrs": return 2;
+            case "Ms": return 3;
+            case "Miss": return 4;
+            case "Dr": return 5;
+            default: return '';
+        }
+    }
 
     useEffect(() => {
         if (ViewVendor) {
             generalDetails.company_name.value = ViewVendor[0]?.company_name
             generalDetails.mobile.value = ViewVendor[0]?.mobile
-            generalDetails.primary_salute.value = ViewVendor[0]?.primary_salute === "Male" ? 1 : 2
+            generalDetails.primary_salute.value = getSalutation(ViewVendor[0]?.primary_salute) 
             generalDetails.primary_first_name.value = ViewVendor[0]?.primary_first_name
             generalDetails.primary_second_name.value = ViewVendor[0]?.primary_second_name
             generalDetails.designation.value = ViewVendor[0]?.designation
@@ -183,7 +194,9 @@ export default function GeneralInfo({ vendorId, handleActivekey }) {
                         dropdown={[
                             { id: 1, value: 'Mr' },
                             { id: 2, value: 'Mrs' },
-                            { id: 2, value: 'Miss' }
+                            { id: 3, value: 'Ms' },
+                            { id: 4, value: 'Miss' },
+                            { id: 5, value: 'Dr' },
                         ]}
                         changeData={(data) => Validation(data, "primary_salute")}
                         value={generalDetails.primary_salute.value}

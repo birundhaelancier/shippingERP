@@ -97,6 +97,17 @@ export default function ContactPerson({ vendorId, userId, handleActivekey }) {
         setCityList(cityLists)
     }, [ViewVendor])
 
+    const getSalutation = (data)=>{
+        switch (data){
+            case "Mr": return 1;
+            case "Mrs": return 2;
+            case "Ms": return 3;
+            case "Miss": return 4;
+            case "Dr": return 5;
+            default: return '';
+        }
+    }
+
     useEffect(() => {
         if (ViewVendor) {
 
@@ -116,7 +127,7 @@ export default function ContactPerson({ vendorId, userId, handleActivekey }) {
             ViewVendor[0]?.contact?.forEach((data, index) => {
                 Object.keys(data).forEach((items) => {
                     if (Object.keys(dynObjs).includes(items) && count > 0 && Nommiee[`obj${index}`] != undefined) {
-                        Nommiee[`obj${index}`][items].value = (items === 'contact_salute') ? 1 : data[items];
+                        Nommiee[`obj${index}`][items].value = (items === 'contact_salute') ? getSalutation(data[items])  : data[items];
                     }
                 })
             })
@@ -335,7 +346,9 @@ export default function ContactPerson({ vendorId, userId, handleActivekey }) {
                                             dropdown={[
                                                 { id: 1, value: 'Mr' },
                                                 { id: 2, value: 'Mrs' },
-                                                { id: 3, value: 'Miss' }
+                                                { id: 3, value: 'Ms' },
+                                                { id: 4, value: 'Miss' },
+                                                { id: 5, value: 'Dr' },
                                             ]}
                                             value={Nommiee[item]["contact_salute"].value == "" ? BasicInformation.contact_salute.value : Nommiee[item]["contact_salute"].value}
                                             error={Nommiee[item]["contact_salute"].error == null ? BasicInformation.contact_salute.error : Nommiee[item]["contact_salute"].error}
