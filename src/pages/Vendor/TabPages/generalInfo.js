@@ -11,7 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddVendor, ViewVendorDetails, EditVendor, getVendorList } from '../../../Redux/Action/GeneralGroupAction/VendorAction';
 import { getCustomerBusinessNatureList } from '../../../Redux/Action/GeneralGroupAction/cutomerBusinessAction';
 
-export default function GeneralInfo({ vendorId, handleActivekey }) {
+export default function GeneralInfo({ vendorId, handleActivekey,location }) {
+    const params = new URLSearchParams(location?.search);
     let dispatch = useDispatch();
     let history = useHistory()
     const ViewVendor = useSelector((state) => state.VendorReducer.ViewVendorDetails);
@@ -146,6 +147,8 @@ export default function GeneralInfo({ vendorId, handleActivekey }) {
                             notification.success({
                                 message: res?.Message
                             });
+                            params.set('user_id', res?.Response?.id);
+                            window.history.replaceState({}, "", decodeURIComponent(`${window.location.href}?${params}`));
                             handleActivekey('1', res?.Response?.id)
                             dispatch(getVendorList("All"))
                         } else {

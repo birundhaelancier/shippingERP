@@ -122,6 +122,7 @@ export default class Labelbox extends Component {
 				<div className="formShows">
 					<label className="labeltxt">{data.labelname}</label>
 					<div>
+						<div>
 						{data.showFlag ?
 							<PhoneInput
 								international
@@ -131,7 +132,8 @@ export default class Labelbox extends Component {
 								className={`${data.error && "brdred"} brdrclsFlag`} min="0" value={this.props.value} onChange={(val) => this.props.changeData && this.props.changeData(val)} disabled={this.props.disabled}
 							/>
 							:
-							<input className={`${data.error && "brdred"} brdrcls`} min="0" placeholder={this.props.placeholder} value={this.props.value} type="number" onChange={(e) => this.props.changeData && this.props.changeData(e.target.value)} onKeyDown={e => (e.key === "e" || e.key === "+" || e.key === "-") && e.preventDefault()} disabled={this.props.disabled} />}
+							<input className={`${data.error && "brdred"} brdrcls`} min="0" placeholder={this.props.placeholder} value={this.props.value} type="number" onChange={(e) => this.props.changeData && this.props.changeData(e.target.value)} onKeyDown={e => (e.key === "e" || e.key === "+" || e.key === "-") && e.preventDefault()} disabled={this.props.disabled}/>}
+							</div>
 						{
 							<div className="Errormsg">
 								<div>{data.error && data.errmsg}</div>

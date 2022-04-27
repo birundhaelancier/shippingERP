@@ -283,9 +283,13 @@
   color: rgb(102, 98, 98);
 }
 
-input[type=tel] {
+.input[type=tel] {
   /* Awesome styling */
   border: none;
+  width:100%;
+}
+.brdrclsFlag input{
+  width:100%;
 }
 input[type=tel]:focus {
   /* Awesome styling */
@@ -303,4 +307,6 @@ input[type=tel]:focus {
   border-radius: .25rem;
   /* height: 35px; */
   color: black;
+}
+.PhoneInputCountry .PhoneInputInput{
 }

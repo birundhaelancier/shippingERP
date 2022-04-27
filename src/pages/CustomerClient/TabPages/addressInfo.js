@@ -12,7 +12,8 @@ import { getStateList } from '../../../Redux/Action/GeneralGroupAction/stateActi
 import { getCountryList } from '../../../Redux/Action/GeneralGroupAction/countryAction';
 import { getCityList } from '../../../Redux/Action/GeneralGroupAction/cityAction';
 
-export default function AddressInfo({ customerId, userId, handleActivekey }) {
+export default function AddressInfo({ customerId, userId, handleActivekey,location }) {
+ 
     let dispatch = useDispatch();
     let history = useHistory()
     const ViewCustomer = useSelector((state) => state.CustomerReducer.ViewCustomerDetails);

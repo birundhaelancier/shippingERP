@@ -310,7 +310,7 @@ input[type=tel]:focus {
 }
 
 .brdrclsFlag{
-  width: 80%;
+  /* width: 80%; */
   outline: 0;
   font-size: 13px;
   padding: .5rem .75rem;
@@ -320,4 +320,11 @@ input[type=tel]:focus {
   border-radius: .25rem;
   /* height: 35px; */
   color: black;
+}
+
+.brdred .brdrclsFlag input[type=tel]{
+  width:100% !important;
+}
+.PhoneInputInput{
+  width:100% !important;
 }
