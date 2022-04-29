@@ -69,22 +69,11 @@ export default function GeneralInfo(props) {
         dispatch(getCustomerBusinessNatureList(1))
     }, [])
 
-    const getSalutation = (data) => {
-        switch (data) {
-            case "Mr": return 1;
-            case "Mrs": return 2;
-            case "Ms": return 3;
-            case "Miss": return 4;
-            case "Dr": return 5;
-            default: return '';
-        }
-    }
-
     useEffect(() => {
         if (ViewCustomer) {
             generalDetails.company_name.value = ViewCustomer[0]?.company_name
             generalDetails.mobile.value = ViewCustomer[0]?.mobile
-            generalDetails.primary_salute.value = getSalutation(ViewCustomer[0]?.primary_salute)
+            generalDetails.primary_salute.value = ViewCustomer[0]?.primary_salute
             generalDetails.primary_first_name.value = ViewCustomer[0]?.primary_first_name
             generalDetails.primary_second_name.value = ViewCustomer[0]?.primary_second_name
             generalDetails.designation.value = ViewCustomer[0]?.designation
@@ -99,9 +88,9 @@ export default function GeneralInfo(props) {
     useEffect(() => {
         let customerLists = []
         ViewBusiness?.map((data) => {
-            customerLists.push(
-                { id: data.id, value: data.name }
-            )
+            if (data.type === 'Customer') {
+                customerLists.push({ id: data.id, value: data.name })
+            }
         })
         setbusinessNature(customerLists)
 

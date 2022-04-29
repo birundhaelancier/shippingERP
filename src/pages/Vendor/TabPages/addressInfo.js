@@ -111,13 +111,34 @@ export default function AddressInfo({ vendorId, userId, handleActivekey }) {
                     )
                 })
             }
-            ViewVendor[0]?.address?.forEach((data, index) => {
-                Object.keys(data).forEach((items) => {
-                    if (Object.keys(dynObjs).includes(items) && count > 0) {
-                        Nommiee[`obj${index}`][items].value = (items === 'address_type') ? 1 : data[items];
-                    }
+
+            if (count > 0) {
+                let updatedNommiee = {};
+                ViewVendor[0]?.address?.forEach((data, index) => {
+                    setRefresh(!Refresh)
+                    let newObj = {}
+                    Object.keys(data).forEach((items) => {
+                        if (items === 'country') {
+                            dispatch(getStateList(data[items]))
+                        }
+                        if (items === 'state') {
+                            dispatch(getCityList(data[items]))
+                        }
+                        newObj[items] = { ...dynObjs[items], value: data[items] };
+                    })
+                    updatedNommiee[`obj${index}`] = newObj
                 })
-            })
+                setNommiee(updatedNommiee)
+                setItemKeys(objeList)
+            }
+
+            // ViewVendor[0]?.address?.forEach((data, index) => {
+            //     Object.keys(data).forEach((items) => {
+            //         if (Object.keys(dynObjs).includes(items) && count > 0) {
+            //             Nommiee[`obj${index}`][items].value = (items === 'address_type') ? 1 : data[items];
+            //         }
+            //     })
+            // })
             setNommiee(
                 prevState => ({
                     ...prevState,

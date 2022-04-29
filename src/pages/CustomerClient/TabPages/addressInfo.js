@@ -12,8 +12,8 @@ import { getStateList } from '../../../Redux/Action/GeneralGroupAction/stateActi
 import { getCountryList } from '../../../Redux/Action/GeneralGroupAction/countryAction';
 import { getCityList } from '../../../Redux/Action/GeneralGroupAction/cityAction';
 
-export default function AddressInfo({ customerId, userId, handleActivekey,location }) {
- 
+export default function AddressInfo({ customerId, userId, handleActivekey, location }) {
+
     let dispatch = useDispatch();
     let history = useHistory()
     const ViewCustomer = useSelector((state) => state.CustomerReducer.ViewCustomerDetails);
@@ -48,7 +48,6 @@ export default function AddressInfo({ customerId, userId, handleActivekey,locati
         city: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
         zip_code: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
         fax: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
-
     }
     const [Nommiee, setNommiee] = useState([])
     const [count, setcount] = useState(0)
@@ -64,7 +63,6 @@ export default function AddressInfo({ customerId, userId, handleActivekey,locati
         zip_code: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
         fax: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
     })
-
 
     useEffect(() => {
         dispatch(ViewCustomerDetails(customerId))
@@ -98,13 +96,14 @@ export default function AddressInfo({ customerId, userId, handleActivekey,locati
         setCityList(cityLists)
     }, [GetCountry, GetState, GetCity])
 
+
+
     useEffect(() => {
         if (ViewCustomer) {
             let objeList = [];
             if (Object.keys(Nommiee) <= ViewCustomer[0]?.address.length) {
                 ViewCustomer[0]?.address?.forEach((data, index) => {
                     objeList.push(`obj${index}`)
-                    // let code = count + 1;
                     setcount(count + 1)
                     setNommiee(
                         prevState => ({
@@ -114,28 +113,27 @@ export default function AddressInfo({ customerId, userId, handleActivekey,locati
                     )
                 })
             }
-            
 
-            ViewCustomer[0]?.address?.forEach((data, index) => {
-
-                setrefresh(!refresh)
-                Object.keys(data).forEach((items) => {
-                    console.log(objeList,count, Nommiee[`obj${index}`], Nommiee, 'Nommiee')
-
-                    if (Object.keys(dynObjs).includes(items) && count > 0 && Nommiee[`obj${index}`] != undefined) {
-                        console.log(items, 'items')
-                        Nommiee[`obj${index}`][items].value = (items === 'address_type') ? 1 : data[items];
-                    }
+            if (count > 0) {
+                let updatedNommiee = {};
+                ViewCustomer[0]?.address?.forEach((data, index) => {
+                    setrefresh(!refresh)
+                    let newObj = {}
+                    Object.keys(data).forEach((items) => {
+                        if (items === 'country') {
+                            dispatch(getStateList(data[items]))
+                        }
+                        if (items === 'state') {
+                            dispatch(getCityList(data[items]))
+                        }
+                        newObj[items] = { ...dynObjs[items], value: data[items] };
+                    })
+                    updatedNommiee[`obj${index}`] = newObj
                 })
-            })
+                setNommiee(updatedNommiee)
+                setItemKeys(objeList)
+            }
 
-
-            setNommiee(
-                prevState => ({
-                    ...prevState,
-                })
-            )
-            setItemKeys(objeList)
         }
     }, [ViewCustomer])
 
@@ -201,6 +199,8 @@ export default function AddressInfo({ customerId, userId, handleActivekey,locati
             // view[items] = Nommiee[data][items].value;
         })
 
+        console.log(BasicInformation, 'BasicInformation')
+
         if (filtererr.length > 0) {
             setRefresh(!Refresh)
 
@@ -249,17 +249,6 @@ export default function AddressInfo({ customerId, userId, handleActivekey,locati
         }));
 
     }
-
-    // const HandleCancel = () => {
-    //     let SalesKey = ["address_type: [], "address1", "address2", "state", "city", "country", "phone2", "zip_code", "fax"]
-    //     SalesKey.map((data) => {
-    //         generalDetails[data].value = ""
-    //     })
-    //     setgeneralDetails(prevState => ({
-    //         ...prevState,
-    //     }));
-    //     history.push('/customer');
-    // }
 
     function AddNommiee() {
         let o = Object.keys(Nommiee)[Object.keys(Nommiee).length - 1]
@@ -316,7 +305,6 @@ export default function AddressInfo({ customerId, userId, handleActivekey,locati
     function OnChangeNommiee(item, key, data, index) {
         if (key === 'country') {
             dispatch(getStateList(item))
-            // dispatch(getCityList(1))
         }
         if (key === 'state') {
             dispatch(getCityList(item))
@@ -335,6 +323,7 @@ export default function AddressInfo({ customerId, userId, handleActivekey,locati
     return (
         <div>
             <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" container>
+                {console.log(Itemkeys, Nommiee, 'yyy')}
                 {Itemkeys.length > 0 && Itemkeys.map((item, index) => {
                     return (
                         <>
@@ -343,7 +332,6 @@ export default function AddressInfo({ customerId, userId, handleActivekey,locati
                                     <Grid item md={4} xs={12} lg={4}>
                                         <Labelbox type="select" labelname="Address Type"
                                             changeData={(data) => OnChangeNommiee(data, "address_type", item, index)}
-                                            // showString
                                             dropdown={addressType}
                                             value={Nommiee[item]["address_type"].value == "" ? BasicInformation.address_type.value : Nommiee[item]["address_type"].value}
                                             error={Nommiee[item]["address_type"].error == null ? BasicInformation.address_type.error : Nommiee[item]["address_type"].error}

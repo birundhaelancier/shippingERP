@@ -124,9 +124,34 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                     )
                 })
             }
+            // if (count > 0) {
+            //     let updatedNommiee = {};
+            //     ViewCustomer[0]?.address?.forEach((data, index) => {
+            //         setrefresh(!refresh)
+            //         let newObj = {}
+            //         Object.keys(data).forEach((items) => {
+            //             if (items === 'country') {
+            //                 dispatch(getStateList(data[items]))
+            //             }
+            //             if (items === 'state') {
+            //                 dispatch(getCityList(data[items]))
+            //             }
+            //             newObj[items] = { ...dynObjs[items], value: data[items] };
+            //         })
+            //         updatedNommiee[`obj${index}`] = newObj
+            //     })
+            //     setNommiee(updatedNommiee)
+            //     setItemKeys(objeList)
+            // }
             ViewCustomer[0]?.contact?.forEach((data, index) => {
                 Object.keys(data).forEach((items) => {
                     if (Object.keys(dynObjs).includes(items) && count > 0 && Nommiee[`obj${index}`] != undefined) {
+                        if (items === 'country') {
+                            dispatch(getStateList(data[items]))
+                        }
+                        if (items === 'state') {
+                            dispatch(getCityList(data[items]))
+                        }
                         Nommiee[`obj${index}`][items].value = (items === 'contact_salute') ? getSalutation(data[items]) : data[items];
                     }
                 })

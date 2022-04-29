@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddVendor, ViewVendorDetails, EditVendor, getVendorList } from '../../../Redux/Action/GeneralGroupAction/VendorAction';
 import { getCustomerBusinessNatureList } from '../../../Redux/Action/GeneralGroupAction/cutomerBusinessAction';
 
-export default function GeneralInfo({ vendorId, handleActivekey,location }) {
+export default function GeneralInfo({ vendorId, handleActivekey, location }) {
     const params = new URLSearchParams(location?.search);
     let dispatch = useDispatch();
     let history = useHistory()
@@ -65,23 +65,12 @@ export default function GeneralInfo({ vendorId, handleActivekey,location }) {
         dispatch(ViewVendorDetails(vendorId))
         dispatch(getCustomerBusinessNatureList(1))
     }, [])
-    
-    const getSalutation = (data)=>{
-        switch (data){
-            case "Mr": return 1;
-            case "Mrs": return 2;
-            case "Ms": return 3;
-            case "Miss": return 4;
-            case "Dr": return 5;
-            default: return '';
-        }
-    }
 
     useEffect(() => {
         if (ViewVendor) {
             generalDetails.company_name.value = ViewVendor[0]?.company_name
             generalDetails.mobile.value = ViewVendor[0]?.mobile
-            generalDetails.primary_salute.value = getSalutation(ViewVendor[0]?.primary_salute) 
+            generalDetails.primary_salute.value =ViewVendor[0]?.primary_salute
             generalDetails.primary_first_name.value = ViewVendor[0]?.primary_first_name
             generalDetails.primary_second_name.value = ViewVendor[0]?.primary_second_name
             generalDetails.designation.value = ViewVendor[0]?.designation
@@ -96,9 +85,9 @@ export default function GeneralInfo({ vendorId, handleActivekey,location }) {
     useEffect(() => {
         let VendorLists = []
         ViewBusiness?.map((data) => {
-            VendorLists.push(
-                { id: data.id, value: data.name }
-            )
+            if (data.type === 'Vendor') {
+                VendorLists.push({ id: data.id, value: data.name })
+            }
         })
         setbusinessNature(VendorLists)
 
