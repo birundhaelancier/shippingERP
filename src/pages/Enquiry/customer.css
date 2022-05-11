@@ -83,3 +83,18 @@
     font-weight: 600;
     margin-bottom: 2px;
 }
+
+.waitContent{
+    display: grid;
+    grid-template-columns: 11rem auto;
+    align-items: center;
+}
+
+.labeltext{
+    color: var(--main-theme-color);
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 5px;
+        padding-left: 1rem;
+}

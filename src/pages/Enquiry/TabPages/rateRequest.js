@@ -5,15 +5,21 @@ import Grid from '@mui/material/Grid';
 import CustomButton from '../../../components/Button';
 import { useHistory } from 'react-router-dom';
 import AddFieldsBtn from '../../../components/AddFieldsBtn';
-import LabelBoxes from '../../../components/labelbox/labelbox';
+import { useDispatch, useSelector } from 'react-redux';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
+import { getCustomerBusinessNatureList } from '../../../Redux/Action/GeneralGroupAction/cutomerBusinessAction';
+
 
 export default function RateRequest() {
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
-    let history = useHistory()
+    let history = useHistory();
+    let dispatch = useDispatch();
+
+    const ViewBusiness = useSelector((state) => state.CustomerBusinessReducer.GetCustomerBusinessList);
+
     const [FieldModal, setFieldModal] = useState(false);
     const [profileDetails, setprofileDetails] = useState({
         vendorType: {
@@ -68,6 +74,23 @@ export default function RateRequest() {
         ]
     )
     const [value, setValue] = useState();
+    const [businessNature, setbusinessNature] = useState([])
+
+
+    useEffect(() => {
+        dispatch(getCustomerBusinessNatureList(1))
+    }, [])
+
+    useEffect(() => {
+        let customerLists = []
+        ViewBusiness?.map((data) => {
+            if (data.type === 'Vendor') {
+                customerLists.push({ id: data.id, value: data.name })
+            }
+        })
+        setbusinessNature(customerLists)
+    }, [ViewBusiness])
+
 
     const Validation = (data, key, list) => {
         var errorcheck = ValidationLibrary.checkValidation(
@@ -103,6 +126,7 @@ export default function RateRequest() {
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="select"
                         labelname="Vendor Type"
+                        dropdown={businessNature}
                         changeData={(data) => Validation(data, "vendorType")}
                         value={profileDetails.vendorType.value}
                         error={profileDetails.vendorType.error}
@@ -113,7 +137,7 @@ export default function RateRequest() {
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <AddFieldsBtn fieldName='Add More Details' />
                 </Grid>
-{/* 
+                {/* 
                 {showList?.map((data) => {
                     return (
                         <Grid item xs={12} md={10} sx={12} sm={12}>

@@ -46,38 +46,48 @@ import DimensionDetails from "./pages/Dimension";
 import ReasonDetails from "./pages/Reason";
 import AddDimension from "./pages/Dimension/dimensionadd";
 import AddReason from "./pages/Reason/reasonadd";
-import EnquiryDetails from './pages/Enquiry'
-import AddEnquiry from './pages/Enquiry/enquiryadd';
-import JobsDetails from './pages/Jobs'
-import AddJobs from './pages/Jobs/jobadd';
-import LicenseDetails from './pages/License'
-import AddLicense from './pages/License/licenseadd';
-import SchemeDetails from './pages/Scheme'
-import AddScheme from './pages/Scheme/schemeadd';
-import CostDetails from './pages/Cost'
-import AddCost from './pages/Cost/costadd';
-import QuoteDetails from './pages/Quote'
-import AddQuote from './pages/Quote/quoteadd';
-import VehicleDetails from './pages/Vehicle'
-import AddVehicle from './pages/Vehicle/vehicleadd';
-import SalesDetails from './pages/Sales'
-import AddSales from './pages/Sales/salesadd';
-import LeadDetails from './pages/Lead'
-import AddLead from './pages/Lead/leadadd';
-import ShipperDetails from './pages/Shipper'
-import AddShipper from './pages/Shipper/shipperadd';
-import ConsigneeDetails from './pages/Consignee'
-import AddConsignee from './pages/Consignee/consigneeadd';
-import BusinessDetails from './pages/BusinessScope'
-import AddBusiness from './pages/BusinessScope/businessadd';
-import CustomerBusinessDetails from './pages/CustomerBusiness';
-import AddCustomerBusiness from './pages/CustomerBusiness/customerBusinessadd';
-import VendorBusinessDetails from './pages/VendorBusiness';
-import AddVendorBusiness from './pages/VendorBusiness/vendorBusinessadd';
+import EnquiryDetails from "./pages/Enquiry";
+import AddEnquiry from "./pages/Enquiry/enquiryadd";
+import JobsDetails from "./pages/Jobs";
+import AddJobs from "./pages/Jobs/jobadd";
+import LicenseDetails from "./pages/License";
+import AddLicense from "./pages/License/licenseadd";
+import SchemeDetails from "./pages/Scheme";
+import AddScheme from "./pages/Scheme/schemeadd";
+import CostDetails from "./pages/Cost";
+import AddCost from "./pages/Cost/costadd";
+import QuoteDetails from "./pages/Quote";
+import AddQuote from "./pages/Quote/quoteadd";
+import VehicleDetails from "./pages/Vehicle";
+import AddVehicle from "./pages/Vehicle/vehicleadd";
+import SalesDetails from "./pages/Sales";
+import AddSales from "./pages/Sales/salesadd";
+import LeadDetails from "./pages/Lead";
+import AddLead from "./pages/Lead/leadadd";
+import ShipperDetails from "./pages/Shipper";
+import AddShipper from "./pages/Shipper/shipperadd";
+import ConsigneeDetails from "./pages/Consignee";
+import AddConsignee from "./pages/Consignee/consigneeadd";
+import BusinessDetails from "./pages/BusinessScope";
+import AddBusiness from "./pages/BusinessScope/businessadd";
+import CustomerBusinessDetails from "./pages/CustomerBusiness";
+import AddCustomerBusiness from "./pages/CustomerBusiness/customerBusinessadd";
+import VendorBusinessDetails from "./pages/VendorBusiness";
+import AddVendorBusiness from "./pages/VendorBusiness/vendorBusinessadd";
+import QuotationDetails from "./pages/Quotation";
+import AddQuotation from "./pages/Quotation/quotationadd";
 import { Route } from "react-router-dom";
 import AccountPopover from "./pages/layouts/dashboard/AccountPopover";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import { Margin } from "@mui/icons-material";
+import PackageDetails from "./pages/Package";
+import AddPackage from "./pages/Package/packageadd";
+import VasDetails from "./pages/Vas";
+import AddVas from "./pages/Vas/vasadd";
+import ShipmentDescriptionDetails from "./pages/ShipmentDescription";
+import AddShipmentDescription from "./pages/ShipmentDescription/shipmentDescriptionadd";
+import ShipmentTermDetails from "./pages/ShipmentTerm";
+import AddShipmentTerm from "./pages/ShipmentTerm/shipmentTermadd";
 
 const drawerWidth = 240;
 
@@ -148,12 +158,11 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function ResponsiveDrawer(props) {
-
   const { window } = props;
   const container =
     window !== undefined ? () => window().document.body : undefined;
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -170,7 +179,7 @@ export default function ResponsiveDrawer(props) {
         position="fixed"
         open={open}
         className="custom_appar"
-        style={{zIndex: 120}}
+        style={{ zIndex: 120 }}
         sx={{
           width: {
             sm: `calc(100% - ${open ? drawerWidth : 67}px)`,
@@ -283,7 +292,7 @@ export default function ResponsiveDrawer(props) {
               {/* {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />} */}
               {/* <MenuIcon /> */}
               <i
-                class="fa fa-bars"
+                class="fa fa-times"
                 style={{ fontSize: "18px", color: "#fff" }}
                 aria-hidden="true"
               ></i>
@@ -394,15 +403,41 @@ export default function ResponsiveDrawer(props) {
         <Route exact path="/sales" component={SalesDetails} />
         <Route exact path="/addSales" component={AddSales} />
         <Route exact path="/shipper" component={ShipperDetails} />
-        <Route exact path="/addShipper" component={AddShipper} />      
+        <Route exact path="/addShipper" component={AddShipper} />
         <Route exact path="/consignee" component={ConsigneeDetails} />
         <Route exact path="/addConsignee" component={AddConsignee} />
         <Route exact path="/business" component={BusinessDetails} />
         <Route exact path="/addBusiness" component={AddBusiness} />
-        <Route exact path="/customerBusiness" component={CustomerBusinessDetails} />
-        <Route exact path="/addCustomerBusiness" component={AddCustomerBusiness} />
+        <Route
+          exact
+          path="/customerBusiness"
+          component={CustomerBusinessDetails}
+        />
+        <Route
+          exact
+          path="/addCustomerBusiness"
+          component={AddCustomerBusiness}
+        />
         <Route exact path="/vendorBusiness" component={VendorBusinessDetails} />
         <Route exact path="/addVendorBusiness" component={AddVendorBusiness} />
+        <Route exact path="/quotation" component={QuotationDetails} />
+        <Route exact path="/addQuotation" component={AddQuotation} />
+        <Route exact path="/package" component={PackageDetails} />
+        <Route exact path="/addPackage" component={AddPackage} />
+        <Route exact path="/vas" component={VasDetails} />
+        <Route exact path="/addVas" component={AddVas} />
+        <Route exact path="/shipmentTerm" component={ShipmentTermDetails} />
+        <Route exact path="/addShipmentTerm" component={AddShipmentTerm} />
+        <Route
+          exact
+          path="/shipmentDescription"
+          component={ShipmentDescriptionDetails}
+        />
+        <Route
+          exact
+          path="/addShipmentDescription"
+          component={AddShipmentDescription}
+        />
       </Box>
     </Box>
   );

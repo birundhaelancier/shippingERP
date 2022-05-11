@@ -7,7 +7,7 @@ import QuickSearchToolbar from '../SearchBar';
 import Grid from '@mui/material/Grid';
 import './table.css';
 
-const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick }) => {
+const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick, hideHeader }) => {
     const columnss = [
         { field: 'id', width: 80, headerName: 'S.No' },
         { field: 'customerId', width: 150, headerName: 'Customer Id' },
@@ -34,13 +34,6 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick 
         }
     ];
 
-    const rows = [
-        { id: 1, customerName: 'Hello', customerId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 2, customerName: 'DataGridPro', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 3, customerName: 'MUI', customerId: '3', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 1, customerName: 'Hello', customerId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 2, customerName: 'DataGridPro', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-    ];
 
     const requestSearch = (data) => {
         onSearch(data)
@@ -54,7 +47,7 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick 
             <div className='tableWeb'>
                 <div style={{ height: 450, width: '100%' }}>
                     <DataGrid
-                        components={{ Toolbar: QuickSearchToolbar }}
+                        components={{ Toolbar: !hideHeader && QuickSearchToolbar }}
                         rows={rowData}
                         columns={columnData}
                         checkboxSelection

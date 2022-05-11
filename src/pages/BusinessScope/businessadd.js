@@ -17,12 +17,7 @@ export default function AddBusiness() {
 
     const tabArray = [
         { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo /> },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: ''},
-        // { icon: '', title: 'Payments Terms', description: 'de65' },
-        { icon: '', title: '', description: '' },
+      
     ]
 
     return (

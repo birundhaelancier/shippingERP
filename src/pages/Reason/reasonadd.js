@@ -11,12 +11,7 @@ export default function AddReason(props) {
 
     const tabArray = [
         { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo reasonId={params.get("user_id")} reasonName={params.get("reasonName")} /> },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: ''},
-        // { icon: '', title: 'Payments Terms', description: 'de65' },
-        { icon: '', title: '', description: '' },
+ 
     ]
 
     return (

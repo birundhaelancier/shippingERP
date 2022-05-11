@@ -16,12 +16,7 @@ export default function AddDimension(props) {
     const params = new URLSearchParams(props.location.search);
     const tabArray = [
         { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo  dimensionId={params.get("user_id")} dimensionName={params.get("dimensionName")}  /> },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: ''},
-        // { icon: '', title: 'Payments Terms', description: 'de65' },
-        { icon: '', title: '', description: '' },
+      
     ]
 
     return (

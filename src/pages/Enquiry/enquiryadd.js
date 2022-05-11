@@ -1,46 +1,92 @@
-import react, { useState } from 'react';
-import Labelbox from '../../helpers/labelbox/labelbox';
-import ValidationLibrary from '../../helpers/validationfunction';
-import Grid from '@mui/material/Grid';
-import ContentHeader from '../../components/ContentHeader';
-import CustomButton from '../../components/Button';
-import { useHistory } from 'react-router-dom';
-import UploadFiles from '../../components/Upload';
-import { Add, Delete, CheckCircle } from '@mui/icons-material';
-import CustomTab from '../../components/CustomTab';
+import react, { useState } from "react";
+import Labelbox from "../../helpers/labelbox/labelbox";
+import ValidationLibrary from "../../helpers/validationfunction";
+import Grid from "@mui/material/Grid";
+import ContentHeader from "../../components/ContentHeader";
+import CustomButton from "../../components/Button";
+import { useHistory } from "react-router-dom";
+import UploadFiles from "../../components/Upload";
+import { Add, Delete, CheckCircle } from "@mui/icons-material";
+import CustomTab from "../../components/CustomTab";
 // import ViewEnquiry from './viewEnquiry';
-import CustomerDetails from './TabPages/customerDetails';
-import ShipmentDetails from './TabPages/shipmentDetails';
-import RateRequest from './TabPages/rateRequest';
-import OverView from './TabPages/overview';
-import { useDispatch, useSelector } from 'react-redux';
-
+import CustomerDetails from "./TabPages/customerDetails";
+import ShipmentDetails from "./TabPages/shipmentDetails";
+import RateRequest from "./TabPages/rateRequest";
+import OverView from "./TabPages/overview";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function AddJobs(props) {
-    const params = new URLSearchParams(props.location.search);
-    let dispatch = useDispatch();
-    const [activeId, setActiveId] = useState('0');
-    const [userId, setUserId] = useState();
-    const ViewCustomer = useSelector((state) => state.CustomerReducer.ViewCustomerDetails);
-    const tabArray = [
-        { icon: <CheckCircle />, title: 'Customer Details', description: <CustomerDetails /> },
-        { icon: <CheckCircle />, title: 'Shipment Details', description: <ShipmentDetails /> },
-        { icon: <CheckCircle />, title: 'Overview', description: <OverView /> },
-        { icon: <CheckCircle />, title: 'Rate Request', description: <RateRequest /> },
-    ]
+  const params = new URLSearchParams(props.location.search);
+  let dispatch = useDispatch();
+  const [activeId, setActiveId] = useState("0");
+  const [userId, setUserId] = useState();
+  const ViewCustomer = useSelector(
+    (state) => state.CustomerReducer.ViewCustomerDetails
+  );
+  const tabArray = [
+    {
+      icon: <CheckCircle />,
+      title: "Customer Details",
+      description: (
+        <CustomerDetails
+          enquiryId={params.get("user_id")}
+          handleActivekey={(data, id) => handleChange(data, id)}
+        />
+      ),
+    },
+    {
+      icon: <CheckCircle />,
+      title: "Shipment Details",
+      description: (
+        <ShipmentDetails
+          enquiryId={params.get("user_id")}
+          handleActivekey={(data, id) => handleChange(data, id)}
+        />
+      ),
+    },
+    {
+      icon: <CheckCircle />,
+      title: "Overview",
+      description: (
+        <OverView
+          enquiryId={params.get("user_id")}
+          handleActivekey={(data, id) => handleChange(data, id)}
+        />
+      ),
+    },
+    {
+      icon: <CheckCircle />,
+      title: "Rate Request",
+      description: (
+        <RateRequest
+          enquiryId={params.get("user_id")}
+          handleActivekey={(data, id) => handleChange(data, id)}
+        />
+      ),
+    },
+  ];
 
-    
-    const handleChange = (data, id) => {
-        setActiveId(data);
-        setUserId(id);
-    }
+  const handleChange = (data, id) => {
+    setActiveId(data);
+    setUserId(id);
+  };
 
-    return (
-        <div>
-            <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' mainTitle={"Shipment"} subTitle='Enquiry' heading={'Enquiry Data'} />
-            </Grid>
-            <CustomTab tabArray={tabArray} handleChange={(data) => handleChange(data)} activeKey={activeId} />
-        </div>
-    );
+  return (
+    <div>
+      <Grid item xs={12} spacing={2} direction="row" container>
+        <ContentHeader
+          userTitle="This is your Dashboard"
+          userName="Hello Thomas"
+          mainTitle={"Shipment"}
+          subTitle="Enquiry"
+          heading={"Enquiry Data"}
+        />
+      </Grid>
+      <CustomTab
+        tabArray={tabArray}
+        handleChange={(data) => handleChange(data)}
+        activeKey={activeId}
+      />
+    </div>
+  );
 }
