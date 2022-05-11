@@ -40,6 +40,7 @@ export default function AddJobs(props) {
       description: (
         <ShipmentDetails
           enquiryId={params.get("user_id")}
+          userId={userId}
           handleActivekey={(data, id) => handleChange(data, id)}
         />
       ),

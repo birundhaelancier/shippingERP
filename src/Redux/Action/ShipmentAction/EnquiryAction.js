@@ -23,7 +23,7 @@ export const GetCustomerDetails = (data) => async (dispatch) => {
         payload: response.data.Response,
       });
     });
-  } catch (err) {}
+  } catch (err) { }
 };
 
 export const AddEnquiryCustomer = (data) => {
@@ -44,7 +44,7 @@ export const AddEnquiryCustomer = (data) => {
       .then((data) => {
         return data;
       });
-  } catch (err) {}
+  } catch (err) { }
 };
 
 export const EditEnquiryCustomer = (data, enquiryId) => {
@@ -66,8 +66,53 @@ export const EditEnquiryCustomer = (data, enquiryId) => {
       .then((data) => {
         return data;
       });
-  } catch (err) {}
+  } catch (err) { }
 };
+
+export const AddShipmentCustomer = (data, userId) => {
+  var formData = new FormData();
+  Object.keys(data).forEach((val) => {
+    formData.set(val, data[val].value);
+  });
+  formData.set("stype", "Shipment");
+  formData.set("user_id", JSON.parse(localStorage.getItem("user_id")));
+  formData.set("id", userId);
+
+  try {
+    return fetch(apiurl + "add_enquiry", {
+      method: "post",
+      headers: REQUEST_HEADERS().HEADER,
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      });
+  } catch (err) { }
+};
+
+export const EditShipmentCustomer = (data, enquiryId) => {
+  var formData = new FormData();
+  Object.keys(data).forEach((val) => {
+    formData.set(val, data[val].value);
+  });
+  formData.set("stype", "Shipment");
+  formData.set("user_id", JSON.parse(localStorage.getItem("user_id")));
+  formData.set("id", enquiryId);
+
+  try {
+    return fetch(apiurl + "edit_enquiry", {
+      method: "post",
+      headers: REQUEST_HEADERS().HEADER,
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      });
+  } catch (err) { }
+};
+
 
 export const getEnquiryCustomerList = (data) => async (dispatch) => {
   try {
@@ -85,7 +130,7 @@ export const getEnquiryCustomerList = (data) => async (dispatch) => {
         payload: response.data.Response,
       });
     });
-  } catch (err) {}
+  } catch (err) { }
 };
 
 export const ViewEnquiryCustomerDetails = (data) => async (dispatch) => {
@@ -104,7 +149,7 @@ export const ViewEnquiryCustomerDetails = (data) => async (dispatch) => {
         payload: response.data.Response,
       });
     });
-  } catch (err) {}
+  } catch (err) { }
 };
 
 export const CustomerEnquiryStatus = (portId, status) => async (dispatch) => {
@@ -124,5 +169,5 @@ export const CustomerEnquiryStatus = (portId, status) => async (dispatch) => {
       });
       dispatch(getEnquiryCustomerList("All"));
     });
-  } catch (err) {}
+  } catch (err) { }
 };

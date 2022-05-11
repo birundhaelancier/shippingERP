@@ -18,111 +18,267 @@ import { ShipmentTermList } from "../../../Redux/Action/EnquiryGroupAction/Shipm
 import { ShipmentDescriptionList } from "../../../Redux/Action/EnquiryGroupAction/ShipmentDescriptionAction";
 import { PackageList } from "../../../Redux/Action/EnquiryGroupAction/PackageAction";
 import { VasList } from "../../../Redux/Action/EnquiryGroupAction/VasAction";
-
 import LabelBoxes from "../../../components/labelbox/labelbox";
 import { Add } from "@mui/icons-material";
+import {
+  AddShipmentCustomer,
+  ViewEnquiryCustomerDetails,
+  EditShipmentCustomer,
+} from "../../../Redux/Action/ShipmentAction/EnquiryAction";
+import { notification } from "antd";
+
 
 export default function ShipmentDetails({
   enquiryId,
   handleActivekey,
-  location,
+  location, userId
 }) {
   let history = useHistory();
   let dispatch = useDispatch();
-  const [FieldModal, setFieldModal] = useState(false);
+  const [Refresh, setRefresh] = useState(false);
+  const params = new URLSearchParams(location?.search);
   const units = [
     { id: 1, value: "KG" },
     { id: 2, value: "Metric ton" },
     { id: 3, value: "CBM" },
   ];
   const [profileDetails, setprofileDetails] = useState({
-    customerType: {
+    enq_date: {
+      value: "",
+      validation: [],
+      error: null,
+      errmsg: null,
+    },
+    shipment_type: {
+      value: 0,
+      validation: [],
+      error: null,
+      errmsg: null,
+    },
+    shipment_type_id: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    customerName: {
+    business_scope: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    contactPerson: {
+    business_scope_id: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    companyName: {
+    shipment_descp: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    addressType: {
+    shipment_descp_id: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    primary: {
+    origin: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    customerEmail: {
+    destination: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    address2: {
+    commodity: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    state: {
+    shipment_term: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    city: {
+    shipment_term_id: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    zipCode: {
+    nature_clearance: {
+      value: 0,
+      validation: [],
+      error: null,
+      errmsg: null,
+    },
+    nature_clearance_id: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    fax: {
+    cargo: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    phone: {
+    cargo_id: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
-    activeStatus: {
+    package: {
       value: "",
       validation: [{ name: "required" }],
       error: null,
       errmsg: null,
     },
+    package_id: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    package_no: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    no_containers: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    commodity: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    gross_wt: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    net_wt: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    volumetric_wt: {
+      value: 0,
+      validation: [],
+      error: null,
+      errmsg: null,
+    },
+    chargeable_wt: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    pickup_location: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    drop_location: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    vehicle: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    vehicle_id: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    remarks: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    enq_status: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    cut_of_date: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    vas_type: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    vas_type_id: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    reason: {
+      value: "",
+      validation: [{ name: "required" }],
+      error: null,
+      errmsg: null,
+    },
+    grossUnit: {
+      value: "",
+      validation: [{ name: 'required' }],
+      error: null,
+      errmsg: null,
+    },
+    netUnit: {
+      value: "",
+      validation: [{ name: 'required' }],
+      error: null,
+      errmsg: null,
+    },
+    volumetricUnit: {
+      value: "",
+      validation: [{ name: 'required' }],
+      error: null,
+      errmsg: null,
+    },
+    chargeableUnit: {
+      value: "",
+      validation: [{ name: 'required' }],
+      error: null,
+      errmsg: null,
+    }
   });
   const [openModal, setOpenModal] = useState(false);
-  const [showInput, setShowInput] = useState(false);
   const ViewBusiness = useSelector(
     (state) => state.CustomerBusinessReducer.GetCustomerBusinessList
   );
@@ -146,7 +302,9 @@ export default function ShipmentDetails({
     (state) => state.PackageReducer.GetPackageList
   );
   const GetVasList = useSelector((state) => state.VasReducer.GetVasList);
-
+  const ViewEnquiryDetails = useSelector(
+    (state) => state.EnquiryReducer.ViewEnquiryCustomerDetails
+  );
   const [businessNature, setbusinessNature] = useState([]);
   const [CargoLists, setCargoLists] = useState([]);
   const [ShipementList, setShipementList] = useState([]);
@@ -156,6 +314,10 @@ export default function ShipmentDetails({
   const [shipmentDescription, setshipmentDescription] = useState([]);
   const [packages, setpackage] = useState([]);
   const [vas, setvas] = useState([]);
+
+  useEffect(() => {
+    dispatch(ViewEnquiryCustomerDetails(enquiryId));
+  }, [])
 
   useEffect(() => {
     dispatch(getCustomerBusinessNatureList(1));
@@ -237,7 +399,47 @@ export default function ShipmentDetails({
     GetShipmentTermList,
   ]);
 
+  useEffect(() => {
+    if (ViewEnquiryDetails.length > 0) {
+      let details = ViewEnquiryDetails[0];
+      // dispatch(getCustomerList(1));
+      Object.keys(profileDetails).forEach((item) => {
+        if (item != "chargeableUnit" && item != "volumetricUnit" && item != "netUnit" && item != "grossUnit") {
+          //   if (item === "country") {
+          //     dispatch(getStateList(details?.country));
+          //   }
+          //   if (item === "state") {
+          //     dispatch(getCityList(details?.state));
+          //   }
+          profileDetails[item].value = details[item];
+        }
+      });
+
+      // profileDetails.cus_type.value = details?.cus_type == "2" ? 2 : 1;
+      // profileDetails.cus_name.value =
+      //   details?.cus_type == "2" ? details?.cus_id : details?.cus_name;
+      // profileDetails.cus_id.value = details?.cus_id;
+
+      setprofileDetails((prevState) => ({
+        ...prevState,
+      }));
+    }
+  }, [ViewEnquiryDetails]);
+
+  const getDropdownId = (id, arrList) => {
+    return arrList.find((data) => {
+      if (id === data.id) {
+        return data
+      }
+    })
+
+  }
   const Validation = (data, key, list) => {
+    let test = ["shipment_type_id", "business_scope_id", "shipment_descp_id", "shipment_term_id", "nature_clearance_id", "cargo_id", "package_id", "vas_type_id", "vehicle_id"]
+    if (test.includes(key)) {
+      let keyName = key.replace("_id", '')
+      profileDetails[keyName].value = getDropdownId(data, list).value;
+    }
     var errorcheck = ValidationLibrary.checkValidation(
       data,
       profileDetails[key].validation
@@ -255,6 +457,63 @@ export default function ShipmentDetails({
     }));
   };
 
+  const onSubmit = () => {
+    var mainvalue = {};
+    var targetkeys = Object.keys(profileDetails);
+    for (var i in targetkeys) {
+      var errorcheck = ValidationLibrary.checkValidation(
+        profileDetails[targetkeys[i]].value,
+        profileDetails[targetkeys[i]].validation
+      );
+      profileDetails[targetkeys[i]].error = !errorcheck.state;
+      profileDetails[targetkeys[i]].errmsg = errorcheck.msg;
+      mainvalue[targetkeys[i]] = profileDetails[targetkeys[i]].value;
+    }
+    var filtererr = targetkeys.filter(
+      (obj) => profileDetails[obj].error == true
+    );
+
+    if (filtererr.length > 0) {
+      setRefresh(!Refresh);
+    } else {
+      if (enquiryId) {
+        EditShipmentCustomer(profileDetails, enquiryId).then((res) => {
+          if (res?.Status === "Success") {
+            notification.success({
+              message: res?.Message,
+            });
+            handleActivekey("2", res?.Response?.id);
+            // dispatch(getCustomerList("All"));
+          } else {
+            notification.success({
+              message: "Something Went Wrong",
+            });
+          }
+        });
+      } else {
+        AddShipmentCustomer(profileDetails, userId).then((res) => {
+          if (res?.Status === "Success") {
+            notification.success({
+              message: res?.Message,
+            });
+            params.set("user_id", res?.Response?.id);
+            window.history.replaceState(
+              {},
+              "",
+              decodeURIComponent(`${window.location.href}?${params}`)
+            );
+            handleActivekey("2", res?.Response?.id);
+            // dispatch(getCustomerList("All"));
+          } else {
+            notification.success({
+              message: res?.Message,
+            });
+          }
+        });
+      }
+    }
+  };
+
   return (
     <div>
       <Grid item xs={12} spacing={2} direction="row" container>
@@ -264,7 +523,10 @@ export default function ShipmentDetails({
             type="datepicker"
             labelname="ENQ Date"
             showFlag
-            changeData={(data) => Validation(data, "activeStatus")}
+            changeData={(data) => Validation(data, "enq_date")}
+            value={profileDetails.enq_date.value}
+            error={profileDetails.enq_date.error}
+            errmsg={profileDetails.enq_date.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -274,7 +536,10 @@ export default function ShipmentDetails({
             labelname="Shipment Type"
             showFlag
             dropdown={ShipementList}
-            changeData={(data) => Validation(data, "activeStatus")}
+            changeData={(data) => Validation(data, "shipment_type_id", ShipementList)}
+            value={profileDetails.shipment_type_id.value}
+            error={profileDetails.shipment_type_id.error}
+            errmsg={profileDetails.shipment_type_id.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -283,7 +548,10 @@ export default function ShipmentDetails({
             type="select"
             dropdown={businessNature}
             labelname="Business Scope"
-            changeData={(data) => Validation(data, "activeStatus")}
+            changeData={(data) => Validation(data, "business_scope_id", businessNature)}
+            value={profileDetails.business_scope_id.value}
+            error={profileDetails.business_scope_id.error}
+            errmsg={profileDetails.business_scope_id.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -293,7 +561,10 @@ export default function ShipmentDetails({
             dropdown={shipmentDescription}
             labelname="Shipment Description"
             showFlag
-            changeData={(data) => Validation(data, "activeStatus")}
+            changeData={(data) => Validation(data, "shipment_descp_id", shipmentDescription)}
+            value={profileDetails.shipment_descp_id.value}
+            error={profileDetails.shipment_descp_id.error}
+            errmsg={profileDetails.shipment_descp_id.errmsg}
           />
         </Grid>
 
@@ -302,7 +573,10 @@ export default function ShipmentDetails({
             show
             type="text"
             labelname="Origin"
-            changeData={(data) => Validation(data, "customerType")}
+            changeData={(data) => Validation(data, "origin")}
+            value={profileDetails.origin.value}
+            error={profileDetails.origin.error}
+            errmsg={profileDetails.origin.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -310,11 +584,18 @@ export default function ShipmentDetails({
             show
             type="text"
             labelname="Destination"
-            changeData={(data) => Validation(data, "customerName")}
+            changeData={(data) => Validation(data, "destination")}
+            value={profileDetails.destination.value}
+            error={profileDetails.destination.error}
+            errmsg={profileDetails.destination.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
-          <Labelbox show type="text" labelname="Commodity" />
+          <Labelbox show type="text" labelname="Commodity"
+            changeData={(data) => Validation(data, "commodity")}
+            value={profileDetails.commodity.value}
+            error={profileDetails.commodity.error}
+            errmsg={profileDetails.commodity.errmsg} />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
           <Labelbox
@@ -322,7 +603,10 @@ export default function ShipmentDetails({
             type="select"
             dropdown={shipmentTerm}
             labelname="Shipment Term"
-            changeData={(data) => Validation(data, "activeStatus")}
+            changeData={(data) => Validation(data, "shipment_term_id", shipmentTerm)}
+            value={profileDetails.shipment_term_id.value}
+            error={profileDetails.shipment_term_id.error}
+            errmsg={profileDetails.shipment_term_id.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -332,7 +616,10 @@ export default function ShipmentDetails({
             dropdown={schemeList}
             labelname="Nature of Clearance"
             showFlag
-            changeData={(data) => Validation(data, "activeStatus")}
+            changeData={(data) => Validation(data, "nature_clearance_id", schemeList)}
+            value={profileDetails.nature_clearance_id.value}
+            error={profileDetails.nature_clearance_id.error}
+            errmsg={profileDetails.nature_clearance_id.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -342,7 +629,10 @@ export default function ShipmentDetails({
             dropdown={CargoLists}
             labelname="Cargo Types"
             showFlag
-            changeData={(data) => Validation(data, "activeStatus")}
+            changeData={(data) => Validation(data, "cargo_id", CargoLists)}
+            value={profileDetails.cargo_id.value}
+            error={profileDetails.cargo_id.error}
+            errmsg={profileDetails.cargo_id.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -351,7 +641,10 @@ export default function ShipmentDetails({
             type="select"
             dropdown={packages}
             labelname="Package Type"
-            changeData={(data) => Validation(data, "customerEmail")}
+            changeData={(data) => Validation(data, "package_id", packages)}
+            value={profileDetails.package_id.value}
+            error={profileDetails.package_id.error}
+            errmsg={profileDetails.package_id.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -359,7 +652,10 @@ export default function ShipmentDetails({
             show
             type="number"
             labelname="No of Packages"
-            changeData={(data) => Validation(data, "activeStatus")}
+            changeData={(data) => Validation(data, "package_no")}
+            value={profileDetails.package_no.value}
+            error={profileDetails.package_no.error}
+            errmsg={profileDetails.package_no.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -367,7 +663,10 @@ export default function ShipmentDetails({
             show
             type="number"
             labelname="No of Containers"
-            changeData={(data) => Validation(data, "activeStatus")}
+            changeData={(data) => Validation(data, "no_containers")}
+            value={profileDetails.no_containers.value}
+            error={profileDetails.no_containers.error}
+            errmsg={profileDetails.no_containers.errmsg}
           />
         </Grid>
         <Grid
@@ -394,10 +693,17 @@ export default function ShipmentDetails({
               spacing={2}
             >
               <Grid item xs={12} md={6} sx={12} sm={12}>
-                <LabelBoxes type="text" />
+                <LabelBoxes type="text" changeData={(data) => Validation(data, "gross_wt")}
+                  value={profileDetails.gross_wt.value}
+                  error={profileDetails.gross_wt.error}
+                  errmsg={profileDetails.gross_wt.errmsg} />
               </Grid>
               <Grid item xs={12} md={6} sx={12} sm={12}>
-                <LabelBoxes type="select" dropdown={units} />
+                <LabelBoxes type="select" dropdown={units}
+                  changeData={(data) => Validation(data, "grossUnit")}
+                  value={profileDetails.grossUnit.value}
+                  error={profileDetails.grossUnit.error}
+                  errmsg={profileDetails.grossUnit.errmsg} />
               </Grid>
             </Grid>
           </div>
@@ -426,10 +732,17 @@ export default function ShipmentDetails({
               spacing={2}
             >
               <Grid item xs={12} md={6} sx={12} sm={12}>
-                <LabelBoxes type="text" />
+                <LabelBoxes type="text" changeData={(data) => Validation(data, "net_wt")}
+                  value={profileDetails.net_wt.value}
+                  error={profileDetails.net_wt.error}
+                  errmsg={profileDetails.net_wt.errmsg} />
               </Grid>
               <Grid item xs={12} md={6} sx={12} sm={12}>
-                <LabelBoxes type="select" dropdown={units} />
+                <LabelBoxes type="select" dropdown={units} changeData={(data) => Validation(data, "netUnit")}
+                  value={profileDetails.netUnit.value}
+                  error={profileDetails.netUnit.error}
+                  errmsg={profileDetails.netUnit.errmsg}
+                />
               </Grid>
             </Grid>
           </div>
@@ -458,10 +771,17 @@ export default function ShipmentDetails({
               spacing={2}
             >
               <Grid item xs={12} md={6} sx={12} sm={12}>
-                <LabelBoxes type="text" />
+                <LabelBoxes type="text" changeData={(data) => Validation(data, "volumetric_wt")}
+                  value={profileDetails.volumetric_wt.value}
+                  error={profileDetails.volumetric_wt.error}
+                  errmsg={profileDetails.volumetric_wt.errmsg} />
               </Grid>
               <Grid item xs={12} md={4.5} sx={12} sm={12}>
-                <LabelBoxes type="select" dropdown={units} />
+                <LabelBoxes type="select" dropdown={units} changeData={(data) => Validation(data, "volumetricUnit")}
+                  value={profileDetails.volumetricUnit.value}
+                  error={profileDetails.volumetricUnit.error}
+                  errmsg={profileDetails.volumetricUnit.errmsg}
+                />
               </Grid>
               <Grid
                 item
@@ -501,10 +821,17 @@ export default function ShipmentDetails({
               spacing={2}
             >
               <Grid item xs={12} md={6} sx={12} sm={12}>
-                <LabelBoxes type="text" />
+                <LabelBoxes type="text" changeData={(data) => Validation(data, "chargeable_wt")}
+                  value={profileDetails.chargeable_wt.value}
+                  error={profileDetails.chargeable_wt.error}
+                  errmsg={profileDetails.chargeable_wt.errmsg} />
               </Grid>
               <Grid item xs={12} md={6} sx={12} sm={12}>
-                <LabelBoxes type="select" dropdown={units} />
+                <LabelBoxes type="select" dropdown={units} changeData={(data) => Validation(data, "chargeableUnit")}
+                  value={profileDetails.chargeableUnit.value}
+                  error={profileDetails.chargeableUnit.error}
+                  errmsg={profileDetails.chargeableUnit.errmsg}
+                />
               </Grid>
             </Grid>
           </div>
@@ -514,7 +841,10 @@ export default function ShipmentDetails({
             show
             type="text"
             labelname="Pickup Location"
-            changeData={(data) => Validation(data, "customerType")}
+            changeData={(data) => Validation(data, "pickup_location")}
+            value={profileDetails.pickup_location.value}
+            error={profileDetails.pickup_location.error}
+            errmsg={profileDetails.pickup_location.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -522,7 +852,10 @@ export default function ShipmentDetails({
             show
             type="text"
             labelname="Drop Location"
-            changeData={(data) => Validation(data, "customerName")}
+            changeData={(data) => Validation(data, "drop_location")}
+            value={profileDetails.drop_location.value}
+            error={profileDetails.drop_location.error}
+            errmsg={profileDetails.drop_location.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -530,7 +863,10 @@ export default function ShipmentDetails({
             show
             type="select"
             dropdown={vehicleList}
-            labelname="Vehicle Type"
+            labelname="Vehicle Type" changeData={(data) => Validation(data, "vehicle_id", vehicleList)}
+            value={profileDetails.vehicle_id.value}
+            error={profileDetails.vehicle_id.error}
+            errmsg={profileDetails.vehicle_id.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -539,7 +875,10 @@ export default function ShipmentDetails({
             type="select"
             dropdown={vas}
             labelname="Types of VAS"
-            changeData={(data) => Validation(data, "customerType")}
+            changeData={(data) => Validation(data, "vas_type_id", vas)}
+            value={profileDetails.vas_type_id.value}
+            error={profileDetails.vas_type_id.error}
+            errmsg={profileDetails.vas_type_id.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -547,7 +886,10 @@ export default function ShipmentDetails({
             show
             type="text"
             labelname="Remarks"
-            changeData={(data) => Validation(data, "customerName")}
+            changeData={(data) => Validation(data, "remarks")}
+            value={profileDetails.remarks.value}
+            error={profileDetails.remarks.error}
+            errmsg={profileDetails.remarks.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -561,6 +903,10 @@ export default function ShipmentDetails({
               { id: 4, value: "Pending" },
             ]}
             labelname="Enquiry Status"
+            changeData={(data) => Validation(data, "enq_status")}
+            value={profileDetails.enq_status.value}
+            error={profileDetails.enq_status.error}
+            errmsg={profileDetails.enq_status.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -568,7 +914,10 @@ export default function ShipmentDetails({
             show
             type="datepicker"
             labelname="Enquiry Cut of Date"
-            changeData={(data) => Validation(data, "customerType")}
+            changeData={(data) => Validation(data, "cut_of_date")}
+            value={profileDetails.cut_of_date.value}
+            error={profileDetails.cut_of_date.error}
+            errmsg={profileDetails.cut_of_date.errmsg}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={12} sm={12}>
@@ -576,11 +925,11 @@ export default function ShipmentDetails({
             show
             type="textarea"
             labelname="Reason"
-            changeData={(data) => Validation(data, "customerName")}
+            changeData={(data) => Validation(data, "reason")}
+            value={profileDetails.reason.value}
+            error={profileDetails.reason.error}
+            errmsg={profileDetails.reason.errmsg}
           />
-        </Grid>
-        <Grid item xs={12} md={6} sx={12} sm={12}>
-          <AddFieldsBtn fieldName="Add More Details" />
         </Grid>
       </Grid>
       <DynModel
@@ -602,13 +951,25 @@ export default function ShipmentDetails({
               spacing={2}
             >
               <Grid item xs={12} md={4} sx={12} sm={12}>
-                <LabelBoxes type="text" placeholder="Length in cm" />
+                <LabelBoxes type="text" placeholder="Length in cm" changeData={(data) => Validation(data, "activeStatus")}
+                // value={profileDetails.cus_name.value}
+                // error={profileDetails.cus_name.error}
+                // errmsg={profileDetails.cus_name.errmsg} 
+                />
               </Grid>
               <Grid item xs={12} md={4} sx={12} sm={12}>
-                <LabelBoxes type="text" placeholder="Width in cm" />
+                <LabelBoxes type="text" placeholder="Width in cm" changeData={(data) => Validation(data, "activeStatus")}
+                // value={profileDetails.cus_name.value}
+                // error={profileDetails.cus_name.error}
+                // errmsg={profileDetails.cus_name.errmsg} 
+                />
               </Grid>
               <Grid item xs={12} md={4} sx={12} sm={12}>
-                <LabelBoxes type="text" placeholder="Height in cm" />
+                <LabelBoxes type="text" placeholder="Height in cm" changeData={(data) => Validation(data, "activeStatus")}
+                // value={profileDetails.cus_name.value}
+                // error={profileDetails.cus_name.error}
+                // errmsg={profileDetails.cus_name.errmsg} 
+                />
               </Grid>
               <Grid
                 item
@@ -624,7 +985,7 @@ export default function ShipmentDetails({
                   <CustomButton
                     btnName="Calculate Now"
                     custombtnCSS="Primary"
-                    // onBtnClick={onCancel}
+                  // onBtnClick={onCancel}
                   />
                 </Grid>
               </Grid>
@@ -641,8 +1002,9 @@ export default function ShipmentDetails({
         justifyContent="center"
         container
       >
-        <FooterBtn nextBtn saveBtn={"Save Stage"} />
+        <FooterBtn nextBtn saveBtn={"Save Stage"} onSaveBtn={onSubmit} />
       </Grid>
     </div>
   );
 }
+

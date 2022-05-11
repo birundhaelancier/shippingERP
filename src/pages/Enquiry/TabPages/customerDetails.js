@@ -130,7 +130,6 @@ export default function CustomerDetails({
   useEffect(() => {
     if (ViewEnquiryDetails.length > 0) {
       let details = ViewEnquiryDetails[0];
-      console.log(ViewEnquiryDetails, "ViewEnquiryDetails");
       dispatch(getCustomerList(1));
       Object.keys(profileDetails).forEach((item) => {
         if (item != "cus_type" && item != "cus_name" && item != "cus_id") {

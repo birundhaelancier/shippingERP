@@ -22,8 +22,6 @@ export const AddCustomer = (data) => {
 }
 
 export const AddCustomerAddress = (data, userId) => {
-
-    console.log(data, userId, 'test')
     var formData = new FormData()
 
     Object.keys(data)?.forEach((val) => {
@@ -171,15 +169,15 @@ export const EditCustomerKyc = (kycInfo, data, customerId) => {
         formData.set([val], kycInfo[val].value)
     })
 
-    formData.set( 'pan_no' , kycInfo.pan_no.value)
-    formData.set( 'cin_no' , kycInfo.cin_no.value)
-    formData.set( 'msme_reg' , kycInfo.msme_reg.value)
-    formData.set( 'iec_reg' , kycInfo.iec_reg.value)
+    formData.set('pan_no', kycInfo.pan_no.value)
+    formData.set('cin_no', kycInfo.cin_no.value)
+    formData.set('msme_reg', kycInfo.msme_reg.value)
+    formData.set('iec_reg', kycInfo.iec_reg.value)
 
-    formData.set( 'pan_image' , typeof val === 'string' ? "" : kycInfo.pan_image.value)
-    formData.set( 'cin_image' , typeof val === 'string' ? "" : kycInfo.cin_image.value)
-    formData.set( 'iec_image' , typeof val === 'string' ? "" : kycInfo.iec_image.value)
-    formData.set( 'msme_image' , typeof val === 'string' ? "" : kycInfo.msme_image.value)
+    formData.set('pan_image', typeof val === 'string' ? "" : kycInfo.pan_image.value)
+    formData.set('cin_image', typeof val === 'string' ? "" : kycInfo.cin_image.value)
+    formData.set('iec_image', typeof val === 'string' ? "" : kycInfo.iec_image.value)
+    formData.set('msme_image', typeof val === 'string' ? "" : kycInfo.msme_image.value)
 
     data.gst_image.forEach((val) => {
         formData.append(`gst_image[]`, typeof val === 'string' ? "" : val)
