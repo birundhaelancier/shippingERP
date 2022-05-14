@@ -42,6 +42,10 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick,
     const openList = () => {
         onclickEye(true);
     }
+    const onclickAction = (id) => {
+        // if()
+
+    }
     return (
         <div>
             <div className='tableWeb'>
@@ -57,7 +61,8 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick,
                                 // value: searchText,
                                 onChange: (event) => requestSearch(event.target.value),
                                 clearSearch: () => requestSearch(''),
-                                onAddClick: onAddBtnClick
+                                onAddClick: onAddBtnClick,
+                                onclickAction: (data) => onclickAction(data)
                             },
                         }}
                     />
@@ -66,6 +71,7 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick,
             <div className='tableMobile'>
                 <Grid>
                     <QuickSearchToolbar onAddClick={onAddBtnClick} />
+                    {/* onDownload={downloadTable} */}
                 </Grid>
                 {rowData.map((data, index) => {
                     return (

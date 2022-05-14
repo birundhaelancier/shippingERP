@@ -38,11 +38,11 @@ function QuickSearchToolbar(props) {
           <CustomButton btnName="Add" custombtnCSS="Primary" startIcon={<Groups />} onBtnClick={props.onAddClick} />
         </Grid>
         <Grid item xs={6} md={1.4} sx={6} sm={6}>
-          <CustomButton btnName="Upload" custombtnCSS="Cancel" startIcon={<FileUpload />} />
+          <CustomButton onBtnClick={props.onDownload} btnName="Upload" custombtnCSS="Cancel" startIcon={<FileUpload />} />
         </Grid>
-        <Grid item xs={6} md={1.2} sx={6} sm={6}>
+        {/* <Grid item xs={6} md={1.2} sx={6} sm={6}>
           <CustomButton btnName="Filter" custombtnCSS="Cancel" startIcon={<FilterList />} />
-        </Grid>
+        </Grid> */}
         <Grid item xs={6} md={3.3} sx={6} sm={6} className='hideSearch'>
           <TextField
             variant="standard"
@@ -100,9 +100,10 @@ function QuickSearchToolbar(props) {
           >
             <div className='action_pop_over'>
               {ActionVal.map((data) => {
+                let key = data.id;
                 return (
                   <div>
-                    <div>{data.value}</div>
+                    <div onClick={(key) => props.onclickAction(key)}>{data.value}</div>
                   </div>
                 )
               })}

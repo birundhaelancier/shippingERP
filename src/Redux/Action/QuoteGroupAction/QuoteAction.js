@@ -27,34 +27,34 @@ export const AddQuote = (data) => async dispatch => {
                 });
                 dispatch(QuoteList())
             })
-    } catch (err) { alert('catch') }
+    } catch (err) { }
 }
 
 export const EditQuote = (data, id) => async dispatch => {
     // try {
-        axios({
-            method: 'POST',
-            url: apiurl + 'edit_quote',
-            headers: REQUEST_HEADERS().HEADER,
-            data: {
-                "scheme": data.clearanceScheme.value,
-                "cargo": data.cargoType.value,
-                "shipment": data.shipmentType.value,
-                "expense_type": data.expenseType.value,
-                "stuffing_type": data.stuffingType.value,
-                "amount": data.amount.value,
-                "unit": data.unit.value,
-                "remarks": data.remarks.value,
-                "user_id": JSON.parse(localStorage.getItem("user_id")),
-                "quote_id": id
-            }
+    axios({
+        method: 'POST',
+        url: apiurl + 'edit_quote',
+        headers: REQUEST_HEADERS().HEADER,
+        data: {
+            "scheme": data.clearanceScheme.value,
+            "cargo": data.cargoType.value,
+            "shipment": data.shipmentType.value,
+            "expense_type": data.expenseType.value,
+            "stuffing_type": data.stuffingType.value,
+            "amount": data.amount.value,
+            "unit": data.unit.value,
+            "remarks": data.remarks.value,
+            "user_id": JSON.parse(localStorage.getItem("user_id")),
+            "quote_id": id
+        }
+    })
+        .then((response) => {
+            notification.success({
+                message: response.data.Message
+            });
+            dispatch(QuoteList())
         })
-            .then((response) => {
-                notification.success({
-                    message: response.data.Message
-                });
-                dispatch(QuoteList())
-            })
     // } catch (err) { }
 }
 

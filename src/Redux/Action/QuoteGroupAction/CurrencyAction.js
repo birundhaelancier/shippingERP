@@ -4,7 +4,7 @@ import { notification } from 'antd';
 import { GET_CURRENCY_LIST, VIEW_CURRENCY_LIST } from '../../Utils/constant';
 
 export const AddCurrency = (data) => async dispatch => {
-    console.log(data,'AddCurrency');
+    console.log(data, 'AddCurrency');
     try {
         axios({
             method: 'POST',
@@ -23,7 +23,7 @@ export const AddCurrency = (data) => async dispatch => {
                 });
                 dispatch(CurrencyList())
             })
-    } catch (err) { alert('catch') }
+    } catch (err) { }
 }
 
 export const EditCurrency = (data, id) => async dispatch => {

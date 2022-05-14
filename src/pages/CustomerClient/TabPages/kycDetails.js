@@ -244,7 +244,6 @@ export default function KycDeatils({ handleActivekey, customerId, userId }) {
     }
 
     const onSubmit = () => {
-        alert('test')
         var mainvalue = {};
         var targetkeys = Object.keys(kycInfo);
         for (var i in targetkeys) {
