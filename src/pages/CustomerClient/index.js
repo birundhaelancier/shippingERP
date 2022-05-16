@@ -45,38 +45,31 @@ export default function CustomerClient() {
         }
     ];
 
-    const test = [{ id: 1, Id: 1, customerId: "101", companyName: "test", mobile: '78765467654', email: 'test@gmail.com' },
-    { id: 2, Id: 1, customerId: "102", companyName: "dfgh", mobile: '09876545645', email: 'uyg@gmail.com' },
-    { id: 3, Id: 1, customerId: "103", companyName: "oij", mobile: '34356577655', email: 'ghj@gmail.com' },
-    { id: 4, Id: 1, customerId: "104", companyName: "cvb", mobile: '98765485588', email: 'i87t@gmail.com' },
-    { id: 5, Id: 1, customerId: "105", companyName: "iuy", mobile: '80765432354', email: 'nhg@gmail.com' },
-    { id: 6, Id: 1, customerId: "106", companyName: "bnk", mobile: '87654334545', email: 'tuytest@gmail.com' }]
-    const [rowData, setRowData] = useState(test)
+
+    const [rowData, setRowData] = useState([])
     useEffect(() => {
         dispatch(getCustomerList("All"))
     }, [])
 
-    // useEffect(() => {
-    //     let rows = [];
-    //     console.log(GetCustomerList, 'GetCustomerList')
-    //     GetCustomerList?.map((items, index) => {
-    //         rows.push(
-    //             {
-    //                 id: index + 1,
-    //                 customerId: items.code,
-    //                 // customerCode: items.code,
-    //                 companyName: items.company_name,
-    //                 mobile: items.phone,
-    //                 email: items.email,
-    //                 // activeStatus: items.status,
-    //                 Id: items.id
-    //             }
-    //         )
-    //     })
-    //     setRowData(rows)
-    // }, [GetCustomerList])
-
-    // const test = 
+    useEffect(() => {
+        let rows = [];
+        console.log(GetCustomerList, 'GetCustomerList')
+        GetCustomerList?.map((items, index) => {
+            rows.push(
+                {
+                    id: index + 1,
+                    customerId: items.code,
+                    // customerCode: items.code,
+                    companyName: items.company_name,
+                    mobile: items.phone,
+                    email: items.email,
+                    // activeStatus: items.status,
+                    Id: items.id
+                }
+            )
+        })
+        setRowData(rows)
+    }, [GetCustomerList])
 
     const openFields = () => {
         setOpenModal(true)
@@ -94,21 +87,7 @@ export default function CustomerClient() {
     }
 
     const onSearch = (item) => {
-        const productSearch = test.filter((data) => {
-            console.log(item, "Search_data")
-            if (item === null)
-                return data
 
-            else if (data.customerId !== null && data.customerId.toLowerCase().includes(item.toLowerCase())
-                || (data.companyName != null && data.companyName.toLowerCase().includes(item.toLowerCase()))
-                || (data.mobile != null && data.mobile.toLowerCase().includes(item.toLowerCase()))
-                || (data.email != null && data.email.toLowerCase().includes(item.toLowerCase()))
-            ) {
-                return data
-            }
-        })
-        console.log(productSearch, 'productSearch')
-        setRowData(productSearch)
     }
     return (
         <div>

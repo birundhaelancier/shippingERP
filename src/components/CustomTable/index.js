@@ -8,43 +8,45 @@ import Grid from '@mui/material/Grid';
 import './table.css';
 
 const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick, hideHeader }) => {
-    const columnss = [
-        { field: 'id', width: 80, headerName: 'S.No' },
-        { field: 'customerId', width: 150, headerName: 'Customer Id' },
-        { field: 'customerName', width: 150, headerName: 'Customer Name' },
-        { field: 'companyName', width: 150, headerName: 'Company Name' },
-        { field: 'mobile', width: 150, headerName: 'Mobile' },
-        { field: 'email', width: 200, headerName: 'Email' },
-        {
-            field: "actions", headerName: "Actions",
-            sortable: false,
-            width: 150,
-            align: 'center',
-            headerAlign: 'center',
-            disableClickEventBubbling: true,
-            renderCell: (params) => {
-                return (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol"><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
-                    </div>
-                );
-            }
+    const [rows, setRows] = useState([])
+    useEffect(() => {
+        if (rowData.length > 0) {
+            setRows(rowData)
         }
-    ];
+    }, [rowData])
+    function escapeRegExp(value) {
+        return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    }
 
-
-    const requestSearch = (data) => {
-        onSearch(data)
+    const requestSearch = (item) => {
+        const searchRegex = new RegExp(escapeRegExp(item), 'i');
+        const filteredRows = rowData.filter((row) => {
+            return Object.keys(row).some((field) => {
+                return searchRegex.test(row[field].toString());
+            });
+        });
+        setRows(filteredRows);
+        onSearch(item)
     }
 
     const openList = () => {
         onclickEye(true);
     }
     const onclickAction = (id) => {
-        // if()
-
+        alert('t')
+        // if (id === 1) {
+        let sortableItems = rowData;
+        sortableItems.sort((a, b) => {
+            if (a.companyName < b.companyName) {
+                return id === 1 ? -1 : 1;
+            }
+            if (a.companyName > b.companyName) {
+                return id === 2 ? 1 : -1;
+            }
+            return 0;
+        });
+        // }
+        setRows(sortableItems)
     }
     return (
         <div>
@@ -52,7 +54,7 @@ const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick,
                 <div style={{ height: 450, width: '100%' }}>
                     <DataGrid
                         components={{ Toolbar: !hideHeader && QuickSearchToolbar }}
-                        rows={rowData}
+                        rows={rows}
                         columns={columnData}
                         checkboxSelection
                         rowsPerPageOptions={[5, 25, 50, 100]}
