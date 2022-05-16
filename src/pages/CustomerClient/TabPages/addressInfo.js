@@ -169,6 +169,7 @@ export default function AddressInfo({ customerId, userId, handleActivekey, locat
     }
 
     const onSubmit = () => {
+        // UpdateFields()
         var mainvalue = {};
         var targetkeys = Object.keys(BasicInformation);
         for (var i in targetkeys) {
@@ -180,8 +181,14 @@ export default function AddressInfo({ customerId, userId, handleActivekey, locat
             BasicInformation[targetkeys[i]].errmsg = errorcheck.msg;
             mainvalue[targetkeys[i]] = BasicInformation[targetkeys[i]].value;
         }
-        var filtererr = targetkeys.filter((obj) => BasicInformation[obj].error == true);
-
+        var filtererr =null
+        Itemkeys.map((item,index)=>{
+            if(Nommiee[item][targetkeys[index]].value!==""){
+                filtererr = targetkeys.filter((obj) => BasicInformation[obj].error == null)
+            }else{
+                filtererr = targetkeys.filter((obj) => BasicInformation[obj].error == true)
+            }
+        })
         const header = {
             address_type: [], country: [], zip_code: [], address2: [], fax: [], state: [], phone2: [], address1: [], city: []
         };
@@ -199,7 +206,6 @@ export default function AddressInfo({ customerId, userId, handleActivekey, locat
             // view[items] = Nommiee[data][items].value;
         })
 
-        console.log(BasicInformation, 'BasicInformation')
 
         if (filtererr.length > 0) {
             setRefresh(!Refresh)
@@ -319,7 +325,7 @@ export default function AddressInfo({ customerId, userId, handleActivekey, locat
         Nommiee[data][key].errmsg = errorcheck.msg
         Nommiee[data][key].validation = Nommiee[data][key].validation
     }
-
+console.log("eeeeeeeee",Nommiee,Itemkeys,BasicInformation)
     return (
         <div>
             <Grid item xs={12} md={12} sx={12} sm={12} spacing={2} direction="row" container>
@@ -333,26 +339,26 @@ export default function AddressInfo({ customerId, userId, handleActivekey, locat
                                         <Labelbox type="select" labelname="Address Type"
                                             changeData={(data) => OnChangeNommiee(data, "address_type", item, index)}
                                             dropdown={addressType}
-                                            value={Nommiee[item]["address_type"].value == "" ? BasicInformation.address_type.value : Nommiee[item]["address_type"].value}
-                                            error={Nommiee[item]["address_type"].error == null ? BasicInformation.address_type.error : Nommiee[item]["address_type"].error}
-                                            errmsg={Nommiee[item]["address_type"].errmsg == null ? BasicInformation.address_type.errmsg : Nommiee[item]["address_type"].errmsg}
+                                            value={Nommiee[item]["address_type"].value === "" ? BasicInformation.address_type.value : Nommiee[item]["address_type"].value}
+                                            error={Nommiee[item]["address_type"].value === "" ? BasicInformation.address_type.error : Nommiee[item]["address_type"].error}
+                                            errmsg={Nommiee[item]["address_type"].value === "" ? BasicInformation.address_type.errmsg : Nommiee[item]["address_type"].errmsg}
                                         />
                                     </Grid>
 
                                     <Grid item md={4} xs={12} lg={4}>
                                         <Labelbox type="textarea" labelname="Address1"
                                             changeData={(data) => OnChangeNommiee(data, "address1", item, index)}
-                                            value={Nommiee[item]["address1"].value == "" ? BasicInformation.address1.value : Nommiee[item]["address1"].value}
-                                            error={Nommiee[item]["address1"].error == null ? BasicInformation.address1.error : Nommiee[item]["address1"].error}
-                                            errmsg={Nommiee[item]["address1"].errmsg == null ? BasicInformation.address1.errmsg : Nommiee[item]["address1"].errmsg}
+                                            value={Nommiee[item]["address1"].value === "" ? BasicInformation.address1.value : Nommiee[item]["address1"].value}
+                                            error={Nommiee[item]["address1"].value == "" ? BasicInformation.address1.error : Nommiee[item]["address1"].error}
+                                            errmsg={Nommiee[item]["address1"].value == "" ? BasicInformation.address1.errmsg : Nommiee[item]["address1"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
                                         <Labelbox type="textarea" labelname="Address2"
                                             changeData={(data) => OnChangeNommiee(data, "address2", item, index)}
-                                            value={Nommiee[item]["address2"].value == "" ? BasicInformation.address2.value : Nommiee[item]["address2"].value}
-                                            error={Nommiee[item]["address2"].error == null ? BasicInformation.address2.error : Nommiee[item]["address2"].error}
-                                            errmsg={Nommiee[item]["address2"].errmsg == null ? BasicInformation.address2.errmsg : Nommiee[item]["address2"].errmsg}
+                                            value={Nommiee[item]["address2"].value === "" ? BasicInformation.address2.value : Nommiee[item]["address2"].value}
+                                            error={Nommiee[item]["address2"].value == "" ? BasicInformation.address2.error : Nommiee[item]["address2"].error}
+                                            errmsg={Nommiee[item]["address2"].value == "" ? BasicInformation.address2.errmsg : Nommiee[item]["address2"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
@@ -360,8 +366,8 @@ export default function AddressInfo({ customerId, userId, handleActivekey, locat
                                             changeData={(data) => OnChangeNommiee(data, "country", item, index)}
                                             dropdown={CountryList}
                                             value={Nommiee[item]["country"].value == "" ? BasicInformation.country.value : Nommiee[item]["country"].value}
-                                            error={Nommiee[item]["country"].error == null ? BasicInformation.country.error : Nommiee[item]["country"].error}
-                                            errmsg={Nommiee[item]["country"].errmsg == null ? BasicInformation.country.errmsg : Nommiee[item]["country"].errmsg}
+                                            error={Nommiee[item]["country"].value == "" ? BasicInformation.country.error : Nommiee[item]["country"].error}
+                                            errmsg={Nommiee[item]["country"].value == "" ? BasicInformation.country.errmsg : Nommiee[item]["country"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
@@ -369,8 +375,8 @@ export default function AddressInfo({ customerId, userId, handleActivekey, locat
                                             changeData={(data) => OnChangeNommiee(data, "state", item, index)}
                                             dropdown={StateList}
                                             value={Nommiee[item]["state"].value == "" ? BasicInformation.state.value : Nommiee[item]["state"].value}
-                                            error={Nommiee[item]["state"].error == null ? BasicInformation.state.error : Nommiee[item]["state"].error}
-                                            errmsg={Nommiee[item]["state"].errmsg == null ? BasicInformation.state.errmsg : Nommiee[item]["state"].errmsg}
+                                            error={Nommiee[item]["state"].value == "" ? BasicInformation.state.error : Nommiee[item]["state"].error}
+                                            errmsg={Nommiee[item]["state"].value == "" ? BasicInformation.state.errmsg : Nommiee[item]["state"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
@@ -378,8 +384,8 @@ export default function AddressInfo({ customerId, userId, handleActivekey, locat
                                             changeData={(data) => OnChangeNommiee(data, "city", item, index)}
                                             dropdown={CityList}
                                             value={Nommiee[item]["city"].value == "" ? BasicInformation.city.value : Nommiee[item]["city"].value}
-                                            error={Nommiee[item]["city"].error == null ? BasicInformation.city.error : Nommiee[item]["city"].error}
-                                            errmsg={Nommiee[item]["city"].errmsg == null ? BasicInformation.city.errmsg : Nommiee[item]["city"].errmsg}
+                                            error={Nommiee[item]["city"].value == "" ? BasicInformation.city.error : Nommiee[item]["city"].error}
+                                            errmsg={Nommiee[item]["city"].value == ""  ? BasicInformation.city.errmsg : Nommiee[item]["city"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
@@ -387,8 +393,8 @@ export default function AddressInfo({ customerId, userId, handleActivekey, locat
                                             showFlag
                                             changeData={(data) => OnChangeNommiee(data, "phone2", item, index)}
                                             value={Nommiee[item]["phone2"].value == "" ? BasicInformation.phone2.value : Nommiee[item]["phone2"].value}
-                                            error={Nommiee[item]["phone2"].error == null ? BasicInformation.phone2.error : Nommiee[item]["phone2"].error}
-                                            errmsg={Nommiee[item]["phone2"].errmsg == null ? BasicInformation.phone2.errmsg : Nommiee[item]["phone2"].errmsg}
+                                            error={Nommiee[item]["phone2"].value == "" ? BasicInformation.phone2.error : Nommiee[item]["phone2"].error}
+                                            errmsg={Nommiee[item]["phone2"].value == "" ? BasicInformation.phone2.errmsg : Nommiee[item]["phone2"].errmsg}
                                         />
                                     </Grid>
 
@@ -396,16 +402,16 @@ export default function AddressInfo({ customerId, userId, handleActivekey, locat
                                         <Labelbox type="number" labelname="Zip Code"
                                             changeData={(data) => OnChangeNommiee(data, "zip_code", item, index)}
                                             value={Nommiee[item]["zip_code"].value == "" ? BasicInformation.zip_code.value : Nommiee[item]["zip_code"].value}
-                                            error={Nommiee[item]["zip_code"].error == null ? BasicInformation.zip_code.error : Nommiee[item]["zip_code"].error}
-                                            errmsg={Nommiee[item]["zip_code"].errmsg == null ? BasicInformation.zip_code.errmsg : Nommiee[item]["zip_code"].errmsg}
+                                            error={Nommiee[item]["zip_code"].value == "" ? BasicInformation.zip_code.error : Nommiee[item]["zip_code"].error}
+                                            errmsg={Nommiee[item]["zip_code"].value == ""  ? BasicInformation.zip_code.errmsg : Nommiee[item]["zip_code"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
                                         <Labelbox type="text" labelname="Fax"
                                             changeData={(data) => OnChangeNommiee(data, "fax", item, index)}
                                             value={Nommiee[item]["fax"].value == "" ? BasicInformation.fax.value : Nommiee[item]["fax"].value}
-                                            error={Nommiee[item]["fax"].error == null ? BasicInformation.fax.error : Nommiee[item]["fax"].error}
-                                            errmsg={Nommiee[item]["fax"].errmsg == null ? BasicInformation.fax.errmsg : Nommiee[item]["fax"].errmsg}
+                                            error={Nommiee[item]["fax"].value == "" ? BasicInformation.fax.error : Nommiee[item]["fax"].error}
+                                            errmsg={Nommiee[item]["fax"].value == ""  ? BasicInformation.fax.errmsg : Nommiee[item]["fax"].errmsg}
                                         />
                                     </Grid>
                                     {/* <Grid item md={4} xs={12} lg={4}>
