@@ -11,6 +11,8 @@ import LabelBoxes from '../labelbox/labelbox';
 import { Groups, FileUpload, FilterList, ArrowDropDown, Menu } from '@mui/icons-material';
 import { Avatar, IconButton } from '@mui/material';
 import MenuPopover from '../../pages/layouts/dashboard/MenuPopOver';
+import { CloudUpload } from '@mui/icons-material';
+
 import './search.css';
 function escapeRegExp(value) {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -28,21 +30,37 @@ function QuickSearchToolbar(props) {
     setOpen(false);
   };
   const ActionVal = [
-    { id: 1, value: 'Sort' },
-    { id: 2, value: 'Filter' }
+    { id: 1, value: 'Ascending' },
+    { id: 2, value: 'Descending' },
+    { id: 3, value: 'Filter' }
   ]
+  const handleFile = (e) => {
+    const selectedFile = e.target.files[0];
+    props.getOnChangeFile(selectedFile, selectedFile.name);
+  }
   return (
     <div className={classes.root}>
-      <Grid item xs={12} spacing={2} direction="row" container>
+      {!props.hide?<Grid item xs={12} spacing={2} direction="row" container>
         <Grid item xs={6} md={1.2} sx={6} sm={6}>
           <CustomButton btnName="Add" custombtnCSS="Primary" startIcon={<Groups />} onBtnClick={props.onAddClick} />
         </Grid>
         <Grid item xs={6} md={1.4} sx={6} sm={6}>
-          <CustomButton btnName="Upload" custombtnCSS="Cancel" startIcon={<FileUpload />} />
+          <label for={`file-upload${1}`} class="btn-file-upload">
+            {/* <CustomButton btnName="Upload" custombtnCSS="Cancel" startIcon={<FileUpload />} /> */}
+            <div className='uploadBtn'>
+              <div className='cloudIcons'>
+                <FileUpload />
+                <div>Upload</div>
+              </div>
+              {/* {!showLabelView && <div>{typeof showLabel == 'object' ? showLabel && showLabel?.name : showLabel && showLabel.split("_")[showLabel.split("_").length - 1]}</div>} */}
+            </div>
+          </label>
+          <input id={`file-upload${1}`} accept=".csv" type="file" onChange={(e) => handleFile(e)} />
+
         </Grid>
-        <Grid item xs={6} md={1.2} sx={6} sm={6}>
+        {/* <Grid item xs={6} md={1.2} sx={6} sm={6}>
           <CustomButton btnName="Filter" custombtnCSS="Cancel" startIcon={<FilterList />} />
-        </Grid>
+        </Grid> */}
         <Grid item xs={6} md={3.3} sx={6} sm={6} className='hideSearch'>
           <TextField
             variant="standard"
@@ -100,9 +118,10 @@ function QuickSearchToolbar(props) {
           >
             <div className='action_pop_over'>
               {ActionVal.map((data) => {
+                let key = data.id;
                 return (
                   <div>
-                    <div>{data.value}</div>
+                    <div onClick={(key) => props.onclickAction(key)}>{data.value}</div>
                   </div>
                 )
               })}
@@ -111,7 +130,7 @@ function QuickSearchToolbar(props) {
 
           {/* <CustomButton btnName="Action" custombtnCSS="Cancel" startIcon={<ArrowDropDown />} /> */}
         </Grid>
-      </Grid>
+      </Grid>:""}
 
     </div >
   );

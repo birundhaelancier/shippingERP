@@ -5,59 +5,42 @@ import Grid from '@mui/material/Grid';
 import CustomButton from '../../../components/Button';
 import { useHistory } from 'react-router-dom';
 import AddFieldsBtn from '../../../components/AddFieldsBtn';
-import LabelBoxes from '../../../components/labelbox/labelbox';
+import { useDispatch, useSelector } from 'react-redux';
 import DynModel from '../../../components/CustomModal';
 import AddFields from '../../AddFields/index';
 import FooterBtn from '../../../components/FooterButtons';
+import CustomTable from '../../../components/CustomTable'
+import { Get_Vendor_List,SendRateRequest } from '../../../Redux/Action/ShipmentAction/EnquiryAction'
+import { getCustomerBusinessNatureList } from '../../../Redux/Action/GeneralGroupAction/cutomerBusinessAction';
+import { useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 
-export default function RateRequest() {
+export default function RateRequest(props) {
     const [AddmoreObj, setAddmoreObj] = useState([{ address: "", gst: "", state: "", city: "", country: "" }])
     const [CustomerObj, setCustomerObj] = useState([{ description: "", state: "", city: "" }]);
-    let history = useHistory()
+    let history = useHistory();
+    let dispatch = useDispatch();
+    let location=useLocation()
+    // const params = new URLSearchParams(location?.search);
+    // const user_id = location?.get('user_id');
+    // const params = new URLSearchParams(location);
+    console.log("checkkkkk",queryString.parse(location.search))
+    const columnss = [
+        { field: 'id', width: 80, headerName: 'S.No' },
+        { field: 'vendor_name', width: 100, headerName: 'Vendor Name' },
+        { field: 'vendor_email', width: 160, headerName: 'Vendor Email' },
+        { field: 'mobile_number', width: 160, headerName: 'Mobile Number' },
+    ]
+    const [rowData, setRowData] = useState([])
+    const ViewBusiness = useSelector((state) => state.CustomerBusinessReducer.GetCustomerBusinessList);
+    const ViewVendorList = useSelector((state) => state.EnquiryReducer.Vendor_list);
     const [FieldModal, setFieldModal] = useState(false);
+    const [vendorId,setvendorId]=useState()
     const [profileDetails, setprofileDetails] = useState({
         vendorType: {
             value: "", validation: [{ name: "required" }], error: null, errmsg: null,
         },
-        customerName: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        contactPerson: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        companyName: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        addressType: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        primary: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        customerEmail: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        address2: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        state: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        city: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        zipCode: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        fax: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        phone: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
-        activeStatus: {
-            value: "", validation: [{ name: "required" }], error: null, errmsg: null,
-        },
+     
     })
 
     const [showList, setShowList] = useState(
@@ -68,8 +51,44 @@ export default function RateRequest() {
         ]
     )
     const [value, setValue] = useState();
+    const [businessNature, setbusinessNature] = useState([])
+
+
+    useEffect(() => {
+        dispatch(getCustomerBusinessNatureList(1))  
+    }, [])
+    useEffect(() => {
+        let rows = [];
+        ViewVendorList?.map((items, index) => {
+            rows.push(
+                {
+                    id: index + 1,
+                    vendor_name: items.company_name,
+                    vendor_email: items.email,
+                    mobile_number: items.mobile
+                }
+            )
+        })
+        setRowData(rows)
+      console.log(ViewVendorList,"ViewVendorList")
+
+    }, [ViewVendorList])
+
+    useEffect(() => {
+        let customerLists = []
+        ViewBusiness?.map((data) => {
+            if (data.type === 'Vendor') {
+                customerLists.push({ id: data.id, value: data.name })
+            }
+        })
+        setbusinessNature(customerLists)
+    }, [ViewBusiness])
+
 
     const Validation = (data, key, list) => {
+        if(key&&data){
+        dispatch(Get_Vendor_List(data))
+        }
         var errorcheck = ValidationLibrary.checkValidation(
             data,
             profileDetails[key].validation
@@ -96,13 +115,19 @@ export default function RateRequest() {
             ]));
         }
     }
-    console.log(value, 'value');
+    const SendMailRequest=()=>{
+        SendRateRequest(13,vendorId).then((res) => {
+            
+        })
+    }
+    console.log("vendorId")
     return (
         <div>
             <Grid item xs={8} spacing={2} direction="row" justifyContent={'center'} container>
                 <Grid item xs={12} md={10} sx={12} sm={12}>
                     <Labelbox show type="select"
                         labelname="Vendor Type"
+                        dropdown={businessNature}
                         changeData={(data) => Validation(data, "vendorType")}
                         value={profileDetails.vendorType.value}
                         error={profileDetails.vendorType.error}
@@ -110,10 +135,24 @@ export default function RateRequest() {
                     />
                 </Grid>
 
-                <Grid item xs={12} md={10} sx={12} sm={12}>
+                {/* <Grid item xs={12} md={10} sx={12} sm={12}>
                     <AddFieldsBtn fieldName='Add More Details' />
-                </Grid>
-{/* 
+                </Grid> */}
+                {profileDetails.vendorType.value && 
+                <>
+                <div style={{width:"100%"}}>
+                <CustomTable
+                    rowData={rowData}
+                    columnData={columnss}
+                    hideHeader={true}
+                    rowsPerPageOptions={[5, 25, 50, 100]}
+                    Checkboxselection={(id)=>setvendorId(id)}
+                />
+                </div>
+                {vendorId &&<div><CustomButton btnName={"Send Mail"} custombtnCSS={"Primary"} onBtnClick={SendMailRequest} /></div>}
+                </>
+                }
+                {/* 
                 {showList?.map((data) => {
                     return (
                         <Grid item xs={12} md={10} sx={12} sm={12}>

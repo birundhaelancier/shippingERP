@@ -16,13 +16,13 @@ import { DeleteCustomerList, CustomerStatus, getCustomerList } from '../../Redux
 export default function CustomerClient() {
     let dispatch = useDispatch();
     let history = useHistory()
-    const [rowData, setRowData] = useState([])
+
     const GetCustomerList = useSelector((state) => state.CustomerReducer.GetCustomerList);
     const [openModal, setOpenModal] = useState(false);
     const [GetId, setGetId] = useState(null);
     const columnss = [
         { field: 'id', width: 50, headerName: 'S.No' },
-        { field: 'customerId', width: 180, headerName: 'Customer Id'},
+        { field: 'customerId', width: 180, headerName: 'Customer Id' },
         { field: 'companyName', width: 200, headerName: 'Company Name' },
         { field: 'mobile', width: 200, headerName: 'Phone No' },
         { field: 'email', width: 200, headerName: 'Email ID' },
@@ -45,6 +45,8 @@ export default function CustomerClient() {
         }
     ];
 
+
+    const [rowData, setRowData] = useState([])
     useEffect(() => {
         dispatch(getCustomerList("All"))
     }, [])
@@ -62,7 +64,7 @@ export default function CustomerClient() {
                     mobile: items.phone,
                     email: items.email,
                     // activeStatus: items.status,
-                    Id:items.id
+                    Id: items.id
                 }
             )
         })
@@ -83,10 +85,14 @@ export default function CustomerClient() {
     const OnChangeStatus = (id, status) => {
         dispatch(CustomerStatus(id, status))
     }
+
+    const onSearch = (item) => {
+
+    }
     return (
         <div>
             <Grid item xs={12} spacing={2} direction="row" container>
-                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' openFields mainTitle={"Customer"} count='20,000' heading={'Customers'} />
+                <ContentHeader userTitle="This is your Dashboard" userName='Hello Thomas' openFields mainTitle={"Master"} count='20,000' heading={'Customer'} />
             </Grid>
             <>
                 <CustomTable
@@ -95,6 +101,7 @@ export default function CustomerClient() {
                     rowsPerPageOptions={[5, 25, 50, 100]}
                     onclickEye={(data) => setOpenModal(data)}
                     onAddBtnClick={openFields}
+                    onSearch={(data) => onSearch(data)}
                 />
                 <DynModel handleChangeModel={openModal} modelTitle={"Customer"}
                     modalchanges="recruit_modal_css" handleChangeCloseModel={() => setOpenModal(false)} width={800} content={

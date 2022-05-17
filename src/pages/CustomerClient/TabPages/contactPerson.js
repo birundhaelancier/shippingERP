@@ -52,6 +52,8 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
     }
     const [Nommiee, setNommiee] = useState([])
     const [count, setcount] = useState(0)
+    const [refresh, setrefresh] = useState(false);
+
 
     const [BasicInformation, setBasicInformation] = useState({
         contact_salute: { value: "", validation: [{ name: "required" }], error: null, errmsg: null },
@@ -124,38 +126,26 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                     )
                 })
             }
-            // if (count > 0) {
-            //     let updatedNommiee = {};
-            //     ViewCustomer[0]?.address?.forEach((data, index) => {
-            //         setrefresh(!refresh)
-            //         let newObj = {}
-            //         Object.keys(data).forEach((items) => {
-            //             if (items === 'country') {
-            //                 dispatch(getStateList(data[items]))
-            //             }
-            //             if (items === 'state') {
-            //                 dispatch(getCityList(data[items]))
-            //             }
-            //             newObj[items] = { ...dynObjs[items], value: data[items] };
-            //         })
-            //         updatedNommiee[`obj${index}`] = newObj
-            //     })
-            //     setNommiee(updatedNommiee)
-            //     setItemKeys(objeList)
-            // }
-            ViewCustomer[0]?.contact?.forEach((data, index) => {
-                Object.keys(data).forEach((items) => {
-                    if (Object.keys(dynObjs).includes(items) && count > 0 && Nommiee[`obj${index}`] != undefined) {
+            if (count > 0) {
+                let updatedNommiee = {};
+                ViewCustomer[0]?.contact?.forEach((data, index) => {
+                    setrefresh(!refresh)
+                    let newObj = {}
+                    Object.keys(data).forEach((items) => {
                         if (items === 'country') {
                             dispatch(getStateList(data[items]))
                         }
                         if (items === 'state') {
                             dispatch(getCityList(data[items]))
                         }
-                        Nommiee[`obj${index}`][items].value = (items === 'contact_salute') ? getSalutation(data[items]) : data[items];
-                    }
+                        newObj[items] = { ...dynObjs[items], value: data[items] };
+                    })
+                    updatedNommiee[`obj${index}`] = newObj
                 })
-            })
+                setNommiee(updatedNommiee)
+                setItemKeys(objeList)
+            }
+           
             setNommiee(
                 prevState => ({
                     ...prevState,
@@ -210,6 +200,14 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
         }
         var filtererr = targetkeys.filter((obj) => BasicInformation[obj].error == true);
 
+        var filtererr =null
+        Itemkeys.map((item,index)=>{
+            if(Nommiee[item][targetkeys[index]].value!==""){
+                filtererr = targetkeys.filter((obj) => BasicInformation[obj].error == null)
+            }else{
+                filtererr = targetkeys.filter((obj) => BasicInformation[obj].error == true)
+            }
+        })
         const header = {
             contact_salute: [], country: [], mobile: [], contact_second_name: [], email: [], state: [], phone: [], contact_first_name: [], city: [], email: [], department: [], designation: []
         };
@@ -376,8 +374,8 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                                                 { id: 5, value: 'Dr' },
                                             ]}
                                             value={Nommiee[item]["contact_salute"].value == "" ? BasicInformation.contact_salute.value : Nommiee[item]["contact_salute"].value}
-                                            error={Nommiee[item]["contact_salute"].error == null ? BasicInformation.contact_salute.error : Nommiee[item]["contact_salute"].error}
-                                            errmsg={Nommiee[item]["contact_salute"].errmsg == null ? BasicInformation.contact_salute.errmsg : Nommiee[item]["contact_salute"].errmsg}
+                                            error={Nommiee[item]["contact_salute"].value == "" ? BasicInformation.contact_salute.error : Nommiee[item]["contact_salute"].error}
+                                            errmsg={Nommiee[item]["contact_salute"].value == "" ? BasicInformation.contact_salute.errmsg : Nommiee[item]["contact_salute"].errmsg}
                                         />
                                     </Grid>
 
@@ -385,16 +383,16 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                                         <Labelbox type="text" labelname="First Name"
                                             changeData={(data) => OnChangeNommiee(data, "contact_first_name", item, index)}
                                             value={Nommiee[item]["contact_first_name"].value == "" ? BasicInformation.contact_first_name.value : Nommiee[item]["contact_first_name"].value}
-                                            error={Nommiee[item]["contact_first_name"].error == null ? BasicInformation.contact_first_name.error : Nommiee[item]["contact_first_name"].error}
-                                            errmsg={Nommiee[item]["contact_first_name"].errmsg == null ? BasicInformation.contact_first_name.errmsg : Nommiee[item]["contact_first_name"].errmsg}
+                                            error={Nommiee[item]["contact_first_name"].value == "" ? BasicInformation.contact_first_name.error : Nommiee[item]["contact_first_name"].error}
+                                            errmsg={Nommiee[item]["contact_first_name"].value == "" ? BasicInformation.contact_first_name.errmsg : Nommiee[item]["contact_first_name"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
                                         <Labelbox type="text" labelname="Last Name"
                                             changeData={(data) => OnChangeNommiee(data, "contact_second_name", item, index)}
                                             value={Nommiee[item]["contact_second_name"].value == "" ? BasicInformation.contact_second_name.value : Nommiee[item]["contact_second_name"].value}
-                                            error={Nommiee[item]["contact_second_name"].error == null ? BasicInformation.contact_second_name.error : Nommiee[item]["contact_second_name"].error}
-                                            errmsg={Nommiee[item]["contact_second_name"].errmsg == null ? BasicInformation.contact_second_name.errmsg : Nommiee[item]["contact_second_name"].errmsg}
+                                            error={Nommiee[item]["contact_second_name"].value == "" ? BasicInformation.contact_second_name.error : Nommiee[item]["contact_second_name"].error}
+                                            errmsg={Nommiee[item]["contact_second_name"].value == "" ? BasicInformation.contact_second_name.errmsg : Nommiee[item]["contact_second_name"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
@@ -402,8 +400,8 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                                             changeData={(data) => OnChangeNommiee(data, "country", item, index)}
                                             dropdown={CountryList}
                                             value={Nommiee[item]["country"].value == "" ? BasicInformation.country.value : Nommiee[item]["country"].value}
-                                            error={Nommiee[item]["country"].error == null ? BasicInformation.country.error : Nommiee[item]["country"].error}
-                                            errmsg={Nommiee[item]["country"].errmsg == null ? BasicInformation.country.errmsg : Nommiee[item]["country"].errmsg}
+                                            error={Nommiee[item]["country"].value == "" ? BasicInformation.country.error : Nommiee[item]["country"].error}
+                                            errmsg={Nommiee[item]["country"].value == "" ? BasicInformation.country.errmsg : Nommiee[item]["country"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
@@ -411,8 +409,8 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                                             changeData={(data) => OnChangeNommiee(data, "state", item, index)}
                                             dropdown={StateList}
                                             value={Nommiee[item]["state"].value == "" ? BasicInformation.state.value : Nommiee[item]["state"].value}
-                                            error={Nommiee[item]["state"].error == null ? BasicInformation.state.error : Nommiee[item]["state"].error}
-                                            errmsg={Nommiee[item]["state"].errmsg == null ? BasicInformation.state.errmsg : Nommiee[item]["state"].errmsg}
+                                            error={Nommiee[item]["state"].value == "" ? BasicInformation.state.error : Nommiee[item]["state"].error}
+                                            errmsg={Nommiee[item]["state"].value == "" ? BasicInformation.state.errmsg : Nommiee[item]["state"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
@@ -420,8 +418,8 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                                             changeData={(data) => OnChangeNommiee(data, "city", item, index)}
                                             dropdown={CityList}
                                             value={Nommiee[item]["city"].value == "" ? BasicInformation.city.value : Nommiee[item]["city"].value}
-                                            error={Nommiee[item]["city"].error == null ? BasicInformation.city.error : Nommiee[item]["city"].error}
-                                            errmsg={Nommiee[item]["city"].errmsg == null ? BasicInformation.city.errmsg : Nommiee[item]["city"].errmsg}
+                                            error={Nommiee[item]["city"].value == "" ? BasicInformation.city.error : Nommiee[item]["city"].error}
+                                            errmsg={Nommiee[item]["city"].value == "" ? BasicInformation.city.errmsg : Nommiee[item]["city"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
@@ -429,8 +427,8 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                                             showFlag
                                             changeData={(data) => OnChangeNommiee(data, "phone", item, index)}
                                             value={Nommiee[item]["phone"].value == "" ? BasicInformation.phone.value : Nommiee[item]["phone"].value}
-                                            error={Nommiee[item]["phone"].error == null ? BasicInformation.phone.error : Nommiee[item]["phone"].error}
-                                            errmsg={Nommiee[item]["phone"].errmsg == null ? BasicInformation.phone.errmsg : Nommiee[item]["phone"].errmsg}
+                                            error={Nommiee[item]["phone"].value == "" ? BasicInformation.phone.error : Nommiee[item]["phone"].error}
+                                            errmsg={Nommiee[item]["phone"].value == "" ? BasicInformation.phone.errmsg : Nommiee[item]["phone"].errmsg}
                                         />
                                     </Grid>
 
@@ -439,32 +437,32 @@ export default function ContactPerson({ customerId, userId, handleActivekey }) {
                                             changeData={(data) => OnChangeNommiee(data, "mobile", item, index)}
                                             showFlag
                                             value={Nommiee[item]["mobile"].value == "" ? BasicInformation.mobile.value : Nommiee[item]["mobile"].value}
-                                            error={Nommiee[item]["mobile"].error == null ? BasicInformation.mobile.error : Nommiee[item]["mobile"].error}
-                                            errmsg={Nommiee[item]["mobile"].errmsg == null ? BasicInformation.mobile.errmsg : Nommiee[item]["mobile"].errmsg}
+                                            error={Nommiee[item]["mobile"].value == "" ? BasicInformation.mobile.error : Nommiee[item]["mobile"].error}
+                                            errmsg={Nommiee[item]["mobile"].value == "" ? BasicInformation.mobile.errmsg : Nommiee[item]["mobile"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
                                         <Labelbox type="text" labelname="Email"
                                             changeData={(data) => OnChangeNommiee(data, "email", item, index)}
                                             value={Nommiee[item]["email"].value == "" ? BasicInformation.email.value : Nommiee[item]["email"].value}
-                                            error={Nommiee[item]["email"].error == null ? BasicInformation.email.error : Nommiee[item]["email"].error}
-                                            errmsg={Nommiee[item]["email"].errmsg == null ? BasicInformation.email.errmsg : Nommiee[item]["email"].errmsg}
+                                            error={Nommiee[item]["email"].value == "" ? BasicInformation.email.error : Nommiee[item]["email"].error}
+                                            errmsg={Nommiee[item]["email"].value == "" ? BasicInformation.email.errmsg : Nommiee[item]["email"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
                                         <Labelbox type="text" labelname="Designation"
                                             changeData={(data) => OnChangeNommiee(data, "designation", item, index)}
                                             value={Nommiee[item]["designation"].value == "" ? BasicInformation.designation.value : Nommiee[item]["designation"].value}
-                                            error={Nommiee[item]["designation"].error == null ? BasicInformation.designation.error : Nommiee[item]["designation"].error}
-                                            errmsg={Nommiee[item]["designation"].errmsg == null ? BasicInformation.designation.errmsg : Nommiee[item]["designation"].errmsg}
+                                            error={Nommiee[item]["designation"].value == "" ? BasicInformation.designation.error : Nommiee[item]["designation"].error}
+                                            errmsg={Nommiee[item]["designation"].value == "" ? BasicInformation.designation.errmsg : Nommiee[item]["designation"].errmsg}
                                         />
                                     </Grid>
                                     <Grid item md={4} xs={12} lg={4}>
                                         <Labelbox type="text" labelname="Department"
                                             changeData={(data) => OnChangeNommiee(data, "department", item, index)}
                                             value={Nommiee[item]["department"].value == "" ? BasicInformation.department.value : Nommiee[item]["department"].value}
-                                            error={Nommiee[item]["department"].error == null ? BasicInformation.department.error : Nommiee[item]["department"].error}
-                                            errmsg={Nommiee[item]["department"].errmsg == null ? BasicInformation.department.errmsg : Nommiee[item]["department"].errmsg}
+                                            error={Nommiee[item]["department"].value == "" ? BasicInformation.department.error : Nommiee[item]["department"].error}
+                                            errmsg={Nommiee[item]["department"].value == "" ? BasicInformation.department.errmsg : Nommiee[item]["department"].errmsg}
                                         />
                                     </Grid>
                                     {/* <Grid item md={4} xs={12} lg={4}>

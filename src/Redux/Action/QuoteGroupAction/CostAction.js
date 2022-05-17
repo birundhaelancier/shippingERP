@@ -4,7 +4,7 @@ import { notification } from 'antd';
 import { GET_COST_LIST, VIEW_COST_LIST } from '../../Utils/constant';
 
 export const AddCost = (data) => async dispatch => {
-    console.log(data,'AddCost');
+    console.log(data, 'AddCost');
     try {
         axios({
             method: 'POST',
@@ -25,7 +25,7 @@ export const AddCost = (data) => async dispatch => {
                 });
                 dispatch(CostList())
             })
-    } catch (err) { alert('catch') }
+    } catch (err) { }
 }
 
 export const EditCost = (data, id) => async dispatch => {

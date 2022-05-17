@@ -50,6 +50,7 @@ export const getCountryList = (data) => async dispatch => {
             method: 'POST',
             url: apiurl + 'country_list',
             headers: REQUEST_HEADERS().HEADER,
+            
             data: {
                 "user_id": JSON.parse(localStorage.getItem("user_id")),
                 "country_id": data,

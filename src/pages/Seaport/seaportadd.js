@@ -14,12 +14,7 @@ export default function AddCity() {
 
     const tabArray = [
         { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo /> },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: ''},
-        // { icon: '', title: 'Payments Terms', description: 'de65' },
-        { icon: '', title: '', description: '' },
+
     ]
 
     return (

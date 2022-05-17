@@ -34,7 +34,7 @@ export const AddLead = (data) => async dispatch => {
                 });
                 dispatch(LeadList())
             })
-    } catch (err) { alert('catch') }
+    } catch (err) { }
 }
 
 export const EditLead = (data, id) => async dispatch => {

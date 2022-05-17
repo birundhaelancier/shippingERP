@@ -31,6 +31,10 @@ export const menu = [
                     { title: "Cargo", path: "/cargo", icon: "" },
                     { title: "Dimension", path: "/dimension", icon: "" },
                     { title: "Reason", path: "/reason", icon: "" },
+                    { title: "ShipmentTerm", path: "/shipmentTerm", icon: "" },
+                    { title: "Shipment Description", path: "/shipmentDescription", icon: "" },
+                    { title: "Package", path: "/package", icon: "" },
+                    { title: "Vas", path: "/vas", icon: "" },
                 ]
             },
             {
@@ -64,8 +68,8 @@ export const menu = [
     {
         title: "Shipments", items: [
             { title: "Enquiry", path: "/enquiry", icon: "" },
+            { title: "Quotation", path: "/quotation", icon: "" },
             { title: "Job", path: "/jobs", icon: "" },
-            { title: "Quotation", path: "/dashboard", icon: "" },
         ], path: "/home",
         icon: <i class="fa fa-ship" aria-hidden="true"></i>
     },

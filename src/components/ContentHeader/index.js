@@ -14,7 +14,7 @@ const ContentHeader = ({ userTitle, userName, openFields, mainTitle, subTitle, h
             {openFields ? <div className='tableView'>
                 <div>{mainTitle}</div>
                 <div className='editIcon'><Edit /></div>
-                <div className='countView'>{count + ' - '}</div>
+                {/* <div className='countView'>{count + ' - '}</div> */}
                 <div>{heading}</div>
             </div>
                 :

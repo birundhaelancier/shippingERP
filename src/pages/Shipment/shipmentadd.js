@@ -11,12 +11,7 @@ export default function AddShipment(props) {
 
     const tabArray = [
         { icon: <CheckCircle />, title: 'General Info', description: <GeneralInfo shipmentId={params.get("user_id")} shipmentName={params.get("shipmentName")}  /> },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: '' },
-        { icon: '', title: '', description: ''},
-        // { icon: '', title: 'Payments Terms', description: 'de65' },
-        { icon: '', title: '', description: '' },
+
     ]
 
     return (

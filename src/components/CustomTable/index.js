@@ -7,64 +7,65 @@ import QuickSearchToolbar from '../SearchBar';
 import Grid from '@mui/material/Grid';
 import './table.css';
 
-const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick }) => {
-    const columnss = [
-        { field: 'id', width: 80, headerName: 'S.No' },
-        { field: 'customerId', width: 150, headerName: 'Customer Id' },
-        { field: 'customerName', width: 150, headerName: 'Customer Name' },
-        { field: 'companyName', width: 150, headerName: 'Company Name' },
-        { field: 'mobile', width: 150, headerName: 'Mobile' },
-        { field: 'email', width: 200, headerName: 'Email' },
-        {
-            field: "actions", headerName: "Actions",
-            sortable: false,
-            width: 150,
-            align: 'center',
-            headerAlign: 'center',
-            disableClickEventBubbling: true,
-            renderCell: (params) => {
-                return (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="eyeSymbol"><RemoveRedEye /></div>
-                        <div className="editSymbol"><Edit /></div>
-                        {/* <div className="deleteSymbol"><Delete /></div> */}
-                    </div>
-                );
-            }
+const CustomTable = ({ rowData, columnData, onSearch, onclickEye, onAddBtnClick, hideHeader,Checkboxselection }) => {
+    const [rows, setRows] = useState([])
+    useEffect(() => {
+        if (rowData.length > 0) {
+            setRows(rowData)
         }
-    ];
+    }, [rowData])
+    function escapeRegExp(value) {
+        return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    }
 
-    const rows = [
-        { id: 1, customerName: 'Hello', customerId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 2, customerName: 'DataGridPro', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 3, customerName: 'MUI', customerId: '3', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 1, customerName: 'Hello', customerId: '1', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-        { id: 2, customerName: 'DataGridPro', customerId: '2', companyName: "testing", mobile: 12345678908, email: "test@gmail.com" },
-    ];
-
-    const requestSearch = (data) => {
-        onSearch(data)
+    const requestSearch = (item) => {
+        const searchRegex = new RegExp(escapeRegExp(item), 'i');
+        const filteredRows = rowData.filter((row) => {
+            return Object.keys(row).some((field) => {
+                return searchRegex.test(row[field].toString());
+            });
+        });
+        setRows(filteredRows);
+        onSearch(item)
     }
 
     const openList = () => {
         onclickEye(true);
+    }
+    const onclickAction = (id) => {
+        alert("ghjk")
+        // if (id === 1) {
+        let sortableItems = rowData;
+        sortableItems.sort((a, b) => {
+            if (a.companyName < b.companyName) {
+                return id === 1 ? -1 : 1;
+            }
+            if (a.companyName > b.companyName) {
+                return id === 2 ? 1 : -1;
+            }
+            return 0;
+        });
+        // }
+        setRows(sortableItems)
     }
     return (
         <div>
             <div className='tableWeb'>
                 <div style={{ height: 450, width: '100%' }}>
                     <DataGrid
-                        components={{ Toolbar: QuickSearchToolbar }}
-                        rows={rowData}
+                        components={{ Toolbar: !hideHeader && QuickSearchToolbar }}
+                        rows={rows}
                         columns={columnData}
                         checkboxSelection
+                        onSelectionModelChange={(ids) =>Checkboxselection(ids)}
                         rowsPerPageOptions={[5, 25, 50, 100]}
                         componentsProps={{
                             toolbar: {
                                 // value: searchText,
                                 onChange: (event) => requestSearch(event.target.value),
                                 clearSearch: () => requestSearch(''),
-                                onAddClick: onAddBtnClick
+                                onAddClick: onAddBtnClick,
+                                onclickAction: (data) => onclickAction(data)
                             },
                         }}
                     />

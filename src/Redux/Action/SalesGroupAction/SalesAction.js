@@ -4,7 +4,7 @@ import { notification } from 'antd';
 import { GET_SALES_LIST, VIEW_SALES_LIST } from '../../Utils/constant';
 
 export const AddSales = (data) => async dispatch => {
-    console.log(data,'AddSales');
+    console.log(data, 'AddSales');
     try {
         axios({
             method: 'POST',
@@ -26,7 +26,7 @@ export const AddSales = (data) => async dispatch => {
                 });
                 dispatch(SalesList())
             })
-    } catch (err) { alert('catch') }
+    } catch (err) { }
 }
 
 export const EditSales = (data, id) => async dispatch => {

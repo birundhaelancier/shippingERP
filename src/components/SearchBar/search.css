@@ -3,27 +3,45 @@
         display: none !important;
     }
 }
-.hideSearch{
+
+.hideSearch {
     display: block;
 }
 
-.hideSearch .MuiSvgIcon-root{
+.hideSearch .MuiSvgIcon-root {
     margin: 0px 6px;
 }
 
-.action_pop_over{
+.action_pop_over {
     padding: 1rem;
 }
 
-.hamberMenu{
+.hamberMenu {
     background: #141d56;
 }
 
-.action_btn .MuiButtonBase-root{
+.action_btn .MuiButtonBase-root {
     display: flex;
     justify-content: flex-end;
 }
 
-.action_btn .MuiButtonBase-root:hover{
+.action_btn .MuiButtonBase-root:hover {
     background: none;
+}
+
+.uploadBtn {
+    margin: 5px;
+}
+
+.cloudIcons {
+    border: 1px solid var(--main-theme-color);
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1.8rem auto;
+}
+
+.cloudIcons svg {
+    font-size: 1.5rem;
 }

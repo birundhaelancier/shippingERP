@@ -32,28 +32,42 @@ const FooterBtn = ({ onSaveBtn, backBtn, nextBtn, saveBtn, nextDisable, onCancel
         //         </div>
         //     </div>
         // </div>
-        <Grid item xs={12} spacing={2} direction="row" container className='footerBrnContainer' >
-            <Grid item xs={7} md={7} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-end'} container>
-                <Grid item xs={3} md={3} sx={12} sm={12} >
-                    <CustomButton btnName={saveBtn} custombtnCSS="Primary" startIcon={<Save />} onBtnClick={onSaveBtn} />
-                </Grid><Grid item xs={3} md={3} sx={12} sm={12} >
-                    <CustomButton
-                        btnName="Cancel" custombtnCSS="Cancel" startIcon={<HighlightOff />} onBtnClick={onCancel} />
+        <>
+            <div className='tableWeb'>
+                <Grid item xs={12} spacing={2} direction="row" container className='footerBrnContainer' >
+                    <Grid item xs={7} md={7} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-end'} container>
+                        <Grid item xs={3} md={3} sx={12} sm={12} >
+                            <CustomButton btnName={saveBtn} custombtnCSS="Primary" startIcon={<Save />} onBtnClick={onSaveBtn} />
+                        </Grid><Grid item xs={3} md={3} sx={12} sm={12} >
+                            <CustomButton
+                                btnName="Cancel" custombtnCSS="Cancel" startIcon={<HighlightOff />} onBtnClick={onCancel} />
+                        </Grid>
+
+                    </Grid>
+                    <Grid item xs={5} md={5} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-end'} container>
+                        {backBtn && <Grid item xs={3} md={3} sx={12} sm={12} >
+                            <CustomButton btnName="Back" custombtnCSS="Cancel" startIcon={<ArrowBack />} onBtnClick={onBack} />
+                        </Grid>}
+                        {nextBtn && <Grid item xs={3} md={3} sx={12} sm={12} >
+                            <CustomButton
+                                btnName="Next" custombtnCSS="Primary" startIcon={<ArrowForward />} onBtnClick={onNext} btnDisable={nextDisable} />
+                        </Grid>}
+
+                    </Grid>
+
                 </Grid>
-
-            </Grid>
-            <Grid item xs={5} md={5} sx={12} sm={12} spacing={2} direction="row" justifyContent={'flex-end'} container>
-                {backBtn && <Grid item xs={3} md={3} sx={12} sm={12} >
-                    <CustomButton btnName="Back" custombtnCSS="Cancel" startIcon={<ArrowBack />} onBtnClick={onBack} />
-                </Grid>}
-                {nextBtn && <Grid item xs={3} md={3} sx={12} sm={12} >
-                    <CustomButton
-                        btnName="Next" custombtnCSS="Primary" startIcon={<ArrowForward />} onBtnClick={onNext} btnDisable={nextDisable} />
-                </Grid>}
-
-            </Grid>
-
-        </Grid>
+            </div>
+            <div className='tableMobile'>
+                <Grid item xs={12} spacing={2} direction="row" container className='footerBrnContainer' >
+                        <Grid item xs={6} md={6} sx={12} sm={12} >
+                            <CustomButton btnName={saveBtn} custombtnCSS="Primary" startIcon={<Save />} onBtnClick={onSaveBtn} />
+                        </Grid><Grid item xs={6} md={6} sx={12} sm={12} >
+                            <CustomButton
+                                btnName="Cancel" custombtnCSS="Cancel" startIcon={<HighlightOff />} onBtnClick={onCancel} />
+                        </Grid>
+                </Grid>
+            </div>
+        </>
     )
 }
 

@@ -21,6 +21,7 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
     const [Refresh, setRefresh] = useState(false);
     const ViewVendor = useSelector((state) => state.VendorReducer.ViewVendorDetails);
     const [stateList, setstateList] = useState([])
+    const [refresh, setrefresh] = useState(false);
 
     const [BasicInformation, setBasicInformation] = useState({
         gst_state: {
@@ -125,13 +126,19 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
                     )
                 })
             }
-            ViewVendor[0]?.gst?.forEach((data, index) => {
-                Object.keys(data)?.forEach((items) => {
-                    if (Object.keys(dynObjs)?.includes(items) && count > 0 && Nommiee[`obj${index}`] != undefined) {
-                        Nommiee[`obj${index}`][items].value = data[items];
-                    }
+            if (count > 0) {
+                let updatedNommiee = {};
+                ViewVendor[0]?.gst?.forEach((data, index) => {
+                    setrefresh(!refresh)
+                    let newObj = {}
+                    Object.keys(data).forEach((items) => {
+                        newObj[items] = { ...dynObjs[items], value: data[items] };
+                    })
+                    updatedNommiee[`obj${index}`] = newObj
                 })
-            })
+                setNommiee(updatedNommiee)
+                setItemKeys(objeList)
+            }
             setNommiee(
                 prevState => ({
                     ...prevState,
@@ -380,15 +387,15 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
                                     dropdown={stateList}
                                     changeData={(data) => OnChangeNommiee(data, "gst_state", item, index)}
                                     value={Nommiee[item]["gst_state"].value == "" ? BasicInformation.gst_state.value : Nommiee[item]["gst_state"].value}
-                                    error={Nommiee[item]["gst_state"].error == null ? BasicInformation.gst_state.error : Nommiee[item]["gst_state"].error}
-                                    errmsg={Nommiee[item]["gst_state"].errmsg == null ? BasicInformation.gst_state.errmsg : Nommiee[item]["gst_state"].errmsg}
+                                    error={Nommiee[item]["gst_state"].value == "" ? BasicInformation.gst_state.error : Nommiee[item]["gst_state"].error}
+                                    errmsg={Nommiee[item]["gst_state"].value == "" ? BasicInformation.gst_state.errmsg : Nommiee[item]["gst_state"].errmsg}
                                 />
                             </Grid>
                             <Grid item xs={12} md={4} sx={12} sm={12}>
                                 <UploadFiles show getOnChangeFile={(event, name) => OnChangeNommiee(event, 'gst_image', item, index)} showLabel={Nommiee[item]["gst_image"].value == "" ? BasicInformation.gst_image.value : Nommiee[item]["gst_image"].value} fileId={5 + index}
                                     showName
-                                    error={Nommiee[item]["gst_image"].error == null ? BasicInformation.gst_image.error : Nommiee[item]["gst_image"].error}
-                                    errmsg={Nommiee[item]["gst_image"].errmsg == null ? BasicInformation.gst_image.errmsg : Nommiee[item]["gst_image"].errmsg}
+                                    error={Nommiee[item]["gst_image"].value == "" ? BasicInformation.gst_image.error : Nommiee[item]["gst_image"].error}
+                                    errmsg={Nommiee[item]["gst_image"].value == "" ? BasicInformation.gst_image.errmsg : Nommiee[item]["gst_image"].errmsg}
                                 />
                             </Grid>
 
@@ -396,8 +403,8 @@ export default function KycDeatils({ handleActivekey, vendorId, userId }) {
                                 <Labelbox type="text" labelname="Gst Registration"
                                     changeData={(data) => OnChangeNommiee(data, "gst_reg", item, index)}
                                     value={Nommiee[item]["gst_reg"].value == "" ? BasicInformation.gst_reg.value : Nommiee[item]["gst_reg"].value}
-                                    error={Nommiee[item]["gst_reg"].error == null ? BasicInformation.gst_reg.error : Nommiee[item]["gst_reg"].error}
-                                    errmsg={Nommiee[item]["gst_reg"].errmsg == null ? BasicInformation.gst_reg.errmsg : Nommiee[item]["gst_reg"].errmsg}
+                                    error={Nommiee[item]["gst_reg"].value == "" ? BasicInformation.gst_reg.error : Nommiee[item]["gst_reg"].error}
+                                    errmsg={Nommiee[item]["gst_reg"].value == "" ? BasicInformation.gst_reg.errmsg : Nommiee[item]["gst_reg"].errmsg}
                                 />
                             </Grid>
                         </Grid>
